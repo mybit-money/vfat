@@ -1,14 +1,16 @@
 from __future__ import annotations
 
 from argparse import Namespace
+from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Iterable
 
 from .aggregate import build_report
 from .cache import ReportCache
 from .capital import aggregate_daily_capital
-from .contracts import Diagnostics, load_report_input, write_report_json
-from .events import decode_receipt, load_chain_profile, merge_position_activity
+from .contracts import Diagnostics, PositionInput, load_report_input, write_report_json
+from .events import ChainProfile, decode_receipt, load_chain_profile, merge_position_activity
 from .html_report import render_html
 from .rpc import JsonRpcClient
 
@@ -21,6 +23,7 @@ def run(arguments: Namespace) -> int:
     report_input = load_report_input(Path(arguments.input), now=explicit_now)
     skill_root = Path(__file__).resolve().parents[2]
     profile = load_chain_profile(skill_root / "profiles" / "hyperevm-nest.json")
+    profile = profile_for_positions(profile, report_input.positions)
     cache = ReportCache(Path(arguments.cache_dir), profile.chain_id, report_input.wallet)
     activities = merge_position_activity(report_input.activities)
     transactions = []
@@ -56,6 +59,17 @@ def run(arguments: Namespace) -> int:
         render_html(report), encoding="utf-8", newline="\n"
     )
     return 0
+
+
+def profile_for_positions(
+    profile: ChainProfile, positions: Iterable[PositionInput]
+) -> ChainProfile:
+    tracked = frozenset(
+        position.sickle_address.lower()
+        for position in positions
+        if position.chain_id == profile.chain_id
+    )
+    return replace(profile, tracked_sickle_addresses=tracked)
 
 
 def _parse_now(value: str) -> datetime:
