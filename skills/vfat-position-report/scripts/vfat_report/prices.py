@@ -10,7 +10,13 @@ from decimal import Decimal
 from typing import Any
 
 from .cache import ReportCache
-from .contracts import NormalizedTransaction, TokenAmount, Valuation
+from .contracts import (
+    COMPOUND_ACTIONS,
+    NormalizedTransaction,
+    TokenAmount,
+    Valuation,
+    normalize_action,
+)
 
 
 DEFAULT_BASE_URL = "https://coins.llama.fi"
@@ -189,11 +195,17 @@ def value_transaction(
         quotes,
         timestamp,
         "automation_fee_usd_unavailable",
-        empty_is_zero=True,
+        empty_is_zero=transaction.automation_payment_method != "fee",
     )
-    net = _value_amounts(
-        transaction.lp_additions, quotes, timestamp, "historical_lp_usd_unavailable"
-    )
+    if transaction.lp_additions or normalize_action(transaction.action_type) in COMPOUND_ACTIONS:
+        net = _value_amounts(
+            transaction.lp_additions, quotes, timestamp, "historical_lp_usd_unavailable"
+        )
+    elif gross.usd is not None and fee.usd is not None:
+        # A harvest without an LP mint keeps the claimed rewards net of the fee.
+        net = Valuation(gross.usd - fee.usd, source=gross.source)
+    else:
+        net = Valuation(None, reason="historical_reward_usd_unavailable")
     gas_native = getattr(transaction, "gas_account_debit_native", None)
     if gas_native is None:
         gas = transaction.gas_account_debit_usd

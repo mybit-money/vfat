@@ -7,11 +7,21 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any, Iterable, Mapping
 
-from .contracts import ActivityInput, NormalizedTransaction, TokenAmount, Valuation
+from .contracts import (
+    CLAIM_ACTIONS,
+    COMPOUND_ACTIONS,
+    ActivityInput,
+    NormalizedTransaction,
+    TokenAmount,
+    Valuation,
+    normalize_action,
+)
 
 
 TRANSFER_TOPIC = "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"
 MINT_TOPIC = "0x7a53080ba414158be7ec69b987b5fb7d07dee101fe85488f0853ae16239d0bde"
+# Algebra-style position manager: IncreaseLiquidity(uint256 indexed tokenId, ...).
+INCREASE_LIQUIDITY_TOPIC = "0x8a82de7fe9b33e0e6bca0e26f5bd14a74f1164ffe236d50e0a36c3ea70f2b814"
 
 
 @dataclass(frozen=True)
@@ -42,6 +52,7 @@ class ChainProfile:
     pools: Mapping[str, tuple[str, str]]
     gas_account_debit_events: tuple[GasAccountDebitEvent, ...]
     expected_automation_fee_rate: Decimal
+    tracked_positions: frozenset[tuple[str, int]] = frozenset()
 
 
 @dataclass(frozen=True)
@@ -115,6 +126,7 @@ def merge_position_activity(records: Iterable[ActivityInput]) -> list[MergedActi
     merged: list[MergedActivity] = []
     for (chain_id, transaction_hash), items in grouped.items():
         methods = {item.automation_payment_method for item in items if item.automation_payment_method}
+        actions = sorted({item.action_type for item in items})
         sources = sorted({source for item in items for source in item.source_position_ids})
         recipients = sorted(
             item.recipient_position_id
@@ -126,11 +138,18 @@ def merge_position_activity(records: Iterable[ActivityInput]) -> list[MergedActi
                 chain_id=chain_id,
                 transaction_hash=transaction_hash,
                 timestamp=min(item.timestamp for item in items),
-                action_type=items[0].action_type,
+                # The recipient feed may label a compound as "increased"; the claim label wins.
+                action_type=next(
+                    (action for action in actions if normalize_action(action) in CLAIM_ACTIONS),
+                    actions[0],
+                ),
                 source_position_ids=tuple(sources),
                 recipient_position_ids=tuple(sorted(set(recipients))),
                 is_automation=any(item.is_automation for item in items),
-                automation_payment_method=sorted(methods)[0] if methods else None,
+                # On conflict keep gas-account so a missing debit stays unknown, not zero.
+                automation_payment_method=(
+                    "gas-account" if "gas-account" in methods else min(methods, default=None)
+                ),
             )
         )
     return sorted(merged, key=lambda item: (item.timestamp, item.chain_id, item.transaction_hash))
@@ -149,8 +168,10 @@ def decode_receipt(
 
     gross: dict[str, int] = {}
     fees: dict[str, int] = {}
+    fee_transfers: dict[str, int] = {}
     lp_additions: dict[str, int] = {}
-    gas_account_debit_native: Decimal | None = None
+    pending_mints: dict[str, tuple[str, int, int]] = {}
+    gas_debits: list[Decimal] = []
     warnings: list[str] = []
 
     for log in _unique_logs(receipt_hash, receipt.get("logs", [])):
@@ -166,44 +187,60 @@ def decode_receipt(
                 gross[address] = gross.get(address, 0) + amount
             if sender in profile.tracked_sickle_addresses and recipient in profile.automation_fee_recipients:
                 fees[address] = fees.get(address, 0) + amount
-        elif topics[0] == MINT_TOPIC and address in profile.pools:
+                fee_transfers[address] = fee_transfers.get(address, 0) + 1
+        elif topics[0] == MINT_TOPIC and address in profile.pools and len(topics) >= 2:
             words = _data_words(log.get("data", "0x"))
             if len(words) >= 4:
-                token0, token1 = profile.pools[address]
-                lp_additions[token0] = lp_additions.get(token0, 0) + int(words[2], 16)
-                lp_additions[token1] = lp_additions.get(token1, 0) + int(words[3], 16)
+                owner = _topic_address(topics[1])
+                pending_mints[owner] = (address, int(words[2], 16), int(words[3], 16))
+        elif topics[0] == INCREASE_LIQUIDITY_TOPIC and len(topics) >= 2:
+            # The position manager emits IncreaseLiquidity right after the pool Mint it
+            # caused; count the Mint only when that tokenId belongs to a tracked position.
+            mint = pending_mints.pop(address, None)
+            if mint and (address, int(topics[1], 16)) in profile.tracked_positions:
+                pool, amount0, amount1 = mint
+                token0, token1 = profile.pools[pool]
+                lp_additions[token0] = lp_additions.get(token0, 0) + amount0
+                lp_additions[token1] = lp_additions.get(token1, 0) + amount1
 
         for event in profile.gas_account_debit_events:
             if address == event.address and topics[0] == event.topic0:
                 words = _data_words(log.get("data", "0x"))
                 if len(words) > max(event.payer_word, event.amount_word):
                     raw_amount = int(words[event.amount_word], 16)
-                    amount = Decimal(raw_amount) / (Decimal(10) ** event.decimals)
-                    gas_account_debit_native = (gas_account_debit_native or Decimal(0)) + amount
+                    gas_debits.append(Decimal(raw_amount) / (Decimal(10) ** event.decimals))
+
+    gas_account_debit_native = gas_debits[0] if len(gas_debits) == 1 else None
+    if len(gas_debits) > 1:
+        # ponytail: the debit event names the keeper, not the portfolio, so several debits
+        # in one receipt cannot be attributed; match the per-Sickle event if batches appear.
+        warnings.append("gas_account_debit_ambiguous")
 
     fee_rate = _effective_fee_rate(gross, fees)
-    if (
-        fee_rate is not None
-        and abs(fee_rate - profile.expected_automation_fee_rate) > Decimal("1e-12")
+    # Each fee transfer may be floored independently, so allow one raw unit per transfer.
+    if any(
+        abs(Decimal(fee) - Decimal(gross[token]) * profile.expected_automation_fee_rate)
+        > fee_transfers[token]
+        for token, fee in fees.items()
+        if gross.get(token)
     ):
         warnings.append("automation_fee_rate_differs_from_expected")
+    if activity.automation_payment_method == "fee" and gross and not fees:
+        warnings.append("automation_fee_transfer_not_found")
+    if normalize_action(activity.action_type) in COMPOUND_ACTIONS and not lp_additions:
+        warnings.append("lp_addition_not_found")
     if activity.automation_payment_method == "gas-account" and gas_account_debit_native is None:
         warnings.append("gas_account_debit_unavailable")
 
     gas_used = _hex_int(receipt.get("gasUsed", "0x0"))
     gas_price = _hex_int(receipt.get("effectiveGasPrice", "0x0"))
     network_gas = Decimal(gas_used * gas_price) / (Decimal(10) ** profile.native_decimals)
-    gas_debit_valuation = (
-        Valuation(None, reason="historical_native_usd_unavailable")
-        if gas_account_debit_native is not None
-        else Valuation(
-            Decimal(0),
-            source="none",
-            reason="gas_account_debit_unavailable"
-            if activity.automation_payment_method == "gas-account"
-            else None,
-        )
-    )
+    if gas_account_debit_native is not None:
+        gas_debit_valuation = Valuation(None, reason="historical_native_usd_unavailable")
+    elif gas_debits or activity.automation_payment_method == "gas-account":
+        gas_debit_valuation = Valuation(None, reason="gas_account_debit_unavailable")
+    else:
+        gas_debit_valuation = Valuation(Decimal(0), source="none")
     return DecodedTransaction(
         chain_id=activity.chain_id,
         transaction_hash=activity.transaction_hash.lower(),

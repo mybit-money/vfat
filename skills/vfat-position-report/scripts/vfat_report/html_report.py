@@ -39,8 +39,9 @@ def render_html(report: Report) -> str:
     apr_path = _series_path(chronological, "realized_apr_percent")
     points = _point_markup(chronological)
     table = _table(report.days)
+    current_x = _x(len(chronological) - 1, len(chronological))
     current_dash = (
-        '<path d="M72 32 V322" class="current-marker" stroke-dasharray="7 5" />'
+        f'<path d="M{current_x:.2f} {TOP} V{HEIGHT - BOTTOM}" class="current-marker" stroke-dasharray="7 5" />'
         if chronological and chronological[-1].status == "partial"
         else ""
     )
@@ -133,7 +134,7 @@ def _table(rows: tuple[DailyAggregate, ...]) -> str:
     body: list[str] = []
     for row in rows:
         rewards = ", ".join(
-            f"{amount.amount.normalize()} {html.escape(amount.symbol or amount.token_address)}"
+            f"{amount.amount.normalize():f} {html.escape(amount.symbol or amount.token_address)}"
             for amount in row.reward_amounts
         ) or "—"
         status = row.status + (" · предварительно" if row.status == "partial" else "")

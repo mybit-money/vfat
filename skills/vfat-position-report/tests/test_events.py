@@ -14,6 +14,12 @@ from vfat_report.events import decode_receipt, load_chain_profile, merge_positio
 ROOT = Path(__file__).parents[1]
 FIXTURES = Path(__file__).parent / "fixtures"
 PROFILE_PATH = ROOT / "profiles" / "hyperevm-nest.json"
+NFT_MANAGER = "0xeaf58788a405f3253814b4559391a22be8616250"
+GAS_ACCOUNT = "0xe5b4cbcf716b564db18d7cead07f91d80126d0cf"
+
+
+def word(value: int) -> str:
+    return "0x" + format(value, "064x")
 
 
 def activity_from_json(item: dict) -> ActivityInput:
@@ -31,7 +37,10 @@ def activity_from_json(item: dict) -> ActivityInput:
 
 class EventTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.profile = load_chain_profile(PROFILE_PATH)
+        self.profile = replace(
+            load_chain_profile(PROFILE_PATH),
+            tracked_positions=frozenset({(NFT_MANAGER, 91811)}),
+        )
         raw = json.loads((FIXTURES / "multi-source-activity.json").read_text(encoding="utf-8"))
         self.activities = tuple(activity_from_json(item) for item in raw)
 
@@ -91,7 +100,55 @@ class EventTests(unittest.TestCase):
         decoded = decode_receipt(activity, receipt, profile)
 
         self.assertIsNone(decoded.gas_account_debit_native)
+        self.assertIsNone(decoded.gas_account_debit_usd.usd)
         self.assertIn("gas_account_debit_unavailable", decoded.warnings)
+
+    def test_several_gas_debits_are_ambiguous_not_summed(self) -> None:
+        receipt = json.loads((FIXTURES / "gas-account-compound-receipt.json").read_text(encoding="utf-8"))
+        debit = next(log for log in receipt["logs"] if log["address"] == GAS_ACCOUNT)
+        receipt["logs"].append({**debit, "logIndex": "0x99"})
+        activity = replace(
+            merge_position_activity(self.activities)[0],
+            transaction_hash=receipt["transactionHash"],
+            automation_payment_method="gas-account",
+        )
+
+        decoded = decode_receipt(activity, receipt, self.profile)
+
+        self.assertIsNone(decoded.gas_account_debit_native)
+        self.assertIsNone(decoded.gas_account_debit_usd.usd)
+        self.assertIn("gas_account_debit_ambiguous", decoded.warnings)
+
+    def test_mint_of_untracked_position_is_not_net_compound(self) -> None:
+        receipt = json.loads((FIXTURES / "fee-compound-receipt.json").read_text(encoding="utf-8"))
+        activity = merge_position_activity(self.activities)[0]
+        profile = replace(self.profile, tracked_positions=frozenset({(NFT_MANAGER, 1)}))
+
+        decoded = decode_receipt(activity, receipt, profile)
+
+        self.assertEqual(decoded.lp_additions, ())
+        self.assertIn("lp_addition_not_found", decoded.warnings)
+
+    def test_fee_rate_tolerates_raw_unit_rounding(self) -> None:
+        receipt = json.loads((FIXTURES / "fee-compound-receipt.json").read_text(encoding="utf-8"))
+        receipt["logs"][0]["data"] = word(5_123_457)
+        receipt["logs"][1]["data"] = word(92_222)
+        activity = merge_position_activity(self.activities)[0]
+
+        decoded = decode_receipt(activity, receipt, self.profile)
+
+        self.assertNotIn("automation_fee_rate_differs_from_expected", decoded.warnings)
+
+    def test_merge_is_order_independent_and_keeps_claim_label(self) -> None:
+        compounded = self.activities[0]
+        increased = replace(
+            self.activities[1], action_type="increased", automation_payment_method="gas-account"
+        )
+
+        for records in ((compounded, increased), (increased, compounded)):
+            merged = merge_position_activity(records)[0]
+            self.assertEqual(merged.action_type, "compounded")
+            self.assertEqual(merged.automation_payment_method, "gas-account")
 
     def test_log_identity_prevents_double_counting(self) -> None:
         receipt = json.loads((FIXTURES / "fee-compound-receipt.json").read_text(encoding="utf-8"))

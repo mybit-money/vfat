@@ -39,6 +39,18 @@ class ContractTests(unittest.TestCase):
             "0xeaf58788a405f3253814b4559391a22be8616250",
         )
 
+    def test_future_period_end_is_clamped_to_now(self) -> None:
+        base = json.loads((FIXTURES / "minimal-input.json").read_text(encoding="utf-8"))
+        base["period"] = {"from": "2026-10-01T00:00:00Z", "to": "2026-10-06T00:00:00Z"}
+        now = datetime(2026, 10, 3, 12, 0, tzinfo=timezone.utc)
+
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "future.json"
+            path.write_text(json.dumps(base), encoding="utf-8")
+            report_input = load_report_input(path, now=now)
+
+        self.assertEqual(report_input.end, now)
+
     def test_rejects_invalid_wallet_or_non_utc_window(self) -> None:
         base = json.loads((FIXTURES / "minimal-input.json").read_text(encoding="utf-8"))
 

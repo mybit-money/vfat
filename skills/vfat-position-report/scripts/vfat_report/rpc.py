@@ -26,7 +26,7 @@ class RateLimiter:
                 return 0.0
             scheduled = self._requests[0] + self.period_seconds
             wait = max(0.0, scheduled - now)
-            self._discard_expired(scheduled)
+            self._requests.popleft()
             self._requests.append(scheduled)
             return wait
 
@@ -79,10 +79,12 @@ class JsonRpcClient:
                 }
                 try:
                     response = self.transport(endpoint, payload)
+                    if not isinstance(response, Mapping):
+                        raise RuntimeError("RPC response must be a JSON object")
                     if response.get("error"):
                         raise RuntimeError(f"RPC error: {response['error']}")
                     return response.get("result")
-                except (OSError, TimeoutError, RuntimeError) as error:
+                except (OSError, TimeoutError, RuntimeError, ValueError) as error:
                     last_error = error
                     if attempt + 1 < self.max_attempts_per_endpoint:
                         self.sleep(min(2**attempt, 5))

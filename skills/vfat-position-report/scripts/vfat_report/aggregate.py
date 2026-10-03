@@ -6,6 +6,7 @@ from typing import Iterable, Mapping
 
 from .capital import DailyCapital
 from .contracts import (
+    CLAIM_ACTIONS,
     DailyAggregate,
     Diagnostics,
     NormalizedTransaction,
@@ -13,13 +14,12 @@ from .contracts import (
     ReportInput,
     TokenAmount,
     Valuation,
+    normalize_action,
 )
+from . import REPORT_SCHEMA_VERSION
 
 
 SECONDS_PER_DAY = Decimal(86_400)
-CLAIM_ACTIONS = frozenset(
-    {"claim", "claimed", "compound", "compounded", "harvest", "harvested"}
-)
 
 
 def build_daily_aggregates(
@@ -65,8 +65,7 @@ def build_daily_aggregates(
 
 
 def _is_claim_transaction(transaction: NormalizedTransaction) -> bool:
-    action = transaction.action_type.strip().lower().replace("-", "_")
-    return action in CLAIM_ACTIONS
+    return normalize_action(transaction.action_type) in CLAIM_ACTIONS
 
 
 def build_report(
@@ -84,7 +83,7 @@ def build_report(
         report_input.end,
     )
     return Report(
-        schema_version="1.0",
+        schema_version=REPORT_SCHEMA_VERSION,
         generated_at=report_input.end,
         input_summary={
             "wallet": report_input.wallet,
@@ -123,17 +122,8 @@ def _aggregate_day(
         "gas_account_debit_usd_unavailable",
         reasons,
     )
-    fee_valuations: list[Valuation] = []
-    for item in transactions:
-        valuation = getattr(item, "automation_fee_usd", None)
-        if valuation is not None:
-            fee_valuations.append(valuation)
-        elif item.automation_fees:
-            fee_valuations.append(Valuation(None, reason="automation_fee_usd_unavailable"))
-        else:
-            fee_valuations.append(Valuation(Decimal(0), source="none"))
     fee_usd = _sum_valuations(
-        fee_valuations,
+        [item.automation_fee_usd for item in transactions],
         "automation_fee_usd_unavailable",
         reasons,
     )
@@ -145,21 +135,17 @@ def _aggregate_day(
         _add_reason(reasons, "capital_not_positive")
     elif net_usd is not None and gas_usd is not None:
         economic_net = net_usd - gas_usd
-        factor = Decimal(365) * Decimal(100)
-        if day == now.date():
-            day_start = datetime.combine(day, time.min, tzinfo=timezone.utc)
-            elapsed_end = min(report_end, now, day_start + timedelta(days=1))
-            elapsed_start = max(report_start, day_start)
-            elapsed_fraction = Decimal(
-                str((elapsed_end - elapsed_start).total_seconds())
-            ) / SECONDS_PER_DAY
-            if elapsed_fraction > 0:
-                factor /= elapsed_fraction
-            else:
-                _add_reason(reasons, "current_day_has_no_elapsed_time")
-                factor = Decimal(0)
-        if factor:
-            apr = economic_net / daily_capital.average_usd * factor
+        # Capital is averaged over the elapsed part of the day, so annualize the same span.
+        day_start = datetime.combine(day, time.min, tzinfo=timezone.utc)
+        elapsed_end = min(report_end, now, day_start + timedelta(days=1))
+        elapsed_start = max(report_start, day_start)
+        elapsed_fraction = Decimal(
+            str((elapsed_end - elapsed_start).total_seconds())
+        ) / SECONDS_PER_DAY
+        if elapsed_fraction > 0:
+            apr = economic_net / daily_capital.average_usd * Decimal(36_500) / elapsed_fraction
+        else:
+            _add_reason(reasons, "day_has_no_elapsed_time")
 
     status = daily_capital.status
     if status != "unreliable":

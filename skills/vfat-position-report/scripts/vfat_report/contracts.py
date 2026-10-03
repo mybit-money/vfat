@@ -8,7 +8,7 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any, Mapping
 
-from . import INPUT_SCHEMA_VERSION, REPORT_SCHEMA_VERSION
+from . import INPUT_SCHEMA_VERSION
 
 
 DEFAULT_WALLET = "0x330d2a845d2df4e329034d72719c7c53f9c1f87a"
@@ -16,6 +16,14 @@ DEFAULT_CHAIN_ID = 999
 DEFAULT_PROTOCOL = "nest"
 EVM_ADDRESS = re.compile(r"^0x[0-9a-fA-F]{40}$")
 TX_HASH = re.compile(r"^0x[0-9a-fA-F]{64}$")
+CLAIM_ACTIONS = frozenset(
+    {"claim", "claimed", "compound", "compounded", "harvest", "harvested"}
+)
+COMPOUND_ACTIONS = frozenset({"compound", "compounded"})
+
+
+def normalize_action(action: str) -> str:
+    return action.strip().lower().replace("-", "_")
 
 
 @dataclass(frozen=True)
@@ -182,8 +190,9 @@ def load_report_input(path: Path, now: datetime | None = None) -> ReportInput:
     period = payload.get("period") or {}
     start = _timestamp(period["from"], "period.from") if "from" in period else default_start
     end = _timestamp(period["to"], "period.to") if "to" in period else default_end
+    end = min(end, effective_now.astimezone(timezone.utc))
     if start >= end:
-        raise ValueError("period.from must be earlier than period.to")
+        raise ValueError("period.from must be earlier than period.to and the current time")
 
     wallet = _address(payload.get("wallet", DEFAULT_WALLET), "wallet")
     filters = payload.get("filters") or {}

@@ -9,7 +9,14 @@ from typing import Iterable
 from .aggregate import build_report
 from .cache import ReportCache
 from .capital import aggregate_daily_capital
-from .contracts import Diagnostics, PositionInput, load_report_input, write_report_json
+from .contracts import (
+    ActivityInput,
+    Diagnostics,
+    NormalizedTransaction,
+    PositionInput,
+    load_report_input,
+    write_report_json,
+)
 from .events import (
     ChainProfile,
     TokenMetadata,
@@ -30,22 +37,55 @@ def run(arguments: Namespace) -> int:
     report_input = load_report_input(Path(arguments.input), now=explicit_now)
     skill_root = Path(__file__).resolve().parents[2]
     profile = load_chain_profile(skill_root / "profiles" / "hyperevm-nest.json")
-    profile = profile_for_positions(profile, report_input.positions)
+    warnings = [
+        f"chain_unsupported:{chain_id}"
+        for chain_id in report_input.chain_ids
+        if chain_id != profile.chain_id
+    ]
+    chain_selected = profile.chain_id in report_input.chain_ids
+    positions = tuple(
+        position
+        for position in report_input.positions
+        if chain_selected
+        and position.chain_id == profile.chain_id
+        and position.protocol in report_input.protocols
+    )
+    profile = profile_for_positions(profile, positions)
+    excluded_ids = {item.position_id for item in report_input.positions} - {
+        item.position_id for item in positions
+    }
     cache = ReportCache(Path(arguments.cache_dir), profile.chain_id, report_input.wallet)
-    activities = merge_position_activity(report_input.activities)
-    transactions = []
-    warnings: list[str] = []
+    activities = merge_position_activity(
+        item
+        for item in report_input.activities
+        if chain_selected
+        and item.chain_id == profile.chain_id
+        and report_input.start <= item.timestamp < report_input.end
+        and not _only_excluded_positions(item, excluded_ids)
+    )
+    transactions: list[NormalizedTransaction] = []
     rpc_endpoints = tuple(arguments.rpc) or DEFAULT_RPCS
-    client = JsonRpcClient(rpc_endpoints) if activities else None
+    client = JsonRpcClient(rpc_endpoints)
     for activity in activities:
-        if arguments.refresh or cache.receipt_needs_fetch(activity.transaction_hash):
-            receipt = client.get_receipt(activity.transaction_hash) if client else None
-            cache.put_receipt(activity.transaction_hash, receipt)
-        receipt = cache.get_receipt(activity.transaction_hash)
+        tx_hash = activity.transaction_hash
+        # Successful receipts are immutable; --refresh only bypasses the missing-receipt TTL.
+        if cache.receipt_needs_fetch(tx_hash) or (
+            arguments.refresh and cache.get_receipt(tx_hash) is None
+        ):
+            try:
+                cache.put_receipt(tx_hash, client.get_receipt(tx_hash))
+            except RuntimeError:
+                warnings.append(f"receipt_fetch_failed:{tx_hash}")
+        receipt = cache.get_receipt(tx_hash)
         if receipt is None:
-            warnings.append(f"receipt_unavailable:{activity.transaction_hash}")
+            warnings.append(f"receipt_unavailable:{tx_hash}")
+            continue
+        if receipt.get("status") == "0x0":
+            warnings.append(f"transaction_reverted:{tx_hash}")
             continue
         transactions.append(decode_receipt(activity, receipt, profile))
+    if report_input.reward_tokens:
+        transactions = _select_reward_tokens(transactions, frozenset(report_input.reward_tokens))
 
     if transactions and not arguments.no_prices:
         price_client = DefiLlamaPriceClient(
@@ -66,7 +106,7 @@ def run(arguments: Namespace) -> int:
         warnings.extend(price_client.diagnostics)
 
     capital = aggregate_daily_capital(
-        report_input.positions,
+        positions,
         report_input.capital_points,
         report_input.start,
         report_input.end,
@@ -94,6 +134,11 @@ def profile_for_positions(
     )
     tracked = frozenset(
         position.sickle_address.lower() for position in matching_positions
+    )
+    tracked_positions = frozenset(
+        (position.nft_manager_address, int(position.token_id))
+        for position in matching_positions
+        if position.nft_manager_address and position.token_id and position.token_id.isdigit()
     )
     tokens = dict(profile.tokens)
     pools = dict(profile.pools)
@@ -124,9 +169,42 @@ def profile_for_positions(
     return replace(
         profile,
         tracked_sickle_addresses=tracked,
+        tracked_positions=tracked_positions,
         tokens=tokens,
         pools=pools,
     )
+
+
+def _only_excluded_positions(activity: ActivityInput, excluded_ids: set[str]) -> bool:
+    referenced = set(activity.source_position_ids)
+    if activity.recipient_position_id is not None:
+        referenced.add(activity.recipient_position_id)
+    return bool(referenced) and referenced <= excluded_ids
+
+
+def _select_reward_tokens(
+    transactions: Iterable[NormalizedTransaction], tokens: frozenset[str]
+) -> list[NormalizedTransaction]:
+    selected: list[NormalizedTransaction] = []
+    for transaction in transactions:
+        gross = tuple(item for item in transaction.gross_claims if item.token_address in tokens)
+        if transaction.gross_claims and not gross:
+            continue
+        warnings = transaction.warnings
+        if len(gross) < len(transaction.gross_claims):
+            # ponytail: LP mints cannot be split by reward token; net compound stays whole.
+            warnings += ("net_compound_includes_unselected_rewards",)
+        selected.append(
+            replace(
+                transaction,
+                gross_claims=gross,
+                automation_fees=tuple(
+                    item for item in transaction.automation_fees if item.token_address in tokens
+                ),
+                warnings=warnings,
+            )
+        )
+    return selected
 
 
 def _parse_now(value: str) -> datetime:

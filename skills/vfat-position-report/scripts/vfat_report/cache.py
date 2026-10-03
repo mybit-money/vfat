@@ -3,11 +3,11 @@ from __future__ import annotations
 import json
 import re
 from collections.abc import Callable, Mapping
-from datetime import date, datetime, timedelta, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
-from . import CALCULATION_VERSION, INPUT_SCHEMA_VERSION
+from . import INPUT_SCHEMA_VERSION
 
 
 SAFE_KEY = re.compile(r"^[A-Za-z0-9_.-]+$")
@@ -21,13 +21,11 @@ class ReportCache:
         wallet: str,
         *,
         input_schema_version: str = INPUT_SCHEMA_VERSION,
-        calculation_version: str = CALCULATION_VERSION,
         now: Callable[[], datetime] | None = None,
         missing_receipt_ttl: timedelta = timedelta(minutes=5),
     ) -> None:
         self.root = root / str(chain_id) / wallet.lower()
         self.input_schema_version = input_schema_version
-        self.calculation_version = calculation_version
         self.now = now or (lambda: datetime.now(timezone.utc))
         self.missing_receipt_ttl = missing_receipt_ttl
         self.diagnostics: list[str] = []
@@ -87,27 +85,6 @@ class ReportCache:
             {"schemaVersion": self.input_schema_version, "data": dict(data)},
         )
 
-    def get_daily(self, day: date) -> Mapping[str, Any] | None:
-        envelope = self._read(self._layer_path("daily", day.isoformat()))
-        if not envelope or envelope.get("calculationVersion") != self.calculation_version:
-            return None
-        data = envelope.get("data")
-        return data if isinstance(data, Mapping) else None
-
-    def put_daily(self, day: date, data: Mapping[str, Any]) -> None:
-        self._write(
-            self._layer_path("daily", day.isoformat()),
-            {
-                "schemaVersion": self.input_schema_version,
-                "calculationVersion": self.calculation_version,
-                "data": dict(data),
-            },
-        )
-
-    @staticmethod
-    def should_refresh_day(day: date, today: date) -> bool:
-        return day >= today - timedelta(days=2)
-
     def _layer_path(self, layer: str, key: str) -> Path:
         if not SAFE_KEY.fullmatch(key):
             raise ValueError("cache key contains unsupported characters")
@@ -119,7 +96,7 @@ class ReportCache:
         try:
             value = json.loads(path.read_text(encoding="utf-8"))
             return value if isinstance(value, dict) else None
-        except (OSError, json.JSONDecodeError):
+        except (OSError, ValueError):
             suffix = self.now().astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
             quarantine = path.with_name(f"{path.name}.corrupt-{suffix}")
             path.replace(quarantine)

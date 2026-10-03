@@ -2,12 +2,13 @@ from __future__ import annotations
 
 import tempfile
 import unittest
+from dataclasses import replace
 from datetime import date, datetime, timezone
 from decimal import Decimal
 from pathlib import Path
 
 from vfat_report.cli import main
-from vfat_report.contracts import DailyAggregate, Diagnostics, Report
+from vfat_report.contracts import DailyAggregate, Diagnostics, Report, TokenAmount
 from vfat_report.html_report import render_html
 
 
@@ -77,6 +78,16 @@ class HtmlCliTests(unittest.TestCase):
 
         self.assertIn("предварительно", html)
         self.assertIn('stroke-dasharray="7 5"', html)
+        self.assertIn('d="M888.00 32 V322"', html)
+
+    def test_round_reward_amount_is_not_scientific(self) -> None:
+        report = sample_report()
+        nest = TokenAmount("0x07c57e32a3c29d5659bda1d3efc2e7bf004e3035", "NEST", 18, 1000 * 10**18)
+        today = replace(report.days[0], reward_amounts=(nest,))
+
+        html = render_html(replace(report, days=(today, *report.days[1:])))
+
+        self.assertIn("1000 NEST", html)
 
     def test_html_table_uses_required_column_order(self) -> None:
         html = render_html(sample_report())

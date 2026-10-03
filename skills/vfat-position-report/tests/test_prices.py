@@ -103,6 +103,41 @@ class PriceTests(unittest.TestCase):
         self.assertEqual(valued.gas_account_debit_usd.usd, Decimal("0.90"))
         self.assertIn("defillama", valued.net_compound_usd.source or "")
 
+    def test_fee_paid_claim_without_fee_transfer_is_unknown_not_zero(self) -> None:
+        timestamp = datetime(2026, 10, 3, 4, 18, tzinfo=UTC)
+        ts = int(timestamp.timestamp())
+        transaction = DecodedTransaction(
+            chain_id=999,
+            transaction_hash="0x" + "22" * 32,
+            timestamp=timestamp,
+            action_type="compounded",
+            automation_payment_method="fee",
+            gross_claims=(TokenAmount(NEST, "NEST", 18, 100 * 10**18),),
+        )
+        quotes = {(NEST, ts): PriceQuote(NEST, ts, ts, Decimal("0.02"), None, "defillama")}
+
+        valued = value_transaction(transaction, quotes, native_price_token=WHYPE)
+
+        self.assertIsNone(valued.automation_fee_usd.usd)
+
+    def test_harvest_without_lp_mint_is_claim_net_of_fee(self) -> None:
+        timestamp = datetime(2026, 10, 3, 4, 18, tzinfo=UTC)
+        ts = int(timestamp.timestamp())
+        transaction = DecodedTransaction(
+            chain_id=999,
+            transaction_hash="0x" + "33" * 32,
+            timestamp=timestamp,
+            action_type="harvested",
+            automation_payment_method="fee",
+            gross_claims=(TokenAmount(NEST, "NEST", 18, 100 * 10**18),),
+            automation_fees=(TokenAmount(NEST, "NEST", 18, 2 * 10**18),),
+        )
+        quotes = {(NEST, ts): PriceQuote(NEST, ts, ts, Decimal("0.02"), None, "defillama")}
+
+        valued = value_transaction(transaction, quotes, native_price_token=WHYPE)
+
+        self.assertEqual(valued.net_compound_usd.usd, Decimal("1.96"))
+
 
 if __name__ == "__main__":
     unittest.main()

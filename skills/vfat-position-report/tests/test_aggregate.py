@@ -83,6 +83,20 @@ class AggregateTests(unittest.TestCase):
         self.assertEqual(row.realized_apr_percent, Decimal("730"))
         self.assertEqual(row.status, "partial")
 
+    def test_partial_first_day_apr_is_prorated_by_elapsed_utc_fraction(self) -> None:
+        tx = transaction(
+            "0x" + "77" * 32,
+            datetime(2026, 10, 1, 18, tzinfo=UTC),
+            net_usd=Decimal("10"),
+            gas_usd=Decimal("0"),
+        )
+
+        row = build_daily_aggregates(
+            (tx,), capital(date(2026, 10, 1)), datetime(2026, 10, 1, 12, tzinfo=UTC), datetime(2026, 10, 2, tzinfo=UTC), datetime(2026, 10, 3, tzinfo=UTC)
+        )[0]
+
+        self.assertEqual(row.realized_apr_percent, Decimal("730"))
+
     def test_zero_activity_day_is_retained(self) -> None:
         start = datetime(2026, 10, 1, tzinfo=UTC)
         end = datetime(2026, 10, 3, tzinfo=UTC)
