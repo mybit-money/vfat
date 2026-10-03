@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0",
+  "filters": {
+    "chainIds": [999],
+    "protocols": ["NEST"]
+  },
+  "positions": [
+    {
+      "positionId": "nft:91811",
+      "chainId": 999,
+      "protocol": "NEST",
+      "positionType": "nft",
+      "sickleAddress": "0x05A34CA31A38C136B8489D4147112CFC4A92A155",
+      "tokenId": "91811",
+      "nftManagerAddress": "0xEAF58788A405F3253814B4559391A22BE8616250",
+      "activeFrom": "2026-09-22T10:18:00Z"
+    }
+  ],
+  "activities": [],
+  "capitalPoints": []
+}

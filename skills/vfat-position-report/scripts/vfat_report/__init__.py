@@ -1,0 +1,7 @@
+"""Portable calculation engine for VFAT position reports."""
+
+INPUT_SCHEMA_VERSION = "1.0"
+REPORT_SCHEMA_VERSION = "1.0"
+CALCULATION_VERSION = "1.0"
+
+__all__ = ["CALCULATION_VERSION", "INPUT_SCHEMA_VERSION", "REPORT_SCHEMA_VERSION"]
