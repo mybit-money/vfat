@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse
 from collections.abc import Sequence
 
+from .runner import run
+
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build a VFAT position report")
@@ -16,5 +18,4 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
-    parse_args(argv)
-    return 0
+    return run(parse_args(argv))
