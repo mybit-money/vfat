@@ -17,6 +17,9 @@ from .contracts import (
 
 
 SECONDS_PER_DAY = Decimal(86_400)
+CLAIM_ACTIONS = frozenset(
+    {"claim", "claimed", "compound", "compounded", "harvest", "harvested"}
+)
 
 
 def build_daily_aggregates(
@@ -35,7 +38,7 @@ def build_daily_aggregates(
     unique: dict[tuple[int, str], NormalizedTransaction] = {}
     for transaction in transactions:
         timestamp = _utc(transaction.timestamp)
-        if start <= timestamp < end:
+        if start <= timestamp < end and _is_claim_transaction(transaction):
             unique.setdefault(
                 (transaction.chain_id, transaction.transaction_hash.lower()), transaction
             )
@@ -59,6 +62,15 @@ def build_daily_aggregates(
         cursor += timedelta(days=1)
     rows.sort(key=lambda row: row.day, reverse=True)
     return rows
+
+
+def _is_claim_transaction(transaction: NormalizedTransaction) -> bool:
+    action = transaction.action_type.strip().lower().replace("-", "_")
+    return bool(
+        transaction.gross_claims
+        or transaction.automation_fees
+        or action in CLAIM_ACTIONS
+    )
 
 
 def build_report(
