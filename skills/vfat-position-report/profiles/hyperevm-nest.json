@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "1.0",
+  "chainId": 999,
+  "nativeToken": {"symbol": "HYPE", "decimals": 18},
+  "trackedSickleAddresses": ["0x05a34ca31a38c136b8489d4147112cfc4a92a155"],
+  "claimSourceAddresses": ["0xff0124cf664240e5573282511042d7033c3f22ea"],
+  "automationFeeRecipients": ["0xd4627ecb405b64448ee6b07dcf860bf55590c83d"],
+  "tokens": {
+    "0x07c57e32a3c29d5659bda1d3efc2e7bf004e3035": {"symbol": "NEST", "decimals": 18},
+    "0x5555555555555555555555555555555555555555": {"symbol": "WHYPE", "decimals": 18},
+    "0x9628bba16db41ea7fe1fd84f9ce53bc27c63f59b": {"symbol": "DRV", "decimals": 18}
+  },
+  "pools": {
+    "0x34a4539f9527d20985e3d14e81d8b473015acf9c": {
+      "token0": "0x5555555555555555555555555555555555555555",
+      "token1": "0x9628bba16db41ea7fe1fd84f9ce53bc27c63f59b"
+    }
+  },
+  "gasAccountDebitEvents": [
+    {
+      "address": "0xe5b4cbcf716b564db18d7cead07f91d80126d0cf",
+      "topic0": "0xcb2a56579f2499e44b9da1d85616e2e47c7f995cedb0cfbb8f890163e10f6e78",
+      "payerWord": 0,
+      "amountWord": 1,
+      "decimals": 18
+    }
+  ],
+  "expectedAutomationFeeRate": "0.018"
+}
