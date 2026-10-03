@@ -1,19 +1,58 @@
 {
   "schemaVersion": "1.0",
   "chainId": 999,
-  "nativeToken": {"symbol": "HYPE", "decimals": 18},
-  "trackedSickleAddresses": ["0x05a34ca31a38c136b8489d4147112cfc4a92a155"],
-  "claimSourceAddresses": ["0xff0124cf664240e5573282511042d7033c3f22ea"],
-  "automationFeeRecipients": ["0xd4627ecb405b64448ee6b07dcf860bf55590c83d"],
+  "nativeToken": {
+    "symbol": "HYPE",
+    "decimals": 18,
+    "priceTokenAddress": "0x5555555555555555555555555555555555555555"
+  },
+  "trackedSickleAddresses": [
+    "0x05a34ca31a38c136b8489d4147112cfc4a92a155"
+  ],
+  "claimSourceAddresses": [
+    "0xff0124cf664240e5573282511042d7033c3f22ea"
+  ],
+  "automationFeeRecipients": [
+    "0xd4627ecb405b64448ee6b07dcf860bf55590c83d"
+  ],
   "tokens": {
-    "0x07c57e32a3c29d5659bda1d3efc2e7bf004e3035": {"symbol": "NEST", "decimals": 18},
-    "0x5555555555555555555555555555555555555555": {"symbol": "WHYPE", "decimals": 18},
-    "0x9628bba16db41ea7fe1fd84f9ce53bc27c63f59b": {"symbol": "DRV", "decimals": 18}
+    "0x07c57e32a3c29d5659bda1d3efc2e7bf004e3035": {
+      "symbol": "NEST",
+      "decimals": 18
+    },
+    "0x5555555555555555555555555555555555555555": {
+      "symbol": "WHYPE",
+      "decimals": 18
+    },
+    "0x9628bba16db41ea7fe1fd84f9ce53bc27c63f59b": {
+      "symbol": "DRV",
+      "decimals": 18
+    },
+    "0xb88339cb7199b77e23db6e890353e22632ba630f": {
+      "symbol": "USDC",
+      "decimals": 6
+    },
+    "0xb8ce59fc3717ada4c02eadf9682a9e934f625ebb": {
+      "symbol": "USD₮0",
+      "decimals": 6
+    }
   },
   "pools": {
     "0x34a4539f9527d20985e3d14e81d8b473015acf9c": {
       "token0": "0x5555555555555555555555555555555555555555",
       "token1": "0x9628bba16db41ea7fe1fd84f9ce53bc27c63f59b"
+    },
+    "0xbe512f5881b85c48d9c17bc5bb2be047d156d696": {
+      "token0": "0x5555555555555555555555555555555555555555",
+      "token1": "0xb88339cb7199b77e23db6e890353e22632ba630f"
+    },
+    "0x613bc619741354a6171692b04228c9640373e54b": {
+      "token0": "0xb88339cb7199b77e23db6e890353e22632ba630f",
+      "token1": "0xb8ce59fc3717ada4c02eadf9682a9e934f625ebb"
+    },
+    "0xdb544d63d32d9f3e52ff3a8bfe2a374df0463f8d": {
+      "token0": "0x07c57e32a3c29d5659bda1d3efc2e7bf004e3035",
+      "token1": "0xb88339cb7199b77e23db6e890353e22632ba630f"
     }
   },
   "gasAccountDebitEvents": [

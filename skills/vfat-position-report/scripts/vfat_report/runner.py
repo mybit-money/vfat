@@ -10,8 +10,15 @@ from .aggregate import build_report
 from .cache import ReportCache
 from .capital import aggregate_daily_capital
 from .contracts import Diagnostics, PositionInput, load_report_input, write_report_json
-from .events import ChainProfile, decode_receipt, load_chain_profile, merge_position_activity
+from .events import (
+    ChainProfile,
+    TokenMetadata,
+    decode_receipt,
+    load_chain_profile,
+    merge_position_activity,
+)
 from .html_report import render_html
+from .prices import DefiLlamaPriceClient, collect_price_requests, value_transaction
 from .rpc import JsonRpcClient
 
 
@@ -40,6 +47,24 @@ def run(arguments: Namespace) -> int:
             continue
         transactions.append(decode_receipt(activity, receipt, profile))
 
+    if transactions and not arguments.no_prices:
+        price_client = DefiLlamaPriceClient(
+            base_url=arguments.price_api_base, cache=cache
+        )
+        price_requests = collect_price_requests(
+            transactions, profile.native_price_token_address
+        )
+        quotes = price_client.get_quotes(price_requests, chain_id=profile.chain_id)
+        transactions = [
+            value_transaction(
+                transaction,
+                quotes,
+                native_price_token=profile.native_price_token_address,
+            )
+            for transaction in transactions
+        ]
+        warnings.extend(price_client.diagnostics)
+
     capital = aggregate_daily_capital(
         report_input.positions,
         report_input.capital_points,
@@ -64,12 +89,44 @@ def run(arguments: Namespace) -> int:
 def profile_for_positions(
     profile: ChainProfile, positions: Iterable[PositionInput]
 ) -> ChainProfile:
-    tracked = frozenset(
-        position.sickle_address.lower()
-        for position in positions
-        if position.chain_id == profile.chain_id
+    matching_positions = tuple(
+        position for position in positions if position.chain_id == profile.chain_id
     )
-    return replace(profile, tracked_sickle_addresses=tracked)
+    tracked = frozenset(
+        position.sickle_address.lower() for position in matching_positions
+    )
+    tokens = dict(profile.tokens)
+    pools = dict(profile.pools)
+    for position in matching_positions:
+        metadata = position.metadata
+        if not isinstance(metadata, dict):
+            continue
+        pool = metadata.get("poolAddress")
+        underlying = metadata.get("underlying")
+        if not isinstance(pool, str) or not isinstance(underlying, list):
+            continue
+        if len(underlying) < 2 or not all(
+            isinstance(item, dict) for item in underlying[:2]
+        ):
+            continue
+        token_addresses: list[str] = []
+        for item in underlying[:2]:
+            address = item.get("address")
+            decimals = item.get("decimals")
+            if not isinstance(address, str) or not isinstance(decimals, int):
+                token_addresses = []
+                break
+            normalized = address.lower()
+            tokens[normalized] = TokenMetadata(item.get("symbol"), decimals)
+            token_addresses.append(normalized)
+        if len(token_addresses) == 2:
+            pools[pool.lower()] = (token_addresses[0], token_addresses[1])
+    return replace(
+        profile,
+        tracked_sickle_addresses=tracked,
+        tokens=tokens,
+        pools=pools,
+    )
 
 
 def _parse_now(value: str) -> datetime:

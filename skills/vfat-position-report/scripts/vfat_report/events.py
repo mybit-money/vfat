@@ -34,6 +34,7 @@ class ChainProfile:
     chain_id: int
     native_symbol: str
     native_decimals: int
+    native_price_token_address: str | None
     tracked_sickle_addresses: frozenset[str]
     claim_source_addresses: frozenset[str]
     automation_fee_recipients: frozenset[str]
@@ -85,6 +86,11 @@ def load_chain_profile(path: Path) -> ChainProfile:
         chain_id=int(payload["chainId"]),
         native_symbol=str(payload["nativeToken"]["symbol"]),
         native_decimals=int(payload["nativeToken"]["decimals"]),
+        native_price_token_address=(
+            str(payload["nativeToken"].get("priceTokenAddress")).lower()
+            if payload["nativeToken"].get("priceTokenAddress")
+            else None
+        ),
         tracked_sickle_addresses=frozenset(
             value.lower() for value in payload.get("trackedSickleAddresses", [])
         ),

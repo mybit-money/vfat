@@ -83,6 +83,7 @@ class NormalizedTransaction:
     automation_fees: tuple[TokenAmount, ...] = ()
     lp_additions: tuple[TokenAmount, ...] = ()
     gross_claim_usd: Valuation = Valuation(None, reason="unavailable")
+    automation_fee_usd: Valuation = Valuation(None, reason="unavailable")
     net_compound_usd: Valuation = Valuation(None, reason="unavailable")
     gas_account_debit_usd: Valuation = Valuation(Decimal(0), source="none")
     network_gas_native: Decimal | None = None

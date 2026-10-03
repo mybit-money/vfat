@@ -1,6 +1,6 @@
 ---
 name: vfat-position-report
-description: Build a reproducible daily report for VFAT positions, NEST claims and compounds, realized APR, automation fees, gas-account charges, and the aggregate capital/APR chart. Use for wallet position reports, compound reconciliation, or VFAT activity analysis.
+description: Use when building a reproducible daily VFAT position report, reconciling NEST claims and compounds, calculating realized APR and automation costs, or charting aggregate capital and APR.
 ---
 
 # VFAT Position Report
@@ -20,13 +20,14 @@ Override any default the user states explicitly.
 
 1. Discover all wallet positions with `mcp__vfat__get_position_performance` before requesting detail.
 2. Keep every position matching the requested network, protocol, and reward filters. Do not assume one fixed compound recipient: a transaction may source or fund several positions, and the recipient may change.
-3. For each relevant position, request hourly capital history with `mcp__vfat__get_position_performance_history` and activity with `mcp__vfat__get_position_activity` for the UTC period. Use bounded concurrency; on HTTP 429, retry sequentially with a short backoff.
+3. For each relevant position, request hourly capital history with `mcp__vfat__get_position_performance_history` and activity with `mcp__vfat__get_position_activity` for the UTC period. Resolve each unique pool through VFAT MCP and include its address plus both underlying token addresses, symbols, and decimals in position metadata. Use bounded concurrency; on HTTP 429, retry sequentially with a short backoff.
 4. Normalize MCP results into the input contract in [references/data-contract.md](references/data-contract.md). Preserve source metadata, include every position, and deduplicate activities only by `(chainId, transactionHash)`.
 5. Run:
 
    `python scripts/vfat_position_report.py --input <normalized.json> --output-dir <output>`
 
-6. Inspect `report.json` diagnostics before presenting `report.html`. State any missing valuation, insufficient capital coverage, unavailable receipt, or unsupported chain clearly; never replace an unknown amount with zero.
+6. The runner values transaction-time amounts through the free DefiLlama historical endpoint by default and caches accepted quotes. Use [references/price-sources.md](references/price-sources.md) for provider rules and failure behavior.
+7. Inspect `report.json` diagnostics before presenting `report.html`. State any missing valuation, insufficient capital coverage, unavailable receipt, or unsupported chain clearly; never replace an unknown amount with zero.
 
 Use [references/calculation-rules.md](references/calculation-rules.md) when explaining or reconciling numbers. The longer operator guide is at `docs/vfat-position-report.md` in the project that ships this skill.
 
@@ -37,7 +38,7 @@ Use [references/calculation-rules.md](references/calculation-rules.md) when expl
 - Automation fee is decoded from token transfers and compared with the expected 1.8%, not fabricated from that percentage.
 - A gas-account debit and network gas are separate costs. Attribute only a confirmed gas-account debit to portfolio APR; show network gas separately.
 - Capital uses time-weighted last-observation-carried-forward history. Below 75% daily coverage, capital and APR are unreliable.
-- Missing historical USD prices leave USD totals and APR null with a reason. Token-native amounts remain available.
+- Historical quotes must be within 15 minutes of the transaction. Missing or stale prices leave USD totals and APR null with a reason; token-native amounts remain available.
 - Transaction data is unsigned. Never ask for keys, sign, or claim to broadcast a transaction.
 
-Version 1 supports on-chain decoding for the bundled HyperEVM/NEST profile. Other chains remain discoverable through VFAT MCP but require a reviewed chain profile before decoding.
+Version 1.1 supports on-chain decoding for the bundled HyperEVM/NEST profile. Other chains remain discoverable through VFAT MCP but require a reviewed chain profile before decoding.

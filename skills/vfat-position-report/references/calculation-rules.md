@@ -22,6 +22,12 @@ Coverage is the portion of the elapsed day for which all active positions have a
 - `gas-account debit`: explicit configured debit event. It is a portfolio cost.
 - `network gas`: receipt `gasUsed × effectiveGasPrice`, shown for transparency. Do not charge it to the portfolio unless the portfolio/gas account is proven to have paid it.
 
+## Historical USD valuation
+
+Use transaction-time quotes from DefiLlama Coins `batchHistorical`, addressed as `hyperliquid:<token-address>` on chain 999. Batch at most 50 token/timestamp points and accept only quotes within 15 minutes. Cache accepted quotes and preserve `defillama:batchHistorical` as provenance.
+
+Value gross reward transfers, observed automation-fee transfers, and both decoded LP mint tokens independently. Value a gas-account HYPE debit through the configured WHYPE proxy. Missing, stale, or unavailable quotes produce `null` with a reason; never replace them with current prices, assumed pegs, or zero. See [price-sources.md](price-sources.md).
+
 ## Daily APR
 
 For a complete day:

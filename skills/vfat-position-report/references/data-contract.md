@@ -20,7 +20,13 @@ The runner consumes UTF-8 JSON with `schemaVersion: "1.0"`. This boundary delibe
     "nftManagerAddress": "0x...",
     "activeFrom": null,
     "activeTo": null,
-    "metadata": {}
+    "metadata": {
+      "poolAddress": "0x...",
+      "underlying": [
+        {"address": "0x...", "symbol": "TOKEN0", "decimals": 18},
+        {"address": "0x...", "symbol": "TOKEN1", "decimals": 6}
+      ]
+    }
   }],
   "activities": [{
     "chainId": 999,
@@ -41,7 +47,7 @@ The runner consumes UTF-8 JSON with `schemaVersion: "1.0"`. This boundary delibe
 }
 ```
 
-Transform VFAT `blockTimestamp` to `timestamp`. Attach a stable `positionId` to every history point. Store source and recipient relationships when known; absence is `null`/an empty array, not a guessed position.
+Resolve each unique pool with VFAT MCP and populate `metadata.poolAddress` plus the first two entries of `metadata.underlying`; these fields let the decoder support newly discovered pools without code changes. Transform VFAT `blockTimestamp` to `timestamp`. Attach a stable `positionId` to every history point. Store source and recipient relationships when known; absence is `null`/an empty array, not a guessed position.
 
 Addresses and transaction hashes are lowercase hexadecimal. Timestamps include `Z` and are UTC. Decimal values are strings; raw token amounts remain integers. Include positions that were active for any part of the requested period, including closed or migrated lineage when VFAT returns it.
 

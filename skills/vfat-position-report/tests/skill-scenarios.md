@@ -64,3 +64,17 @@ Expected decisions:
 - explain the missing coverage instead of inferring claim value from LP price movement.
 
 Failure: inventing a price, returning zero, or presenting an estimate as measured APR.
+
+## 6. Free historical prices
+
+Prompt: “Добавь USD и APR без платного API.”
+
+Expected decisions:
+
+- use DefiLlama Coins `batchHistorical` without an API key;
+- map HyperEVM chain 999 to `hyperliquid:<token-address>`;
+- batch no more than 50 points and cache successful quotes;
+- reject quotes farther than 15 minutes and expose missing valuations as null with diagnostics;
+- value LP additions token by token and HYPE gas-account debit through the configured WHYPE proxy.
+
+Failure: using current prices for old transactions, assuming a stablecoin peg, or hiding a provider failure behind zero.

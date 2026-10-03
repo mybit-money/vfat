@@ -66,11 +66,7 @@ def build_daily_aggregates(
 
 def _is_claim_transaction(transaction: NormalizedTransaction) -> bool:
     action = transaction.action_type.strip().lower().replace("-", "_")
-    return bool(
-        transaction.gross_claims
-        or transaction.automation_fees
-        or action in CLAIM_ACTIONS
-    )
+    return action in CLAIM_ACTIONS
 
 
 def build_report(

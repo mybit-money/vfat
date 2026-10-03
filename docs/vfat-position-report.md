@@ -5,7 +5,7 @@ This project builds a reproducible daily report for a wallet's VFAT/NEST positio
 ## Quick start
 
 1. Ask VFAT MCP for all positions using `mcp__vfat__get_position_performance` and the wallet address.
-2. For each position in scope, request hourly history with `mcp__vfat__get_position_performance_history` and activity with `mcp__vfat__get_position_activity`.
+2. For each position in scope, request hourly history with `mcp__vfat__get_position_performance_history` and activity with `mcp__vfat__get_position_activity`. Resolve every unique pool through VFAT MCP and keep the pool plus both underlying tokens in position metadata.
 3. Convert the results to `skills/vfat-position-report/references/data-contract.md` and save them as `input.json`.
 4. Run from the skill directory:
 
@@ -13,7 +13,7 @@ This project builds a reproducible daily report for a wallet's VFAT/NEST positio
 
 5. Review `output/report.json`, especially diagnostics and reason codes, then open `output/report.html`.
 
-Defaults are wallet `0x330d2a845d2df4e329034d72719c7c53f9c1f87a`, seven UTC calendar days including today, all NEST positions, and HyperEVM. Command-line `--now` makes a run reproducible; `--refresh` refetches receipts that are eligible for refresh, while immutable receipt cache entries are reused.
+Defaults are wallet `0x330d2a845d2df4e329034d72719c7c53f9c1f87a`, seven UTC calendar days including today, all NEST positions, and HyperEVM. Command-line `--now` makes a run reproducible; `--refresh` refetches receipts that are eligible for refresh, while immutable receipt cache entries are reused. Historical USD pricing is enabled by default through the free DefiLlama Coins endpoint. Use `--no-prices` for token-native output or `--price-api-base` for a compatible endpoint.
 
 ## MCP collection sequence
 
@@ -35,13 +35,13 @@ Transaction detail remains in JSON for on-demand reconciliation: source and reci
 
 ## Cache and RPC behavior
 
-The runner keeps immutable receipts and report snapshots under the selected cache directory, writes updates atomically, quarantines corrupt files, and briefly caches missing receipts. The public RPC client enforces a rolling 100-request-per-minute ceiling and tries the configured backup endpoint after retryable failures. The most recent three UTC days may be refreshed; older completed days are reusable.
+The runner keeps immutable receipts, accepted historical price quotes, and report snapshots under the selected cache directory, writes updates atomically, quarantines corrupt files, and briefly caches missing receipts. The public RPC client enforces a rolling 100-request-per-minute ceiling and tries the configured backup endpoint after retryable failures. The most recent three UTC days may be refreshed; older completed days are reusable.
 
-Version 1 decodes HyperEVM/NEST using `profiles/hyperevm-nest.json`. Adding a network requires verified contract addresses, event signatures, token metadata, pool mapping, real reduced receipt fixtures, and regression tests. Discovery through VFAT MCP alone does not make another chain safe to decode.
+Version 1.1 decodes HyperEVM/NEST using `profiles/hyperevm-nest.json`. Adding a network requires verified contract addresses, event signatures, token metadata, pool mapping, real reduced receipt fixtures, and regression tests. Discovery through VFAT MCP alone does not make another chain safe to decode.
 
 ## Missing data and reconciliation
 
-Unknown historical USD prices stay `null`; token-native quantities remain visible. Capital coverage below 75%, missing receipts, fee deviations, and absent gas-account events are surfaced as diagnostics. Network gas and a gas-account debit are never merged automatically.
+Historical prices come from DefiLlama `batchHistorical` in batches of at most 50 points. Quotes farther than 15 minutes from a transaction are rejected. Accepted quotes record their source and are cached; provider failures and unknown historical prices stay `null`, while token-native quantities remain visible. Capital coverage below 75%, missing receipts, fee deviations, and absent gas-account events are surfaced as diagnostics. Network gas and a gas-account debit are never merged automatically.
 
 For a disagreement with a VFAT CSV, compare unique transaction hashes first, then UTC boundaries, gross token transfers, fee transfers, LP mint amounts, and finally price provenance. CSV is an optional reconciliation source, not the primary input in version 1.
 
