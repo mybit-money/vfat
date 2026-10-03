@@ -23,7 +23,7 @@ Discover first. Never call VFAT APIs from the Python runner or scrape the VFAT s
 - `get_position_performance_history`: request the report period at hourly granularity for each position/lineage.
 - `get_position_activity`: request the same period for every relevant NFT position using chain, Sickle, manager, and token ID from discovery.
 
-Normalize timestamps to UTC, keep stable position IDs, and preserve all activity records until transaction deduplication. A compound recipient is not a global setting: infer and store it per transaction when VFAT exposes it. Retain closed positions that overlap the reporting window.
+Use bounded concurrency for per-position calls. A burst of ten live requests produced HTTP 429 during validation; sequential retries with a short backoff succeeded. Normalize timestamps to UTC, keep stable position IDs, and preserve all activity records until transaction deduplication. A compound recipient is not a global setting: infer and store it per transaction when VFAT exposes it. Retain closed positions that overlap the reporting window.
 
 ## Outputs
 

@@ -20,7 +20,7 @@ Override any default the user states explicitly.
 
 1. Discover all wallet positions with `mcp__vfat__get_position_performance` before requesting detail.
 2. Keep every position matching the requested network, protocol, and reward filters. Do not assume one fixed compound recipient: a transaction may source or fund several positions, and the recipient may change.
-3. For each relevant position, request hourly capital history with `mcp__vfat__get_position_performance_history` and activity with `mcp__vfat__get_position_activity` for the UTC period.
+3. For each relevant position, request hourly capital history with `mcp__vfat__get_position_performance_history` and activity with `mcp__vfat__get_position_activity` for the UTC period. Use bounded concurrency; on HTTP 429, retry sequentially with a short backoff.
 4. Normalize MCP results into the input contract in [references/data-contract.md](references/data-contract.md). Preserve source metadata, include every position, and deduplicate activities only by `(chainId, transactionHash)`.
 5. Run:
 
