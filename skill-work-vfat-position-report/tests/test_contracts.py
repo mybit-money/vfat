@@ -38,6 +38,8 @@ class ContractTests(unittest.TestCase):
             report_input.positions[0].nft_manager_address,
             "0xeaf58788a405f3253814b4559391a22be8616250",
         )
+        self.assertIsNone(report_input.positions[0].position_root_token_id)
+        self.assertEqual(report_input.positions[0].token_id, "91811")
 
     def test_rejects_invalid_wallet_or_non_utc_window(self) -> None:
         base = json.loads((FIXTURES / "minimal-input.json").read_text(encoding="utf-8"))
@@ -57,6 +59,80 @@ class ContractTests(unittest.TestCase):
             path.write_text(json.dumps(base), encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "period.from.*timezone"):
                 load_report_input(path)
+
+    def test_loads_ethereum_v4_lineage_without_replacing_current_token_id(self) -> None:
+        payload = json.loads((FIXTURES / "minimal-input.json").read_text(encoding="utf-8"))
+        root = "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+        pool_id = "0x20ae5557f7d6ce39a6e5370c331106a87a80ea5c1bec686361bde2d9f5e82631"
+        metadata = {
+            "protocolType": "uniswap_v4",
+            "poolId": pool_id,
+            "poolManagerAddress": "0x000000000004444c5dc75cb358380d2e3de08a90",
+        }
+        payload["filters"] = {"chainIds": [1], "protocols": ["uniswap"]}
+        payload["positions"][0].update(
+            positionId=root,
+            chainId=1,
+            protocol="uniswap",
+            tokenId="413473",
+            positionRootTokenId=root,
+            metadata=metadata,
+        )
+
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "ethereum.json"
+            path.write_text(json.dumps(payload), encoding="utf-8")
+            position = load_report_input(path).positions[0]
+
+        self.assertEqual(position.position_id, root)
+        self.assertEqual(position.position_root_token_id, root)
+        self.assertEqual(position.token_id, "413473")
+        self.assertEqual(position.metadata, metadata)
+        self.assertEqual(position.metadata["protocolType"], "uniswap_v4")
+        self.assertEqual(position.metadata["poolId"], pool_id)
+
+    def test_history_does_not_merge_different_lineage_or_protocol_metadata(self) -> None:
+        primary = json.loads((FIXTURES / "minimal-input.json").read_text(encoding="utf-8"))
+        primary["positions"][0]["positionRootTokenId"] = "manager:413470"
+        primary["positions"][0]["metadata"] = {
+            "protocolType": "uniswap_v4",
+            "poolId": "0x" + "a" * 64,
+            "poolManagerAddress": "0x000000000004444c5dc75cb358380d2e3de08a90",
+        }
+        primary["period"] = {
+            "from": "2026-10-02T00:00:00Z",
+            "to": "2026-10-03T00:00:00Z",
+        }
+        old = json.loads(json.dumps(primary))
+        old["period"]["from"] = "2026-09-01T00:00:00Z"
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            current = root / "current"
+            history = root / "history"
+            current.mkdir()
+            history.mkdir()
+            path = current / "input.json"
+            path.write_text(json.dumps(primary), encoding="utf-8")
+            old_path = history / "input.json"
+
+            for field, replacement in (
+                ("positionRootTokenId", "manager:413469"),
+                ("protocolType", "other"),
+                ("poolId", "0x" + "b" * 64),
+                ("poolManagerAddress", "0x" + "1" * 40),
+            ):
+                candidate = json.loads(json.dumps(old))
+                target = candidate["positions"][0]
+                if field == "positionRootTokenId":
+                    target[field] = replacement
+                else:
+                    target["metadata"][field] = replacement
+                old_path.write_text(json.dumps(candidate), encoding="utf-8")
+                with self.subTest(field=field):
+                    self.assertEqual(
+                        load_report_input(path, history_root=root).start.isoformat(),
+                        "2026-10-02T00:00:00+00:00",
+                    )
 
     def test_write_report_json_is_deterministic(self) -> None:
         generated_at = datetime(2026, 10, 3, 12, 0, tzinfo=timezone.utc)

@@ -30,6 +30,7 @@ class PositionInput:
     active_from: datetime | None = None
     active_to: datetime | None = None
     metadata: Mapping[str, Any] | None = None
+    position_root_token_id: str | None = None
 
 
 @dataclass(frozen=True)
@@ -242,6 +243,7 @@ def load_report_input(
                 active_from=active_from,
                 active_to=active_to,
                 metadata=item.get("metadata"),
+                position_root_token_id=item.get("positionRootTokenId"),
             )
         )
 
@@ -298,12 +300,25 @@ def load_report_input(
 
 def _history_identity(payload: Mapping[str, Any]) -> tuple[Any, ...]:
     filters = payload.get("filters") or {}
+    position_adapter_identities = []
+    for position in payload.get("positions", []):
+        metadata = position.get("metadata")
+        metadata = metadata if isinstance(metadata, Mapping) else {}
+        identity = (
+            position.get("positionRootTokenId"),
+            metadata.get("protocolType"),
+            metadata.get("poolId"),
+            metadata.get("poolManagerAddress"),
+        )
+        if any(value is not None for value in identity):
+            position_adapter_identities.append((str(position.get("positionId", "")).lower(), *identity))
     return (
         str(payload.get("schemaVersion", "")),
         str(payload.get("wallet", DEFAULT_WALLET)).lower(),
         tuple(sorted(int(value) for value in filters.get("chainIds", [DEFAULT_CHAIN_ID]))),
         tuple(sorted(str(value).lower() for value in filters.get("protocols", [DEFAULT_PROTOCOL]))),
         tuple(sorted(str(value).lower() for value in filters.get("rewardTokens", []))),
+        tuple(sorted(position_adapter_identities)),
     )
 
 
