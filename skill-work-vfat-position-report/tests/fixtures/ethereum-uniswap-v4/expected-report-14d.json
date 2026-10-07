@@ -1,0 +1,842 @@
+{
+  "transactions": [
+    {
+      "action_type": "compounded",
+      "automation_fee_usd": {
+        "reason": "native_fee_unavailable",
+        "source": null,
+        "usd": null
+      },
+      "automation_fees": [
+        {
+          "decimals": 18,
+          "raw_amount": 2251577717424175015,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "automation_payment_method": null,
+      "chain_id": 1,
+      "effective_automation_fee_rate": null,
+      "gas_account_debit_native": null,
+      "gas_account_debit_usd": {
+        "reason": null,
+        "source": "none",
+        "usd": "0"
+      },
+      "gross_claim_usd": {
+        "reason": "native_claim_unavailable",
+        "source": null,
+        "usd": null
+      },
+      "gross_claims": [
+        {
+          "decimals": 18,
+          "raw_amount": 250175301936019446169,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "lp_additions": [
+        {
+          "decimals": 18,
+          "raw_amount": 13865144328231038,
+          "symbol": "ETH",
+          "token_address": "0x0000000000000000000000000000000000000000"
+        },
+        {
+          "decimals": 18,
+          "raw_amount": 388475690078593332301,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "net_compound_usd": {
+        "reason": null,
+        "source": "defillama:batchHistorical",
+        "usd": "206.2089573519433037810379047"
+      },
+      "network_gas_native": "0.00014160571508514",
+      "network_gas_payer": "0x330d2a845d2df4e329034d72719c7c53f9c1f87a",
+      "recipient_position_ids": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "source_position_ids": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "timestamp": "2026-09-25T05:34:11Z",
+      "transaction_hash": "0xf9e112e3caded219b25086bf594d9855608c37fb11119fb18a16c441d63d0a7d",
+      "warnings": [
+        "native_claim_unavailable",
+        "native_fee_unavailable"
+      ]
+    },
+    {
+      "action_type": "compounded",
+      "automation_fee_usd": {
+        "reason": "native_fee_unavailable",
+        "source": null,
+        "usd": null
+      },
+      "automation_fees": [
+        {
+          "decimals": 18,
+          "raw_amount": 2119504435739150135,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "automation_payment_method": "fee",
+      "chain_id": 1,
+      "effective_automation_fee_rate": null,
+      "gas_account_debit_native": null,
+      "gas_account_debit_usd": {
+        "reason": null,
+        "source": "none",
+        "usd": "0"
+      },
+      "gross_claim_usd": {
+        "reason": "native_claim_unavailable",
+        "source": null,
+        "usd": null
+      },
+      "gross_claims": [
+        {
+          "decimals": 18,
+          "raw_amount": 117750246429952785306,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "lp_additions": [
+        {
+          "decimals": 18,
+          "raw_amount": 4123633723031881,
+          "symbol": "ETH",
+          "token_address": "0x0000000000000000000000000000000000000000"
+        },
+        {
+          "decimals": 18,
+          "raw_amount": 192614987228833359890,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "net_compound_usd": {
+        "reason": null,
+        "source": "defillama:batchHistorical",
+        "usd": "94.55518627830416811561723224"
+      },
+      "network_gas_native": "0.00004369510284535",
+      "network_gas_payer": "0xb0bada5d45d939a03c6d211d24a61a4418d7cd13",
+      "recipient_position_ids": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "source_position_ids": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "timestamp": "2026-09-26T03:45:35Z",
+      "transaction_hash": "0x1fa733ca5903ba28e47e75a08d26d7459c36e714c539c8afad1cae6501bc70c4",
+      "warnings": [
+        "native_claim_unavailable",
+        "native_fee_unavailable"
+      ]
+    },
+    {
+      "action_type": "compounded",
+      "automation_fee_usd": {
+        "reason": "native_fee_unavailable",
+        "source": null,
+        "usd": null
+      },
+      "automation_fees": [
+        {
+          "decimals": 18,
+          "raw_amount": 977103971476204143,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "automation_payment_method": "fee",
+      "chain_id": 1,
+      "effective_automation_fee_rate": null,
+      "gas_account_debit_native": null,
+      "gas_account_debit_usd": {
+        "reason": null,
+        "source": "none",
+        "usd": "0"
+      },
+      "gross_claim_usd": {
+        "reason": "native_claim_unavailable",
+        "source": null,
+        "usd": null
+      },
+      "gross_claims": [
+        {
+          "decimals": 18,
+          "raw_amount": 54283553970900230193,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "lp_additions": [
+        {
+          "decimals": 18,
+          "raw_amount": 1971385361046709,
+          "symbol": "ETH",
+          "token_address": "0x0000000000000000000000000000000000000000"
+        },
+        {
+          "decimals": 18,
+          "raw_amount": 92313838643716844168,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "net_compound_usd": {
+        "reason": null,
+        "source": "defillama:batchHistorical",
+        "usd": "45.14056773399867297876596901"
+      },
+      "network_gas_native": "0.000042834559397305",
+      "network_gas_payer": "0xb0bada5d45d939a03c6d211d24a61a4418d7cd13",
+      "recipient_position_ids": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "source_position_ids": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "timestamp": "2026-09-27T03:11:23Z",
+      "transaction_hash": "0xdfd515ade1ec240ad05446026394f56b8f9c6981d157d634b6fa9b73b11cb380",
+      "warnings": [
+        "native_claim_unavailable",
+        "native_fee_unavailable"
+      ]
+    },
+    {
+      "action_type": "compounded",
+      "automation_fee_usd": {
+        "reason": "native_fee_unavailable",
+        "source": null,
+        "usd": null
+      },
+      "automation_fees": [
+        {
+          "decimals": 18,
+          "raw_amount": 1603323130008506017,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "automation_payment_method": null,
+      "chain_id": 1,
+      "effective_automation_fee_rate": null,
+      "gas_account_debit_native": null,
+      "gas_account_debit_usd": {
+        "reason": null,
+        "source": "none",
+        "usd": "0"
+      },
+      "gross_claim_usd": {
+        "reason": "native_claim_unavailable",
+        "source": null,
+        "usd": null
+      },
+      "gross_claims": [
+        {
+          "decimals": 18,
+          "raw_amount": 178147014445389557455,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "lp_additions": [
+        {
+          "decimals": 18,
+          "raw_amount": 3567332347451856,
+          "symbol": "ETH",
+          "token_address": "0x0000000000000000000000000000000000000000"
+        },
+        {
+          "decimals": 18,
+          "raw_amount": 318037572574065939902,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "net_compound_usd": {
+        "reason": null,
+        "source": "defillama:batchHistorical",
+        "usd": "141.6558513801754449580853055"
+      },
+      "network_gas_native": "0.0001832388632552",
+      "network_gas_payer": "0x330d2a845d2df4e329034d72719c7c53f9c1f87a",
+      "recipient_position_ids": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "source_position_ids": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "timestamp": "2026-10-01T05:42:35Z",
+      "transaction_hash": "0x7c59b5cbefc1c36e0eafba353fbe3c7f468611033b7d51a5e94334e49251c613",
+      "warnings": [
+        "native_claim_unavailable",
+        "native_fee_unavailable"
+      ]
+    },
+    {
+      "action_type": "compounded",
+      "automation_fee_usd": {
+        "reason": "native_fee_unavailable",
+        "source": null,
+        "usd": null
+      },
+      "automation_fees": [
+        {
+          "decimals": 18,
+          "raw_amount": 2761859427678991930,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "automation_payment_method": "fee",
+      "chain_id": 1,
+      "effective_automation_fee_rate": null,
+      "gas_account_debit_native": null,
+      "gas_account_debit_usd": {
+        "reason": null,
+        "source": "none",
+        "usd": "0"
+      },
+      "gross_claim_usd": {
+        "reason": "native_claim_unavailable",
+        "source": null,
+        "usd": null
+      },
+      "gross_claims": [
+        {
+          "decimals": 18,
+          "raw_amount": 153436634871055107226,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "lp_additions": [
+        {
+          "decimals": 18,
+          "raw_amount": 269803301529586295801,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "net_compound_usd": {
+        "reason": null,
+        "source": "defillama:batchHistorical",
+        "usd": "102.5439925446858541280119605"
+      },
+      "network_gas_native": "0.000055908875038566",
+      "network_gas_payer": "0xb0bada5d45d939a03c6d211d24a61a4418d7cd13",
+      "recipient_position_ids": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "source_position_ids": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "timestamp": "2026-10-03T14:11:11Z",
+      "transaction_hash": "0x690317839c703298fc9446a962fa7107c86152b5738ad268bde7b13f2a2286e7",
+      "warnings": [
+        "native_claim_unavailable",
+        "native_fee_unavailable"
+      ]
+    },
+    {
+      "action_type": "compounded",
+      "automation_fee_usd": {
+        "reason": "native_fee_unavailable",
+        "source": null,
+        "usd": null
+      },
+      "automation_fees": [
+        {
+          "decimals": 18,
+          "raw_amount": 1349108552185715165,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "automation_payment_method": null,
+      "chain_id": 1,
+      "effective_automation_fee_rate": null,
+      "gas_account_debit_native": null,
+      "gas_account_debit_usd": {
+        "reason": null,
+        "source": "none",
+        "usd": "0"
+      },
+      "gross_claim_usd": {
+        "reason": "native_claim_unavailable",
+        "source": null,
+        "usd": null
+      },
+      "gross_claims": [
+        {
+          "decimals": 18,
+          "raw_amount": 149900950242857240585,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "lp_additions": [
+        {
+          "decimals": 18,
+          "raw_amount": 3529955058449672,
+          "symbol": "ETH",
+          "token_address": "0x0000000000000000000000000000000000000000"
+        },
+        {
+          "decimals": 18,
+          "raw_amount": 284732973291841119728,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "net_compound_usd": {
+        "reason": null,
+        "source": "defillama:batchHistorical",
+        "usd": "126.5921008562965692819405766"
+      },
+      "network_gas_native": "0.000190202108379192",
+      "network_gas_payer": "0x330d2a845d2df4e329034d72719c7c53f9c1f87a",
+      "recipient_position_ids": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "source_position_ids": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "timestamp": "2026-10-06T05:47:47Z",
+      "transaction_hash": "0xfccfa853b8926f05f39ee54e857bf2623b6b5fe04437bfb8e794773edc196780",
+      "warnings": [
+        "native_claim_unavailable",
+        "native_fee_unavailable"
+      ]
+    }
+  ],
+  "days": [
+    {
+      "automation_fee_usd": "0",
+      "average_capital_usd": "5260.3712734522155",
+      "capital_coverage": "1",
+      "claim_transaction_count": 0,
+      "cumulative_pnl_is_estimated": false,
+      "cumulative_pnl_usd": "308.1681295650196",
+      "daily_pnl_is_estimated": false,
+      "daily_pnl_usd": "-168.1310683017755",
+      "daily_position_value_change_is_estimated": false,
+      "daily_position_value_change_usd": "-168.131068301776",
+      "day": "2026-10-07",
+      "gas_account_debit_usd": "0",
+      "gross_claim_usd": "0",
+      "net_claim_usd": "0",
+      "net_compound_usd": "0",
+      "pnl_is_estimated": false,
+      "position_value_is_estimated": false,
+      "position_value_usd": "5228.742011350896",
+      "realized_apr_percent": "0E-10",
+      "reasons": [],
+      "reward_amounts": [],
+      "status": "partial"
+    },
+    {
+      "automation_fee_usd": null,
+      "average_capital_usd": "5394.275964858676895833333333",
+      "capital_coverage": "1",
+      "claim_transaction_count": 1,
+      "cumulative_pnl_is_estimated": false,
+      "cumulative_pnl_usd": "476.2991978667951",
+      "daily_pnl_is_estimated": false,
+      "daily_pnl_usd": "105.3762054621575",
+      "daily_position_value_change_is_estimated": false,
+      "daily_position_value_change_usd": "104.956713642237",
+      "day": "2026-10-06",
+      "gas_account_debit_usd": "0",
+      "gross_claim_usd": null,
+      "net_claim_usd": null,
+      "net_compound_usd": "126.5921008562965692819405766",
+      "pnl_is_estimated": false,
+      "position_value_is_estimated": false,
+      "position_value_usd": "5396.873079652672",
+      "realized_apr_percent": null,
+      "reasons": [
+        "gross_claim_usd_unavailable",
+        "automation_fee_usd_unavailable",
+        "native_claim_unavailable",
+        "native_fee_unavailable"
+      ],
+      "reward_amounts": [
+        {
+          "decimals": 18,
+          "raw_amount": 149900950242857240585,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "status": "complete"
+    },
+    {
+      "automation_fee_usd": "0",
+      "average_capital_usd": "5221.559354438530625",
+      "capital_coverage": "1",
+      "claim_transaction_count": 0,
+      "cumulative_pnl_is_estimated": false,
+      "cumulative_pnl_usd": "370.9229924046376",
+      "daily_pnl_is_estimated": false,
+      "daily_pnl_usd": "-89.70307886895446",
+      "daily_position_value_change_is_estimated": false,
+      "daily_position_value_change_usd": "-89.703078868954",
+      "day": "2026-10-05",
+      "gas_account_debit_usd": "0",
+      "gross_claim_usd": "0",
+      "net_claim_usd": "0",
+      "net_compound_usd": "0",
+      "pnl_is_estimated": false,
+      "position_value_is_estimated": false,
+      "position_value_usd": "5291.916366010435",
+      "realized_apr_percent": "0E+15",
+      "reasons": [],
+      "reward_amounts": [],
+      "status": "complete"
+    },
+    {
+      "automation_fee_usd": "0",
+      "average_capital_usd": "5249.101887593826020833333333",
+      "capital_coverage": "1",
+      "claim_transaction_count": 0,
+      "cumulative_pnl_is_estimated": false,
+      "cumulative_pnl_usd": "460.62607127359206",
+      "daily_pnl_is_estimated": false,
+      "daily_pnl_usd": "453.5102096655364215",
+      "daily_position_value_change_is_estimated": false,
+      "daily_position_value_change_usd": "453.510209665536",
+      "day": "2026-10-04",
+      "gas_account_debit_usd": "0",
+      "gross_claim_usd": "0",
+      "net_claim_usd": "0",
+      "net_compound_usd": "0",
+      "pnl_is_estimated": false,
+      "position_value_is_estimated": false,
+      "position_value_usd": "5381.619444879389",
+      "realized_apr_percent": "0E+24",
+      "reasons": [],
+      "reward_amounts": [],
+      "status": "complete"
+    },
+    {
+      "automation_fee_usd": null,
+      "average_capital_usd": "4843.597993294679520833333333",
+      "capital_coverage": "1",
+      "claim_transaction_count": 1,
+      "cumulative_pnl_is_estimated": false,
+      "cumulative_pnl_usd": "7.1158616080556385",
+      "daily_pnl_is_estimated": false,
+      "daily_pnl_usd": "-71.5772925682513215",
+      "daily_position_value_change_is_estimated": false,
+      "daily_position_value_change_usd": "-81.611923624493",
+      "day": "2026-10-03",
+      "gas_account_debit_usd": "0",
+      "gross_claim_usd": null,
+      "net_claim_usd": null,
+      "net_compound_usd": "102.5439925446858541280119605",
+      "pnl_is_estimated": false,
+      "position_value_is_estimated": false,
+      "position_value_usd": "4928.109235213853",
+      "realized_apr_percent": null,
+      "reasons": [
+        "gross_claim_usd_unavailable",
+        "automation_fee_usd_unavailable",
+        "native_claim_unavailable",
+        "native_fee_unavailable"
+      ],
+      "reward_amounts": [
+        {
+          "decimals": 18,
+          "raw_amount": 153436634871055107226,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "status": "complete"
+    },
+    {
+      "automation_fee_usd": "0",
+      "average_capital_usd": "5089.1818508252386875",
+      "capital_coverage": "1",
+      "claim_transaction_count": 0,
+      "cumulative_pnl_is_estimated": false,
+      "cumulative_pnl_usd": "78.69315417630696",
+      "daily_pnl_is_estimated": false,
+      "daily_pnl_usd": "77.6953787642014486",
+      "daily_position_value_change_is_estimated": false,
+      "daily_position_value_change_usd": "77.695378764201",
+      "day": "2026-10-02",
+      "gas_account_debit_usd": "0",
+      "gross_claim_usd": "0",
+      "net_claim_usd": "0",
+      "net_compound_usd": "0",
+      "pnl_is_estimated": false,
+      "position_value_is_estimated": false,
+      "position_value_usd": "5009.721158838346",
+      "realized_apr_percent": "0E+16",
+      "reasons": [],
+      "reward_amounts": [],
+      "status": "complete"
+    },
+    {
+      "automation_fee_usd": null,
+      "average_capital_usd": "4974.0006749819179375",
+      "capital_coverage": "1",
+      "claim_transaction_count": 1,
+      "cumulative_pnl_is_estimated": false,
+      "cumulative_pnl_usd": "0.9977754121055114",
+      "daily_pnl_is_estimated": false,
+      "daily_pnl_usd": "254.0900025696200814",
+      "daily_position_value_change_is_estimated": false,
+      "daily_position_value_change_usd": "253.611482066649",
+      "day": "2026-10-01",
+      "gas_account_debit_usd": "0",
+      "gross_claim_usd": null,
+      "net_claim_usd": null,
+      "net_compound_usd": "141.6558513801754449580853055",
+      "pnl_is_estimated": false,
+      "position_value_is_estimated": false,
+      "position_value_usd": "4932.025780074145",
+      "realized_apr_percent": null,
+      "reasons": [
+        "gross_claim_usd_unavailable",
+        "automation_fee_usd_unavailable",
+        "native_claim_unavailable",
+        "native_fee_unavailable"
+      ],
+      "reward_amounts": [
+        {
+          "decimals": 18,
+          "raw_amount": 178147014445389557455,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "status": "complete"
+    },
+    {
+      "automation_fee_usd": "0",
+      "average_capital_usd": "4677.687091097315770833333333",
+      "capital_coverage": "1",
+      "claim_transaction_count": 0,
+      "cumulative_pnl_is_estimated": false,
+      "cumulative_pnl_usd": "-253.09222715751457",
+      "daily_pnl_is_estimated": false,
+      "daily_pnl_usd": "-19.34413229195161",
+      "daily_position_value_change_is_estimated": false,
+      "daily_position_value_change_usd": "-19.344132291951",
+      "day": "2026-09-30",
+      "gas_account_debit_usd": "0",
+      "gross_claim_usd": "0",
+      "net_claim_usd": "0",
+      "net_compound_usd": "0",
+      "pnl_is_estimated": false,
+      "position_value_is_estimated": false,
+      "position_value_usd": "4678.414298007496",
+      "realized_apr_percent": "0E+24",
+      "reasons": [],
+      "reward_amounts": [],
+      "status": "complete"
+    },
+    {
+      "automation_fee_usd": "0",
+      "average_capital_usd": "4638.539658144464125",
+      "capital_coverage": "1",
+      "claim_transaction_count": 0,
+      "cumulative_pnl_is_estimated": false,
+      "cumulative_pnl_usd": "-233.74809486556296",
+      "daily_pnl_is_estimated": false,
+      "daily_pnl_usd": "221.76526475400169",
+      "daily_position_value_change_is_estimated": false,
+      "daily_position_value_change_usd": "221.765264754001",
+      "day": "2026-09-29",
+      "gas_account_debit_usd": "0",
+      "gross_claim_usd": "0",
+      "net_claim_usd": "0",
+      "net_compound_usd": "0",
+      "pnl_is_estimated": false,
+      "position_value_is_estimated": false,
+      "position_value_usd": "4697.758430299447",
+      "realized_apr_percent": "0E+15",
+      "reasons": [],
+      "reward_amounts": [],
+      "status": "complete"
+    },
+    {
+      "automation_fee_usd": "0",
+      "average_capital_usd": "4767.379466615021270833333333",
+      "capital_coverage": "1",
+      "claim_transaction_count": 0,
+      "cumulative_pnl_is_estimated": false,
+      "cumulative_pnl_usd": "-455.51335961956465",
+      "daily_pnl_is_estimated": false,
+      "daily_pnl_usd": "-430.110032943665825",
+      "daily_position_value_change_is_estimated": false,
+      "daily_position_value_change_usd": "-430.1100329436655",
+      "day": "2026-09-28",
+      "gas_account_debit_usd": "0",
+      "gross_claim_usd": "0",
+      "net_claim_usd": "0",
+      "net_compound_usd": "0",
+      "pnl_is_estimated": false,
+      "position_value_is_estimated": false,
+      "position_value_usd": "4475.993165545446",
+      "realized_apr_percent": "0E+24",
+      "reasons": [],
+      "reward_amounts": [],
+      "status": "complete"
+    },
+    {
+      "automation_fee_usd": null,
+      "average_capital_usd": "5064.699095864216583333333333",
+      "capital_coverage": "1",
+      "claim_transaction_count": 1,
+      "cumulative_pnl_is_estimated": false,
+      "cumulative_pnl_usd": "-25.403326675898825",
+      "daily_pnl_is_estimated": false,
+      "daily_pnl_usd": "-95.250410088357055",
+      "daily_position_value_change_is_estimated": false,
+      "daily_position_value_change_usd": "-95.6741906072035",
+      "day": "2026-09-27",
+      "gas_account_debit_usd": "0",
+      "gross_claim_usd": null,
+      "net_claim_usd": null,
+      "net_compound_usd": "45.14056773399867297876596901",
+      "pnl_is_estimated": false,
+      "position_value_is_estimated": false,
+      "position_value_usd": "4906.1031984891115",
+      "realized_apr_percent": null,
+      "reasons": [
+        "gross_claim_usd_unavailable",
+        "automation_fee_usd_unavailable",
+        "native_claim_unavailable",
+        "native_fee_unavailable"
+      ],
+      "reward_amounts": [
+        {
+          "decimals": 18,
+          "raw_amount": 54283553970900230193,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "status": "complete"
+    },
+    {
+      "automation_fee_usd": null,
+      "average_capital_usd": "5125.4909737813551875",
+      "capital_coverage": "1",
+      "claim_transaction_count": 1,
+      "cumulative_pnl_is_estimated": false,
+      "cumulative_pnl_usd": "69.84708341245823",
+      "daily_pnl_is_estimated": false,
+      "daily_pnl_usd": "-155.48973922224923",
+      "daily_position_value_change_is_estimated": false,
+      "daily_position_value_change_usd": "-156.373217681214",
+      "day": "2026-09-26",
+      "gas_account_debit_usd": "0",
+      "gross_claim_usd": null,
+      "net_claim_usd": null,
+      "net_compound_usd": "94.55518627830416811561723224",
+      "pnl_is_estimated": false,
+      "position_value_is_estimated": false,
+      "position_value_usd": "5001.777389096315",
+      "realized_apr_percent": null,
+      "reasons": [
+        "gross_claim_usd_unavailable",
+        "automation_fee_usd_unavailable",
+        "native_claim_unavailable",
+        "native_fee_unavailable"
+      ],
+      "reward_amounts": [
+        {
+          "decimals": 18,
+          "raw_amount": 117750246429952785306,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "status": "complete"
+    },
+    {
+      "automation_fee_usd": null,
+      "average_capital_usd": "5146.6328333834570",
+      "capital_coverage": "1",
+      "claim_transaction_count": 1,
+      "cumulative_pnl_is_estimated": false,
+      "cumulative_pnl_usd": "225.33682263470746",
+      "daily_pnl_is_estimated": false,
+      "daily_pnl_usd": "-144.88153558855720",
+      "daily_position_value_change_is_estimated": false,
+      "daily_position_value_change_usd": "-145.687632197483",
+      "day": "2026-09-25",
+      "gas_account_debit_usd": "0",
+      "gross_claim_usd": null,
+      "net_claim_usd": null,
+      "net_compound_usd": "206.2089573519433037810379047",
+      "pnl_is_estimated": false,
+      "position_value_is_estimated": false,
+      "position_value_usd": "5158.150606777529",
+      "realized_apr_percent": null,
+      "reasons": [
+        "gross_claim_usd_unavailable",
+        "automation_fee_usd_unavailable",
+        "native_claim_unavailable",
+        "native_fee_unavailable"
+      ],
+      "reward_amounts": [
+        {
+          "decimals": 18,
+          "raw_amount": 250175301936019446169,
+          "symbol": "DRV",
+          "token_address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"
+        }
+      ],
+      "status": "complete"
+    },
+    {
+      "automation_fee_usd": "0",
+      "average_capital_usd": "5303.838238975012",
+      "capital_coverage": "1",
+      "claim_transaction_count": 0,
+      "cumulative_pnl_is_estimated": false,
+      "cumulative_pnl_usd": "370.21835822326466",
+      "daily_pnl_is_estimated": false,
+      "daily_pnl_usd": "0E-14",
+      "daily_position_value_change_is_estimated": false,
+      "daily_position_value_change_usd": "0E-12",
+      "day": "2026-09-24",
+      "gas_account_debit_usd": "0",
+      "gross_claim_usd": "0",
+      "net_claim_usd": "0",
+      "net_compound_usd": "0",
+      "pnl_is_estimated": false,
+      "position_value_is_estimated": false,
+      "position_value_usd": "5303.838238975012",
+      "realized_apr_percent": "0E+12",
+      "reasons": [],
+      "reward_amounts": [],
+      "status": "complete"
+    }
+  ],
+  "diagnostics": {
+    "reasons": [],
+    "rpc_endpoints": [
+      "https://ethereum-rpc.publicnode.com",
+      "https://eth.llamarpc.com"
+    ],
+    "warnings": []
+  }
+}

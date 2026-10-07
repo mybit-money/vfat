@@ -1,0 +1,95 @@
+{
+  "source": "DefiLlama batchHistorical captured 2026-10-07; historical provider quotes, not synthetic.",
+  "requests": {
+    "ethereum:0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2": [
+      1790314451,
+      1790394335,
+      1790478683,
+      1790833355,
+      1791036671,
+      1791265667
+    ],
+    "ethereum:0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be": [
+      1790314451,
+      1790394335,
+      1790478683,
+      1790833355,
+      1791036671,
+      1791265667
+    ]
+  },
+  "response": {
+    "coins": {
+      "ethereum:0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2": {
+        "symbol": "WETH",
+        "prices": [
+          {
+            "timestamp": 1790314480,
+            "price": 2678.4450369651076,
+            "confidence": 0.99
+          },
+          {
+            "timestamp": 1790394340,
+            "price": 2689.3619241749334,
+            "confidence": 0.99
+          },
+          {
+            "timestamp": 1790478710,
+            "price": 2699.0526530944803,
+            "confidence": 0.99
+          },
+          {
+            "timestamp": 1790833370,
+            "price": 2715.942590703574,
+            "confidence": 0.99
+          },
+          {
+            "timestamp": 1791036650,
+            "price": 2679.9292216021317,
+            "confidence": 0.99
+          },
+          {
+            "timestamp": 1791265670,
+            "price": 2701.626270807548,
+            "confidence": 0.99
+          }
+        ]
+      },
+      "ethereum:0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be": {
+        "symbol": "DRV",
+        "prices": [
+          {
+            "timestamp": 1790314300,
+            "price": 0.43521881717999567,
+            "confidence": 0.99
+          },
+          {
+            "timestamp": 1790394400,
+            "price": 0.43332683481778533,
+            "confidence": 0.99
+          },
+          {
+            "timestamp": 1790479000,
+            "price": 0.43135130582833997,
+            "confidence": 0.99
+          },
+          {
+            "timestamp": 1790833590,
+            "price": 0.41494211031246414,
+            "confidence": 0.99
+          },
+          {
+            "timestamp": 1791037010,
+            "price": 0.38006945046015683,
+            "confidence": 0.99
+          },
+          {
+            "timestamp": 1791265610,
+            "price": 0.41110616793806054,
+            "confidence": 0.99
+          }
+        ]
+      }
+    }
+  }
+}
