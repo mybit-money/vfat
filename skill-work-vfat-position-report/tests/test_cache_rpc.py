@@ -27,6 +27,37 @@ class MutableClock:
 
 
 class CacheRpcTests(unittest.TestCase):
+    def test_same_chain_protocols_isolate_receipts_prices_and_legacy_fallback(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            legacy = ReportCache(root, 999, WALLET)
+            legacy.put_receipt(TX_HASH, {"owner": "legacy"})
+            legacy.put_snapshot("price_abc_123", {"priceUsd": "2"})
+            nest = ReportCache(root, 999, WALLET, adapter_key=AdapterKey(999, "nest"))
+            other = ReportCache(root, 999, WALLET, adapter_key=AdapterKey(999, "other"),
+                                legacy_read_root=legacy.root)
+            foreign_nest = ReportCache(root, 1, WALLET, adapter_key=AdapterKey(1, "nest"),
+                                       legacy_read_root=legacy.root)
+            self.assertEqual(nest.get_receipt(TX_HASH), {"owner": "legacy"})
+            self.assertEqual(nest.get_snapshot("price_abc_123"), {"priceUsd": "2"})
+            for isolated in (other, foreign_nest):
+                self.assertIsNone(isolated.get_receipt(TX_HASH))
+                self.assertTrue(isolated.receipt_needs_fetch(TX_HASH))
+                self.assertIsNone(isolated.get_snapshot("price_abc_123"))
+
+            nest.put_receipt(TX_HASH, {"owner": "nest"})
+            nest.put_snapshot("price_abc_123", {"priceUsd": "3"})
+            self.assertIsNone(other.get_receipt(TX_HASH))
+            self.assertIsNone(other.get_snapshot("price_abc_123"))
+            other.put_receipt(TX_HASH, {"owner": "other"})
+            other.put_snapshot("price_abc_123", {"priceUsd": "4"})
+            self.assertEqual(nest.get_receipt(TX_HASH), {"owner": "nest"})
+            self.assertEqual(nest.get_snapshot("price_abc_123"), {"priceUsd": "3"})
+            self.assertEqual(other.get_receipt(TX_HASH), {"owner": "other"})
+            self.assertEqual(other.get_snapshot("price_abc_123"), {"priceUsd": "4"})
+            self.assertEqual(legacy.get_receipt(TX_HASH), {"owner": "legacy"})
+            self.assertEqual(legacy.get_snapshot("price_abc_123"), {"priceUsd": "2"})
+
     def test_adapter_cache_rejects_unsafe_or_mismatched_namespace(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

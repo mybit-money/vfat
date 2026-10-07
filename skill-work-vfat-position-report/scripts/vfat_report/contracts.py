@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import re
-from dataclasses import asdict, dataclass, is_dataclass
+from dataclasses import dataclass, field, fields, is_dataclass
 from datetime import date, datetime, time, timedelta, timezone
 from decimal import Decimal
 from pathlib import Path
@@ -70,6 +70,9 @@ class Valuation:
     usd: Decimal | None
     source: str | None = None
     reason: str | None = None
+    # Internal adapter contract: prices cannot complete missing amount evidence.
+    # Keep schema 1.0's public USD/source/reason representation unchanged.
+    evidence_complete: bool = field(default=True, metadata={"serialize": False})
 
 
 @dataclass(frozen=True)
@@ -214,6 +217,9 @@ def load_report_input(
 
     positions: list[PositionInput] = []
     for index, item in enumerate(payload.get("positions", [])):
+        root_token_id = item.get("positionRootTokenId")
+        if root_token_id is not None and not isinstance(root_token_id, str):
+            raise ValueError(f"positions[{index}].positionRootTokenId must be a string or null")
         active_from = (
             _timestamp(item["activeFrom"], f"positions[{index}].activeFrom")
             if item.get("activeFrom")
@@ -243,7 +249,7 @@ def load_report_input(
                 active_from=active_from,
                 active_to=active_to,
                 metadata=item.get("metadata"),
-                position_root_token_id=item.get("positionRootTokenId"),
+                position_root_token_id=root_token_id,
             )
         )
 
@@ -385,7 +391,10 @@ def _merge_history_payloads(
 
 def _json_value(value: Any) -> Any:
     if is_dataclass(value):
-        return {key: _json_value(item) for key, item in asdict(value).items()}
+        return {
+            item.name: _json_value(getattr(value, item.name))
+            for item in fields(value) if item.metadata.get("serialize", True)
+        }
     if isinstance(value, Mapping):
         return {str(key): _json_value(item) for key, item in value.items()}
     if isinstance(value, (tuple, list)):

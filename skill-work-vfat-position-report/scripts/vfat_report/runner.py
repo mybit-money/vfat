@@ -126,40 +126,30 @@ def run(arguments: Namespace) -> int:
 
 
 def _annotate_unavailable(report: Report, unsupported: bool) -> Report:
-    explicit_reasons = {
-        "chain_protocol_unsupported", "receipt_unavailable",
-        "native_claim_unavailable", "claim_principal_separation_unavailable",
-        "native_fee_unavailable",
-        "fee_attribution_ambiguous", "pool_identity_mismatch",
-        "unknown_token_decimals",
-    }
+    metrics = ("gross_claim_usd", "automation_fee_usd", "net_compound_usd",
+               "gas_account_debit_usd")
     reasons_by_day: dict[date, set[str]] = {}
+    blocked_by_day: dict[date, set[str]] = {}
     non_claim_blocked_days: set[date] = set()
+    start = report.input_summary["from"].astimezone(timezone.utc)
+    end = report.input_summary["to"].astimezone(timezone.utc)
     for transaction in report.transactions:
-        action = transaction.action_type.strip().lower().replace("-", "_")
-        transaction_reasons: set[str] = set()
-        for valuation in (
-            transaction.gross_claim_usd, transaction.automation_fee_usd,
-            transaction.net_compound_usd, transaction.gas_account_debit_usd,
-        ):
-            if valuation.reason in explicit_reasons:
-                transaction_reasons.add(valuation.reason)
-        transaction_reasons.update(
-            warning for warning in transaction.warnings
-            if warning in explicit_reasons
-        )
-        if any(
-            warning.startswith("unknown_token_decimals:")
-            for warning in transaction.warnings
-        ):
-            transaction_reasons.add("unknown_token_decimals")
-        if not transaction_reasons:
+        timestamp = transaction.timestamp.astimezone(timezone.utc)
+        if not start <= timestamp < end:
             continue
-        reasons_by_day.setdefault(transaction.timestamp.date(), set()).update(
-            transaction_reasons
+        action = transaction.action_type.strip().lower().replace("-", "_")
+        blocked = {
+            metric: getattr(transaction, metric) for metric in metrics
+            if not getattr(transaction, metric).evidence_complete
+        }
+        if not blocked:
+            continue
+        blocked_by_day.setdefault(timestamp.date(), set()).update(blocked)
+        reasons_by_day.setdefault(timestamp.date(), set()).update(
+            valuation.reason or "evidence_unavailable" for valuation in blocked.values()
         )
         if action not in CLAIM_ACTIONS:
-            non_claim_blocked_days.add(transaction.timestamp.date())
+            non_claim_blocked_days.add(timestamp.date())
     days = []
     for day in report.days:
         reasons = set(reasons_by_day.get(day.day, ()))
@@ -169,8 +159,11 @@ def _annotate_unavailable(report: Report, unsupported: bool) -> Report:
             days.append(day)
             continue
         changes = {"reasons": tuple(dict.fromkeys((*day.reasons, *sorted(reasons))))}
-        if reasons & explicit_reasons:
-            changes["realized_apr_percent"] = None
+        changes["realized_apr_percent"] = None
+        blocked_metrics = blocked_by_day.get(day.day, set())
+        changes.update({metric: None for metric in blocked_metrics})
+        if blocked_metrics & {"gross_claim_usd", "automation_fee_usd", "gas_account_debit_usd"}:
+            changes["net_claim_usd"] = None
         if day.day in non_claim_blocked_days:
             changes.update(
                 gross_claim_usd=None, net_compound_usd=None,

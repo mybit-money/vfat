@@ -39,7 +39,7 @@ class AdapterResolutionError(ValueError):
 def unavailable_transaction(
     activity: MergedActivity, reason: str
 ) -> DecodedTransaction:
-    unavailable = Valuation(None, reason=reason)
+    unavailable = Valuation(None, reason=reason, evidence_complete=False)
     return DecodedTransaction(
         chain_id=activity.chain_id,
         transaction_hash=activity.transaction_hash,

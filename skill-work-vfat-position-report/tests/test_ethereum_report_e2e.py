@@ -81,6 +81,16 @@ class EthereumReportEndToEndTests(unittest.TestCase):
         self.maxDiff = None
         self.assertEqual(stable_snapshot(self.report), expected)
 
+    def test_output_keeps_schema_wallet_adapter_filters_and_period_identity(self):
+        self.assertEqual(self.report["schemaVersion"], "1.0")
+        summary = self.report["inputSummary"]
+        self.assertEqual(summary["wallet"], "0x330d2a845d2df4e329034d72719c7c53f9c1f87a")
+        self.assertEqual(summary["chainIds"], [1])
+        self.assertEqual(summary["protocols"], ["uniswap"])
+        self.assertEqual(summary["from"], "2026-09-24T00:00:00Z")
+        self.assertEqual(summary["to"], "2026-10-07T09:00:00Z")
+        self.assertEqual(self.report["generatedAt"], "2026-10-07T09:00:00Z")
+
     def test_all_six_compounds_keep_one_lineage_and_current_nft(self):
         source = json.loads((FIXTURES / "input-14d.json").read_text())
         parsed = load_report_input(FIXTURES / "input-14d.json")

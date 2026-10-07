@@ -60,6 +60,14 @@ class ContractTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "period.from.*timezone"):
                 load_report_input(path)
 
+    def test_explicit_null_lineage_root_is_accepted(self) -> None:
+        payload = json.loads((FIXTURES / "minimal-input.json").read_text())
+        payload["positions"][0]["positionRootTokenId"] = None
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / "input.json"
+            path.write_text(json.dumps(payload))
+            self.assertIsNone(load_report_input(path).positions[0].position_root_token_id)
+
     def test_loads_ethereum_v4_lineage_without_replacing_current_token_id(self) -> None:
         payload = json.loads((FIXTURES / "minimal-input.json").read_text(encoding="utf-8"))
         root = "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"

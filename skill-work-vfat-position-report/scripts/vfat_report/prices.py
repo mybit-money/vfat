@@ -160,19 +160,18 @@ def collect_price_requests(
 ) -> tuple[tuple[str, datetime], ...]:
     requests: set[tuple[str, datetime]] = set()
     for transaction in transactions:
-        unknown_tokens = {
-            warning.removeprefix("unknown_token_decimals:")
-            for warning in transaction.warnings
-            if warning.startswith("unknown_token_decimals:")
-        }
-        for amount in (
-            *transaction.gross_claims,
-            *transaction.automation_fees,
-            *transaction.lp_additions,
+        for amounts, valuation in (
+            (transaction.gross_claims, transaction.gross_claim_usd),
+            (transaction.automation_fees, transaction.automation_fee_usd),
+            (transaction.lp_additions, transaction.net_compound_usd),
         ):
-            if amount.token_address.lower() not in unknown_tokens:
+            if not valuation.evidence_complete:
+                continue
+            for amount in amounts:
                 requests.add((price_token_resolver(amount.token_address).lower(), transaction.timestamp))
-        if getattr(transaction, "gas_account_debit_native", None) is not None and native_price_token:
+        if (transaction.gas_account_debit_usd.evidence_complete
+                and getattr(transaction, "gas_account_debit_native", None) is not None
+                and native_price_token):
             requests.add((price_token_resolver(native_price_token).lower(), transaction.timestamp))
     return tuple(sorted(requests, key=lambda item: (item[1], item[0])))
 
@@ -185,10 +184,13 @@ def value_transaction(
     price_token_resolver: Callable[[str], str],
 ) -> NormalizedTransaction:
     timestamp = _unix_timestamp(transaction.timestamp)
+    gross = transaction.gross_claim_usd
+    fee = transaction.automation_fee_usd
+    net = transaction.net_compound_usd
     gross = _value_amounts(
         transaction.gross_claims, quotes, timestamp, "historical_reward_usd_unavailable",
         price_token_resolver=price_token_resolver,
-    )
+    ) if gross.evidence_complete else gross
     fee = _value_amounts(
         transaction.automation_fees,
         quotes,
@@ -196,35 +198,13 @@ def value_transaction(
         "automation_fee_usd_unavailable",
         price_token_resolver=price_token_resolver,
         empty_is_zero=True,
-    )
+    ) if fee.evidence_complete else fee
     net = _value_amounts(
         transaction.lp_additions, quotes, timestamp, "historical_lp_usd_unavailable",
         price_token_resolver=price_token_resolver,
-    )
-    unknown_tokens = {
-        warning.removeprefix("unknown_token_decimals:")
-        for warning in transaction.warnings
-        if warning.startswith("unknown_token_decimals:")
-    }
-    if any(amount.token_address.lower() in unknown_tokens for amount in transaction.gross_claims):
-        gross = Valuation(None, reason="unknown_token_decimals")
-    if any(amount.token_address.lower() in unknown_tokens for amount in transaction.automation_fees):
-        fee = Valuation(None, reason="unknown_token_decimals")
-    if any(amount.token_address.lower() in unknown_tokens for amount in transaction.lp_additions):
-        net = Valuation(None, reason="unknown_token_decimals")
-    blocking_reasons = {
-        "native_claim_unavailable", "claim_principal_separation_unavailable",
-        "native_fee_unavailable", "lp_settlement_unavailable",
-        "fee_attribution_ambiguous", "pool_identity_mismatch",
-    }
-    if transaction.gross_claim_usd.reason in blocking_reasons:
-        gross = transaction.gross_claim_usd
-    if transaction.automation_fee_usd.reason in blocking_reasons:
-        fee = transaction.automation_fee_usd
-    if transaction.net_compound_usd.reason in blocking_reasons:
-        net = transaction.net_compound_usd
+    ) if net.evidence_complete else net
     gas_native = getattr(transaction, "gas_account_debit_native", None)
-    if gas_native is None:
+    if not transaction.gas_account_debit_usd.evidence_complete or gas_native is None:
         gas = transaction.gas_account_debit_usd
     elif not native_price_token:
         gas = Valuation(None, reason="native_price_token_unavailable")

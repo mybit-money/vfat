@@ -256,20 +256,28 @@ class EthereumUniswapV4Adapter:
             return tuple(result)
 
         gross_amounts, fee_amounts, lp_amounts = amounts(gross), amounts(fees), amounts(lp)
+
+        def valuation(values, reason, *, evidence_complete=True):
+            if any(amount.token_address not in profile.tokens for amount in values):
+                return Valuation(None, reason='unknown_token_decimals', evidence_complete=False)
+            return Valuation(None, reason=reason, evidence_complete=evidence_complete)
+
         return DecodedTransaction(
             chain_id=1, transaction_hash=tx_hash, timestamp=activity.timestamp,
             action_type=activity.action_type, source_position_ids=activity.source_position_ids,
             recipient_position_ids=activity.recipient_position_ids,
             automation_payment_method=activity.automation_payment_method,
             gross_claims=gross_amounts, automation_fees=fee_amounts, lp_additions=lp_amounts,
-            gross_claim_usd=Valuation(None, reason='claim_principal_separation_unavailable'
-                                    if 'claim_principal_separation_unavailable' in warnings else 'native_claim_unavailable'),
-            automation_fee_usd=Valuation(None, reason='native_fee_unavailable') if opaque_fee
-                else Valuation(None, reason='historical_reward_usd_unavailable') if fees
+            gross_claim_usd=valuation(gross_amounts, 'claim_principal_separation_unavailable'
+                if 'claim_principal_separation_unavailable' in warnings else 'native_claim_unavailable',
+                evidence_complete=False),
+            automation_fee_usd=valuation(fee_amounts, 'native_fee_unavailable', evidence_complete=False) if opaque_fee
+                else valuation(fee_amounts, 'historical_reward_usd_unavailable') if fees
                 else Valuation(Decimal(0), source='receipt_no_matching_fee_transfer'),
-            net_compound_usd=Valuation(None, reason='claim_principal_separation_unavailable'
+            net_compound_usd=valuation(lp_amounts, 'claim_principal_separation_unavailable'
                 if 'claim_principal_separation_unavailable' in warnings
-                else 'lp_settlement_unavailable' if incomplete_lp else 'historical_lp_usd_unavailable'),
+                else 'lp_settlement_unavailable' if incomplete_lp else 'historical_lp_usd_unavailable',
+                evidence_complete=not (incomplete_lp or 'claim_principal_separation_unavailable' in warnings)),
             network_gas_native=Decimal(_hex_int(receipt.get('gasUsed','0x0')) *
                                        _hex_int(receipt.get('effectiveGasPrice','0x0'))) / Decimal(10**18),
             network_gas_payer=str(receipt.get('from', '')).lower() or None,
