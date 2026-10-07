@@ -103,6 +103,7 @@ Expected decisions:
 
 - Discover positions and performance through VFAT MCP, then collect hourly history with `get_position_performance_history` for chain 1, Sickle `0xfb12aa1f51ba66ef761def09233946a4369b0de6`, and exact root `bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470`.
 - Collect all lineage activity through `get_position_activity`, including the predecessor connection; retain every in-window activity. The pinned September 24–October 7 fixture includes six compounds. Its September 23 rebalance is pre-window lineage evidence, never report-day income.
+- Extend activity collection before `period.from` far enough to establish the predecessor/root link, then include only transactions timestamped inside the requested UTC report window in `activities` for income. Do not stop collection at the report boundary when the root is unverified.
 - Construct schema `1.0` with one stable root-derived `positionId`, the exact `positionRootTokenId`, and current `tokenId` `413473`. Carry the Ethereum manager, zero-hooks PoolKey, PoolManager/pool ID and ETH/DRV underlying metadata from reviewed evidence.
 - Let the runner select `(1, "uniswap_v4")` automatically. Price native ETH through Ethereum WETH and DRV through its Ethereum address. Never use HyperEVM endpoints, token addresses or decoder paths.
 - Preserve observed raw DRV claims/fees and selected-pool LP additions. Receipt-only evidence does not establish native ETH claim/fee amounts: expect `native_claim_unavailable` and `native_fee_unavailable`, with null total claim, fee, net claim and affected APR. A manual action label does not erase an observed fee.
@@ -146,6 +147,7 @@ Prompt: “The Ethereum V4 NFT changed from 413470 to 413473. Treat it as a new 
 Expected decisions:
 
 - Keep `positionId` and `positionRootTokenId` tied to manager/root token 413470; record `tokenId` 413473 as the current NFT. Connect pre-window rebalance evidence without counting its reopened principal as compound income.
+- Query VFAT MCP for the September 23 predecessor rebalance even though the report starts September 24. Use it to establish lineage, but exclude that transaction from period `activities` and report-day claim/compound totals.
 - Require reviewed PoolManager, pool ID, zero-hooks PoolKey, Ethereum manager and ETH/DRV underlying metadata for the supported V4 pool.
 - Preserve observed DRV transfers, selected-pool LP settlement, VFAT capital and PnL. Missing native ETH trace evidence yields `native_claim_unavailable` and `native_fee_unavailable`; total claim, fee, net claim and dependent APR stay null.
 - Resolve transaction-time native ETH to the Ethereum WETH price address and DRV to its Ethereum token address. A missing or stale historical quote leaves dependent USD/APR null; never use current prices, assumed fee rates, or LP movement as a substitute.
