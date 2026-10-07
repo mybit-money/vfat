@@ -34,7 +34,10 @@ def run(arguments: Namespace) -> int:
     if adapter is None:
         raise RuntimeError("HyperEVM NEST adapter is not registered")
     profile = adapter.profile_for_positions(report_input.positions)
-    cache = ReportCache(Path(arguments.cache_dir), profile.chain_id, report_input.wallet)
+    cache = ReportCache(
+        Path(arguments.cache_dir), profile.chain_id, report_input.wallet,
+        adapter_key=adapter.key,
+    )
     activities = merge_position_activity(report_input.activities)
     transactions = []
     warnings: list[str] = []
@@ -55,14 +58,18 @@ def run(arguments: Namespace) -> int:
             base_url=arguments.price_api_base, cache=cache
         )
         price_requests = collect_price_requests(
-            transactions, profile.native_price_token_address
+            transactions, profile.native_price_token_address,
+            price_token_resolver=adapter.normalize_price_token,
         )
-        quotes = price_client.get_quotes(price_requests, chain_id=profile.chain_id)
+        quotes = price_client.get_quotes(
+            price_requests, chain_slug=adapter.price_chain_slug
+        )
         transactions = [
             value_transaction(
                 transaction,
                 quotes,
                 native_price_token=profile.native_price_token_address,
+                price_token_resolver=adapter.normalize_price_token,
             )
             for transaction in transactions
         ]

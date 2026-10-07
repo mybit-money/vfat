@@ -8,9 +8,11 @@ from pathlib import Path
 from typing import Any
 
 from . import CALCULATION_VERSION, INPUT_SCHEMA_VERSION
+from .adapters.base import AdapterKey
 
 
 SAFE_KEY = re.compile(r"^[A-Za-z0-9_.-]+$")
+SAFE_PROTOCOL = re.compile(r"^[A-Za-z][A-Za-z0-9_]*$")
 
 
 class ReportCache:
@@ -20,12 +22,27 @@ class ReportCache:
         chain_id: int,
         wallet: str,
         *,
+        adapter_key: AdapterKey | None = None,
+        legacy_read_root: Path | None = None,
         input_schema_version: str = INPUT_SCHEMA_VERSION,
         calculation_version: str = CALCULATION_VERSION,
         now: Callable[[], datetime] | None = None,
         missing_receipt_ttl: timedelta = timedelta(minutes=5),
     ) -> None:
-        self.root = root / str(chain_id) / wallet.lower()
+        if adapter_key is not None and adapter_key.chain_id != chain_id:
+            raise ValueError("adapter key chain does not match cache chain")
+        if adapter_key is not None and not SAFE_PROTOCOL.fullmatch(adapter_key.protocol_type):
+            raise ValueError("adapter protocol contains unsupported characters")
+        self.root = (
+            root / str(chain_id) / adapter_key.protocol_type / wallet.lower()
+            if adapter_key is not None
+            else root / str(chain_id) / wallet.lower()
+        )
+        self.legacy_read_root = (
+            (legacy_read_root or root / "999" / wallet.lower())
+            if adapter_key == AdapterKey(999, "nest")
+            else None
+        )
         self.input_schema_version = input_schema_version
         self.calculation_version = calculation_version
         self.now = now or (lambda: datetime.now(timezone.utc))
@@ -39,7 +56,7 @@ class ReportCache:
         return self.root / "receipts" / f"0x{key}.json"
 
     def get_receipt(self, tx_hash: str) -> Mapping[str, Any] | None:
-        envelope = self._read(self.receipt_path(tx_hash))
+        envelope = self._receipt_envelope(tx_hash)
         if not envelope or envelope.get("schemaVersion") != self.input_schema_version:
             return None
         if envelope.get("status") != "ok":
@@ -48,8 +65,7 @@ class ReportCache:
         return data if isinstance(data, Mapping) else None
 
     def receipt_needs_fetch(self, tx_hash: str) -> bool:
-        path = self.receipt_path(tx_hash)
-        envelope = self._read(path)
+        envelope = self._receipt_envelope(tx_hash)
         if not envelope or envelope.get("schemaVersion") != self.input_schema_version:
             return True
         if envelope.get("status") == "ok":
@@ -76,6 +92,11 @@ class ReportCache:
 
     def get_snapshot(self, key: str) -> Mapping[str, Any] | None:
         envelope = self._read(self._layer_path("snapshots", key))
+        if envelope is None and key.startswith("price_") and self.legacy_read_root is not None:
+            envelope = self._read(
+                self._layer_path("snapshots", key, root=self.legacy_read_root),
+                quarantine_corrupt=False,
+            )
         if not envelope or envelope.get("schemaVersion") != self.input_schema_version:
             return None
         data = envelope.get("data")
@@ -108,12 +129,21 @@ class ReportCache:
     def should_refresh_day(day: date, today: date) -> bool:
         return day >= today - timedelta(days=2)
 
-    def _layer_path(self, layer: str, key: str) -> Path:
+    def _receipt_envelope(self, tx_hash: str) -> dict[str, Any] | None:
+        envelope = self._read(self.receipt_path(tx_hash))
+        if envelope is None and self.legacy_read_root is not None:
+            envelope = self._read(
+                self.legacy_read_root / "receipts" / self.receipt_path(tx_hash).name,
+                quarantine_corrupt=False,
+            )
+        return envelope
+
+    def _layer_path(self, layer: str, key: str, *, root: Path | None = None) -> Path:
         if not SAFE_KEY.fullmatch(key):
             raise ValueError("cache key contains unsupported characters")
-        return self.root / layer / f"{key}.json"
+        return (root or self.root) / layer / f"{key}.json"
 
-    def _read(self, path: Path) -> dict[str, Any] | None:
+    def _read(self, path: Path, *, quarantine_corrupt: bool = True) -> dict[str, Any] | None:
         if not path.exists():
             return None
         try:
@@ -122,7 +152,8 @@ class ReportCache:
         except (OSError, json.JSONDecodeError):
             suffix = self.now().astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
             quarantine = path.with_name(f"{path.name}.corrupt-{suffix}")
-            path.replace(quarantine)
+            if quarantine_corrupt:
+                path.replace(quarantine)
             self.diagnostics.append(f"corrupt_cache:{path}")
             return None
 

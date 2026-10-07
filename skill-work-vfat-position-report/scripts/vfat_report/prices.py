@@ -14,7 +14,6 @@ from .contracts import NormalizedTransaction, TokenAmount, Valuation
 
 
 DEFAULT_BASE_URL = "https://coins.llama.fi"
-CHAIN_SLUGS = {999: "hyperliquid"}
 Transport = Callable[[str], Mapping[str, Any]]
 
 
@@ -49,13 +48,8 @@ class DefiLlamaPriceClient:
         self,
         requests: Iterable[tuple[str, datetime]],
         *,
-        chain_id: int,
+        chain_slug: str,
     ) -> dict[tuple[str, int], PriceQuote]:
-        chain_slug = CHAIN_SLUGS.get(chain_id)
-        if chain_slug is None:
-            self.diagnostics.append(f"price_chain_unsupported:{chain_id}")
-            return {}
-
         normalized = sorted(
             {
                 (address.lower(), _unix_timestamp(timestamp))
@@ -159,7 +153,10 @@ class DefiLlamaPriceClient:
 
 
 def collect_price_requests(
-    transactions: Iterable[NormalizedTransaction], native_price_token: str | None
+    transactions: Iterable[NormalizedTransaction],
+    native_price_token: str | None,
+    *,
+    price_token_resolver: Callable[[str], str],
 ) -> tuple[tuple[str, datetime], ...]:
     requests: set[tuple[str, datetime]] = set()
     for transaction in transactions:
@@ -168,9 +165,9 @@ def collect_price_requests(
             *transaction.automation_fees,
             *transaction.lp_additions,
         ):
-            requests.add((amount.token_address.lower(), transaction.timestamp))
+            requests.add((price_token_resolver(amount.token_address).lower(), transaction.timestamp))
         if getattr(transaction, "gas_account_debit_native", None) is not None and native_price_token:
-            requests.add((native_price_token.lower(), transaction.timestamp))
+            requests.add((price_token_resolver(native_price_token).lower(), transaction.timestamp))
     return tuple(sorted(requests, key=lambda item: (item[1], item[0])))
 
 
@@ -179,20 +176,24 @@ def value_transaction(
     quotes: Mapping[tuple[str, int], PriceQuote],
     *,
     native_price_token: str | None,
+    price_token_resolver: Callable[[str], str],
 ) -> NormalizedTransaction:
     timestamp = _unix_timestamp(transaction.timestamp)
     gross = _value_amounts(
-        transaction.gross_claims, quotes, timestamp, "historical_reward_usd_unavailable"
+        transaction.gross_claims, quotes, timestamp, "historical_reward_usd_unavailable",
+        price_token_resolver=price_token_resolver,
     )
     fee = _value_amounts(
         transaction.automation_fees,
         quotes,
         timestamp,
         "automation_fee_usd_unavailable",
+        price_token_resolver=price_token_resolver,
         empty_is_zero=True,
     )
     net = _value_amounts(
-        transaction.lp_additions, quotes, timestamp, "historical_lp_usd_unavailable"
+        transaction.lp_additions, quotes, timestamp, "historical_lp_usd_unavailable",
+        price_token_resolver=price_token_resolver,
     )
     gas_native = getattr(transaction, "gas_account_debit_native", None)
     if gas_native is None:
@@ -200,7 +201,7 @@ def value_transaction(
     elif not native_price_token:
         gas = Valuation(None, reason="native_price_token_unavailable")
     else:
-        quote = quotes.get((native_price_token.lower(), timestamp))
+        quote = quotes.get((price_token_resolver(native_price_token).lower(), timestamp))
         gas = (
             Valuation(gas_native * quote.price_usd, source=quote.source)
             if quote
@@ -221,6 +222,7 @@ def _value_amounts(
     timestamp: int,
     missing_reason: str,
     *,
+    price_token_resolver: Callable[[str], str],
     empty_is_zero: bool = False,
 ) -> Valuation:
     items = tuple(amounts)
@@ -233,7 +235,7 @@ def _value_amounts(
     total = Decimal(0)
     sources: set[str] = set()
     for amount in items:
-        quote = quotes.get((amount.token_address.lower(), timestamp))
+        quote = quotes.get((price_token_resolver(amount.token_address).lower(), timestamp))
         if quote is None:
             return Valuation(None, reason=missing_reason)
         total += amount.amount * quote.price_usd

@@ -6,6 +6,7 @@ import unittest
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
+from vfat_report.adapters.base import AdapterKey
 from vfat_report.cache import ReportCache
 from vfat_report.rpc import JsonRpcClient, RateLimiter
 
@@ -26,6 +27,51 @@ class MutableClock:
 
 
 class CacheRpcTests(unittest.TestCase):
+    def test_adapter_cache_rejects_unsafe_or_mismatched_namespace(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            with self.assertRaises(ValueError):
+                ReportCache(root, 999, WALLET, adapter_key=AdapterKey(1, "uniswap_v4"))
+            with self.assertRaises(ValueError):
+                ReportCache(root, 999, WALLET, adapter_key=AdapterKey(999, ".."))
+
+    def test_adapter_cache_roots_isolate_the_same_wallet(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            nest = ReportCache(root, 999, WALLET, adapter_key=AdapterKey(999, "nest"))
+            v4 = ReportCache(root, 1, WALLET, adapter_key=AdapterKey(1, "uniswap_v4"))
+
+            nest.put_receipt(TX_HASH, {"chain": 999})
+            v4.put_receipt(TX_HASH, {"chain": 1})
+
+            self.assertEqual(nest.receipt_path(TX_HASH), root / "999" / "nest" / WALLET / "receipts" / f"{TX_HASH}.json")
+            self.assertEqual(v4.receipt_path(TX_HASH), root / "1" / "uniswap_v4" / WALLET / "receipts" / f"{TX_HASH}.json")
+            self.assertEqual(nest.get_receipt(TX_HASH), {"chain": 999})
+            self.assertEqual(v4.get_receipt(TX_HASH), {"chain": 1})
+
+    def test_only_nest_reads_legacy_receipts_and_price_snapshots_without_writing_there(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            legacy = ReportCache(root, 999, WALLET)
+            legacy.put_receipt(TX_HASH, {"status": "legacy"})
+            legacy.put_snapshot("price_abc_123", {"priceUsd": "2"})
+            nest = ReportCache(root, 999, WALLET, adapter_key=AdapterKey(999, "nest"))
+            v4 = ReportCache(root, 1, WALLET, adapter_key=AdapterKey(1, "uniswap_v4"))
+
+            self.assertEqual(nest.get_receipt(TX_HASH), {"status": "legacy"})
+            self.assertFalse(nest.receipt_needs_fetch(TX_HASH))
+            self.assertEqual(nest.get_snapshot("price_abc_123"), {"priceUsd": "2"})
+            self.assertIsNone(v4.get_receipt(TX_HASH))
+            self.assertIsNone(v4.get_snapshot("price_abc_123"))
+
+            nest.put_receipt(TX_HASH, {"status": "new"})
+            nest.put_snapshot("price_abc_123", {"priceUsd": "3"})
+
+            self.assertEqual(legacy.get_receipt(TX_HASH), {"status": "legacy"})
+            self.assertEqual(legacy.get_snapshot("price_abc_123"), {"priceUsd": "2"})
+            self.assertEqual(nest.get_receipt(TX_HASH), {"status": "new"})
+            self.assertEqual(nest.get_snapshot("price_abc_123"), {"priceUsd": "3"})
+
     def test_rate_limiter_never_exceeds_100_requests_per_rolling_minute(self) -> None:
         limiter = RateLimiter(max_requests=100, period_seconds=60)
 

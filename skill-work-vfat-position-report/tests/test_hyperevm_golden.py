@@ -67,7 +67,10 @@ def golden_snapshot() -> dict:
             (address, requested): PriceQuote(address, requested, requested, price, None, "fixture")
             for address, price in ((NEST, Decimal("0.1")), (WHYPE, Decimal("40")), (DRV, Decimal("0.5")))
         }
-        transactions.append(value_transaction(decoded, quotes, native_price_token=WHYPE))
+        transactions.append(value_transaction(
+            decoded, quotes, native_price_token=WHYPE,
+            price_token_resolver=adapter.normalize_price_token,
+        ))
     report_input = ReportInput(
         schema_version="1.0",
         wallet="0x330d2a845d2df4e329034d72719c7c53f9c1f87a",

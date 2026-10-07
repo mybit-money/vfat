@@ -17,7 +17,7 @@ class PriceFailureTests(unittest.TestCase):
         client = DefiLlamaPriceClient(transport=transport)
 
         quotes = client.get_quotes(
-            ((NEST, datetime(2026, 10, 3, tzinfo=timezone.utc)),), chain_id=999
+            ((NEST, datetime(2026, 10, 3, tzinfo=timezone.utc)),), chain_slug="hyperliquid"
         )
 
         self.assertEqual(quotes, {})
@@ -34,7 +34,7 @@ class PriceFailureTests(unittest.TestCase):
         requests = tuple((NEST, start + timedelta(minutes=index)) for index in range(51))
         client = DefiLlamaPriceClient(transport=transport)
 
-        client.get_quotes(requests, chain_id=999)
+        client.get_quotes(requests, chain_slug="hyperliquid")
 
         self.assertEqual(len(calls), 2)
 
