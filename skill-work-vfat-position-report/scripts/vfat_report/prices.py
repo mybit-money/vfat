@@ -195,6 +195,10 @@ def value_transaction(
         transaction.lp_additions, quotes, timestamp, "historical_lp_usd_unavailable",
         price_token_resolver=price_token_resolver,
     )
+    # A priced balance is not income when principal and rewards are inseparable.
+    # Keep the adapter's explicit accounting block while retaining raw LP evidence.
+    if transaction.net_compound_usd.reason == "claim_principal_separation_unavailable":
+        net = Valuation(None, reason="claim_principal_separation_unavailable")
     gas_native = getattr(transaction, "gas_account_debit_native", None)
     if gas_native is None:
         gas = transaction.gas_account_debit_usd

@@ -4,7 +4,7 @@ import copy
 import json
 import unittest
 from dataclasses import replace
-from datetime import datetime
+from datetime import datetime, timedelta
 from decimal import Decimal
 from pathlib import Path
 
@@ -13,6 +13,9 @@ from vfat_report.adapters.registry import get_adapter
 from vfat_report.contracts import PositionInput
 from vfat_report.contracts import ActivityInput
 from vfat_report.events import MergedActivity, merge_position_activity
+from vfat_report.prices import PriceQuote, value_transaction
+from vfat_report.aggregate import build_daily_aggregates
+from vfat_report.capital import DailyCapital
 
 
 FIXTURES = Path(__file__).parent / 'fixtures' / 'ethereum-uniswap-v4'
@@ -163,7 +166,8 @@ class EthereumUniswapV4ReceiptTests(unittest.TestCase):
             for log in r['logs']:
                 if log['topics'][0].startswith('0xf208'):
                     log['data'] = log['data'][:-64] + format(999999,'064x')
-        self.assertEqual(self.decode('manual-compound', wrong_nft).lp_additions, ())
+        with self.assertRaisesRegex(ValueError, 'fee_attribution_ambiguous'):
+            self.decode('manual-compound', wrong_nft)
 
     def test_wrong_pool_and_wrong_receipt_fail_closed(self):
         activity, receipt = self.fixture('manual-compound')
@@ -258,6 +262,54 @@ class EthereumUniswapV4ReceiptTests(unittest.TestCase):
         self.assertEqual(len(merged),1)
         self.assertEqual(merged[0].source_position_ids,(ROOT,))
         self.assertEqual(merged[0].recipient_position_ids,(ROOT,))
+
+    def test_rebalance_principal_cannot_be_priced_as_compound_or_apr(self):
+        decoded = self.decode('rebalance-413470-413473')
+        self.assertEqual({x.token_address:x.raw_amount for x in decoded.lp_additions},
+                         {ETH:376818096921121608, DRV:6668163230339663424835})
+        timestamp = int(decoded.timestamp.timestamp())
+        quotes = {(token,timestamp): PriceQuote(token,timestamp,timestamp,Decimal(1),None,'fixture')
+                  for token in (WETH,DRV)}
+        valued = value_transaction(decoded, quotes, native_price_token=WETH,
+                                   price_token_resolver=self.adapter.normalize_price_token)
+        self.assertIsNone(valued.net_compound_usd.usd)
+        self.assertEqual(valued.net_compound_usd.reason, 'claim_principal_separation_unavailable')
+        self.assertEqual(valued.lp_additions, decoded.lp_additions)
+        start = decoded.timestamp.replace(hour=0,minute=0,second=0)
+        end = start + timedelta(days=1)
+        capital = {start.date():DailyCapital(Decimal(10000),Decimal(1),'complete')}
+        row = build_daily_aggregates((valued,),capital,start,end,end)[0]
+        self.assertEqual(row.claim_transaction_count,0)
+        self.assertEqual(row.net_compound_usd,Decimal(0))
+        self.assertEqual(row.realized_apr_percent,Decimal(0))
+        # A mislabeled activity must not make explicitly unseparated principal income.
+        row = build_daily_aggregates((replace(valued,action_type='compound'),),capital,start,end,end)[0]
+        self.assertIsNone(row.net_compound_usd)
+        self.assertIsNone(row.realized_apr_percent)
+
+    def test_unrelated_pool_fee_transfer_is_ambiguous_not_selected_fee(self):
+        def mutate(r):
+            operation = copy.deepcopy(r['logs'][0])
+            operation['topics'][1] = '0x'+'11'*32
+            operation['logIndex'] = '0x1000'
+            fee = copy.deepcopy(next(l for l in r['logs'] if len(l['topics']) == 3
+                and l['topics'][2].endswith('d4627ecb405b64448ee6b07dcf860bf55590c83d')))
+            fee['logIndex'] = '0x1001'
+            r['logs'].extend([operation,fee])
+        with self.assertRaisesRegex(ValueError,'fee_attribution_ambiguous'):
+            self.decode('manual-compound',mutate)
+
+    def test_unrelated_nft_fee_transfer_in_same_pool_is_ambiguous(self):
+        def mutate(r):
+            operation = copy.deepcopy(r['logs'][0])
+            operation['data'] = operation['data'][:-64] + format(999999,'064x')
+            operation['logIndex'] = '0x1000'
+            fee = copy.deepcopy(next(l for l in r['logs'] if len(l['topics']) == 3
+                and l['topics'][2].endswith('d4627ecb405b64448ee6b07dcf860bf55590c83d')))
+            fee['logIndex'] = '0x1001'
+            r['logs'].extend([operation,fee])
+        with self.assertRaisesRegex(ValueError,'fee_attribution_ambiguous'):
+            self.decode('manual-compound',mutate)
 
 
 if __name__ == '__main__':

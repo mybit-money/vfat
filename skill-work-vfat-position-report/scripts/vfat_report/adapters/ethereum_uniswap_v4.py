@@ -198,7 +198,8 @@ class EthereumUniswapV4Adapter:
                     else:
                         pending = _principal(_signed(words[0]), _signed(words[1]), delta, price)
                 continue
-            if address in profile.tracked_sickle_addresses and topics[0] == OPAQUE_FEE_TOPIC:
+            if (context is not None and address in profile.tracked_sickle_addresses
+                    and topics[0] == OPAQUE_FEE_TOPIC):
                 # Native fee data is not an ERC20 Transfer. Do not assume its absence
                 # or guess its layout; the observed opaque event blocks complete USD.
                 opaque_fee = True
@@ -217,6 +218,11 @@ class EthereumUniswapV4Adapter:
                     # Preserve the evidence in diagnostics without calling it income.
                     warnings.append(f'unseparated_withdrawal_raw:{address}:{raw}')
             if sender in profile.tracked_sickle_addresses and recipient in profile.automation_fee_recipients:
+                # Endpoints alone do not identify a pool or NFT. Only the current
+                # validated lineage liquidity operation can attribute this fee.
+                # A foreign operation or swap clears that evidence; do not guess.
+                if context is None:
+                    raise ValueError('fee_attribution_ambiguous')
                 fees[address] = fees.get(address, 0) + raw
             if (pending is not None and context == 'add' and address == token1
                     and sender in profile.tracked_sickle_addresses and recipient == self.pool_manager):
@@ -261,8 +267,9 @@ class EthereumUniswapV4Adapter:
             automation_fee_usd=Valuation(None, reason='native_fee_unavailable') if opaque_fee
                 else Valuation(None, reason='historical_reward_usd_unavailable') if fees
                 else Valuation(Decimal(0), source='receipt_no_matching_fee_transfer'),
-            net_compound_usd=Valuation(None, reason='lp_settlement_unavailable' if incomplete_lp
-                                       else 'historical_lp_usd_unavailable'),
+            net_compound_usd=Valuation(None, reason='claim_principal_separation_unavailable'
+                if 'claim_principal_separation_unavailable' in warnings
+                else 'lp_settlement_unavailable' if incomplete_lp else 'historical_lp_usd_unavailable'),
             network_gas_native=Decimal(_hex_int(receipt.get('gasUsed','0x0')) *
                                        _hex_int(receipt.get('effectiveGasPrice','0x0'))) / Decimal(10**18),
             network_gas_payer=str(receipt.get('from', '')).lower() or None,
