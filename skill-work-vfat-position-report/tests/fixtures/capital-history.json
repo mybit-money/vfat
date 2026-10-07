@@ -1,0 +1,4 @@
+{
+  "description": "Synthetic hourly capital history used by test_capital.py",
+  "timezone": "UTC"
+}
