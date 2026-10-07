@@ -1,0 +1,32 @@
+{
+  "transactionHash": "0xfccfa853b8926f05f39ee54e857bf2623b6b5fe04437bfb8e794773edc196780",
+  "chainId": 1,
+  "poolId": "0x20ae5557f7d6ce39a6e5370c331106a87a80ea5c1bec686361bde2d9f5e82631",
+  "poolKeyEvidence": "pool-key-evidence.json",
+  "hooks": "0x0000000000000000000000000000000000000000",
+  "attemptedAt": "2026-10-07",
+  "attempts": [
+    {
+      "endpoint": "https://ethereum-rpc.publicnode.com",
+      "method": "debug_traceTransaction",
+      "error": {
+        "code": -32601,
+        "message": "the method debug_traceTransaction does not exist/is not available"
+      }
+    },
+    {
+      "endpoint": "https://ethereum-rpc.publicnode.com",
+      "method": "trace_transaction",
+      "error": {
+        "code": -32602,
+        "message": "Archive requests require a personal token. Get one at: https://www.allnodes.com/publicnode"
+      }
+    },
+    {
+      "endpoint": "https://eth.llamarpc.com",
+      "method": "debug_traceTransaction",
+      "httpError": 525
+    }
+  ],
+  "conclusion": "No trace captured. No native transfer amount inferred or injected into receipts."
+}

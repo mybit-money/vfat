@@ -1,0 +1,191 @@
+{
+  "transactions": [
+    {
+      "chain_id": 999,
+      "transaction_hash": "0x10a0b9260781affd45a834908c0df717bd872213007840e750c323baa9720400",
+      "timestamp": "2026-10-01T12:00:00Z",
+      "action_type": "compounded",
+      "source_position_ids": [
+        "nft:1"
+      ],
+      "recipient_position_ids": [
+        "nft:1"
+      ],
+      "automation_payment_method": "fee",
+      "gross_claims": [
+        {
+          "token_address": "0x07c57e32a3c29d5659bda1d3efc2e7bf004e3035",
+          "symbol": "NEST",
+          "decimals": 18,
+          "raw_amount": 1292916846259404975117
+        }
+      ],
+      "automation_fees": [
+        {
+          "token_address": "0x07c57e32a3c29d5659bda1d3efc2e7bf004e3035",
+          "symbol": "NEST",
+          "decimals": 18,
+          "raw_amount": 23272503232669289552
+        }
+      ],
+      "lp_additions": [
+        {
+          "token_address": "0x5555555555555555555555555555555555555555",
+          "symbol": "WHYPE",
+          "decimals": 18,
+          "raw_amount": 86938162529835173
+        },
+        {
+          "token_address": "0x9628bba16db41ea7fe1fd84f9ce53bc27c63f59b",
+          "symbol": "DRV",
+          "decimals": 18,
+          "raw_amount": 38137843806486896444
+        }
+      ],
+      "gross_claim_usd": {
+        "usd": "129.2916846259404975117",
+        "source": "fixture",
+        "reason": null
+      },
+      "automation_fee_usd": {
+        "usd": "2.3272503232669289552",
+        "source": "fixture",
+        "reason": null
+      },
+      "net_compound_usd": {
+        "usd": "22.5464484044368551420",
+        "source": "fixture",
+        "reason": null
+      },
+      "gas_account_debit_usd": {
+        "usd": "0",
+        "source": "none",
+        "reason": null
+      },
+      "network_gas_native": "0.0001448615",
+      "network_gas_payer": "0xb0bada5d45d939a03c6d211d24a61a4418d7cd13",
+      "warnings": [],
+      "effective_automation_fee_rate": "0.01799999999999999999991801484",
+      "gas_account_debit_native": null
+    },
+    {
+      "chain_id": 999,
+      "transaction_hash": "0x098cda5a361df22a38908a862266a3b2a1abac20ecf0f14222bac294ee55521c",
+      "timestamp": "2026-10-01T18:00:00Z",
+      "action_type": "compounded",
+      "source_position_ids": [
+        "nft:1"
+      ],
+      "recipient_position_ids": [
+        "nft:1"
+      ],
+      "automation_payment_method": "gas-account",
+      "gross_claims": [
+        {
+          "token_address": "0x07c57e32a3c29d5659bda1d3efc2e7bf004e3035",
+          "symbol": "NEST",
+          "decimals": 18,
+          "raw_amount": 4003103210718519839
+        }
+      ],
+      "automation_fees": [
+        {
+          "token_address": "0x07c57e32a3c29d5659bda1d3efc2e7bf004e3035",
+          "symbol": "NEST",
+          "decimals": 18,
+          "raw_amount": 72055857792933357
+        }
+      ],
+      "lp_additions": [
+        {
+          "token_address": "0x5555555555555555555555555555555555555555",
+          "symbol": "WHYPE",
+          "decimals": 18,
+          "raw_amount": 265440866253055
+        },
+        {
+          "token_address": "0x9628bba16db41ea7fe1fd84f9ce53bc27c63f59b",
+          "symbol": "DRV",
+          "decimals": 18,
+          "raw_amount": 115489261568553277
+        }
+      ],
+      "gross_claim_usd": {
+        "usd": "0.4003103210718519839",
+        "source": "fixture",
+        "reason": null
+      },
+      "automation_fee_usd": {
+        "usd": "0.0072055857792933357",
+        "source": "fixture",
+        "reason": null
+      },
+      "net_compound_usd": {
+        "usd": "0.0683622654343988385",
+        "source": "fixture",
+        "reason": null
+      },
+      "gas_account_debit_usd": {
+        "usd": "0.0105080920",
+        "source": "fixture",
+        "reason": null
+      },
+      "network_gas_native": "0.0002486184",
+      "network_gas_payer": "0xb0bada5d45d939a03c6d211d24a61a4418d7cd13",
+      "warnings": [],
+      "effective_automation_fee_rate": "0.01799999999999999997451976763",
+      "gas_account_debit_native": "0.0002627023"
+    }
+  ],
+  "days": [
+    {
+      "day": "2026-10-01",
+      "status": "complete",
+      "average_capital_usd": "1050",
+      "capital_coverage": "1",
+      "gross_claim_usd": "129.6919949470123494956",
+      "net_compound_usd": "22.6148106698712539805",
+      "automation_fee_usd": "2.3344559090462222909",
+      "gas_account_debit_usd": "0.0105080920",
+      "realized_apr_percent": "785.7686134212388288459523809",
+      "claim_transaction_count": 2,
+      "cumulative_pnl_usd": "30",
+      "daily_pnl_usd": "20",
+      "position_value_usd": "1200",
+      "daily_position_value_change_usd": "200",
+      "net_claim_usd": "127.3470309459661272047",
+      "pnl_is_estimated": false,
+      "cumulative_pnl_is_estimated": false,
+      "daily_pnl_is_estimated": false,
+      "position_value_is_estimated": false,
+      "daily_position_value_change_is_estimated": false,
+      "reward_amounts": [
+        {
+          "token_address": "0x07c57e32a3c29d5659bda1d3efc2e7bf004e3035",
+          "symbol": "NEST",
+          "decimals": 18,
+          "raw_amount": 1296919949470123494956
+        }
+      ],
+      "reasons": []
+    }
+  ],
+  "diagnostics": {
+    "warnings": [],
+    "reasons": [],
+    "rpc_endpoints": [
+      "https://rpc.hyperliquid.xyz/evm",
+      "https://rpc.hypurrscan.io"
+    ]
+  },
+  "htmlFacts": {
+    "hasDateHeader": true,
+    "hasAprHeader": true,
+    "hasReportDay": true,
+    "hasRewardSymbol": true,
+    "hasCapitalAxis": true,
+    "hasCapitalValue": true,
+    "hasGrossClaimValue": true,
+    "hasAprValue": true
+  }
+}

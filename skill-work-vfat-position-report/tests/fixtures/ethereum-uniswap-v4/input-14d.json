@@ -1,0 +1,1731 @@
+{
+  "schemaVersion": "1.0",
+  "wallet": "0x330d2a845d2df4e329034d72719c7c53f9c1f87a",
+  "period": {
+    "from": "2026-09-24T00:00:00Z",
+    "to": "2026-10-07T09:00:00Z"
+  },
+  "filters": {
+    "chainIds": [
+      1
+    ],
+    "protocols": [
+      "uniswap"
+    ]
+  },
+  "positions": [
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "chainId": 1,
+      "protocol": "uniswap",
+      "positionType": "nft",
+      "sickleAddress": "0xfb12aa1f51ba66ef761def09233946a4369b0de6",
+      "tokenId": "413473",
+      "positionRootTokenId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "nftManagerAddress": "0xbd216513d74c8cf14cf4747e6aaa6420ff64ee9e",
+      "activeFrom": "2026-09-23T07:34:23Z",
+      "metadata": {
+        "protocolType": "uniswap_v4",
+        "poolAddress": "0x000000000004444c5dc75cb358380d2e3de08a90",
+        "poolManagerAddress": "0x000000000004444c5dc75cb358380d2e3de08a90",
+        "poolId": "0x20ae5557f7d6ce39a6e5370c331106a87a80ea5c1bec686361bde2d9f5e82631",
+        "underlying": [
+          {
+            "address": "0x0000000000000000000000000000000000000000",
+            "symbol": "ETH",
+            "decimals": 18
+          },
+          {
+            "address": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be",
+            "symbol": "DRV",
+            "decimals": 18
+          }
+        ]
+      }
+    }
+  ],
+  "activities": [
+    {
+      "chainId": 1,
+      "transactionHash": "0xf9e112e3caded219b25086bf594d9855608c37fb11119fb18a16c441d63d0a7d",
+      "timestamp": "2026-09-25T05:34:11.000Z",
+      "actionType": "compounded",
+      "sourcePositionIds": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "recipientPositionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "isAutomation": false,
+      "automationPaymentMethod": null
+    },
+    {
+      "chainId": 1,
+      "transactionHash": "0x1fa733ca5903ba28e47e75a08d26d7459c36e714c539c8afad1cae6501bc70c4",
+      "timestamp": "2026-09-26T03:45:35.000Z",
+      "actionType": "compounded",
+      "sourcePositionIds": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "recipientPositionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "isAutomation": true,
+      "automationPaymentMethod": "fee"
+    },
+    {
+      "chainId": 1,
+      "transactionHash": "0xdfd515ade1ec240ad05446026394f56b8f9c6981d157d634b6fa9b73b11cb380",
+      "timestamp": "2026-09-27T03:11:23.000Z",
+      "actionType": "compounded",
+      "sourcePositionIds": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "recipientPositionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "isAutomation": true,
+      "automationPaymentMethod": "fee"
+    },
+    {
+      "chainId": 1,
+      "transactionHash": "0x7c59b5cbefc1c36e0eafba353fbe3c7f468611033b7d51a5e94334e49251c613",
+      "timestamp": "2026-10-01T05:42:35.000Z",
+      "actionType": "compounded",
+      "sourcePositionIds": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "recipientPositionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "isAutomation": false,
+      "automationPaymentMethod": null
+    },
+    {
+      "chainId": 1,
+      "transactionHash": "0x690317839c703298fc9446a962fa7107c86152b5738ad268bde7b13f2a2286e7",
+      "timestamp": "2026-10-03T14:11:11.000Z",
+      "actionType": "compounded",
+      "sourcePositionIds": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "recipientPositionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "isAutomation": true,
+      "automationPaymentMethod": "fee"
+    },
+    {
+      "chainId": 1,
+      "transactionHash": "0xfccfa853b8926f05f39ee54e857bf2623b6b5fe04437bfb8e794773edc196780",
+      "timestamp": "2026-10-06T05:47:47.000Z",
+      "actionType": "compounded",
+      "sourcePositionIds": [
+        "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470"
+      ],
+      "recipientPositionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "isAutomation": false,
+      "automationPaymentMethod": null
+    }
+  ],
+  "capitalPoints": [
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-24T00:00:00.000Z",
+      "currentBalanceUsd": "5303.838238975012",
+      "totalPnlUsd": "370.21835822326466"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-25T05:00:00.000Z",
+      "currentBalanceUsd": "4969.634445965312",
+      "totalPnlUsd": "36.01456521356431"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-25T06:00:00.000Z",
+      "currentBalanceUsd": "5175.445173702912",
+      "totalPnlUsd": "242.6313895600906"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-25T07:00:00.000Z",
+      "currentBalanceUsd": "5173.165471707539",
+      "totalPnlUsd": "240.3516875647174"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-25T09:00:00.000Z",
+      "currentBalanceUsd": "5111.0658334401505",
+      "totalPnlUsd": "178.252049297329"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-25T18:00:00.000Z",
+      "currentBalanceUsd": "5068.011559548826",
+      "totalPnlUsd": "135.19777540600444"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-25T19:00:00.000Z",
+      "currentBalanceUsd": "5069.359987838695",
+      "totalPnlUsd": "136.54620369587337"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-25T20:00:00.000Z",
+      "currentBalanceUsd": "5058.0373134078145",
+      "totalPnlUsd": "125.22352926499298"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-25T21:00:00.000Z",
+      "currentBalanceUsd": "5074.917113801493",
+      "totalPnlUsd": "142.1033296586711"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-25T22:00:00.000Z",
+      "currentBalanceUsd": "5091.960271171838",
+      "totalPnlUsd": "159.1464870290165"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-25T23:00:00.000Z",
+      "currentBalanceUsd": "5146.707496514585",
+      "totalPnlUsd": "213.89371237176329"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T00:00:00.000Z",
+      "currentBalanceUsd": "5158.150606777529",
+      "totalPnlUsd": "225.33682263470746"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T01:00:00.000Z",
+      "currentBalanceUsd": "5179.806978319735",
+      "totalPnlUsd": "246.99319417691368"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T02:00:00.000Z",
+      "currentBalanceUsd": "5173.31238706479",
+      "totalPnlUsd": "240.4986029219681"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T03:00:00.000Z",
+      "currentBalanceUsd": "5177.4597863714835",
+      "totalPnlUsd": "244.64600222866193"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T04:00:00.000Z",
+      "currentBalanceUsd": "5129.606778104242",
+      "totalPnlUsd": "197.67647242038493"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T05:00:00.000Z",
+      "currentBalanceUsd": "5252.654351854065",
+      "totalPnlUsd": "320.72404617020766"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T06:00:00.000Z",
+      "currentBalanceUsd": "5256.761750939566",
+      "totalPnlUsd": "324.8314452557088"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T07:00:00.000Z",
+      "currentBalanceUsd": "5226.5930609493025",
+      "totalPnlUsd": "294.6627552654454"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T08:00:00.000Z",
+      "currentBalanceUsd": "5230.894923961856",
+      "totalPnlUsd": "298.96461827799885"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T09:00:00.000Z",
+      "currentBalanceUsd": "5224.878965795369",
+      "totalPnlUsd": "292.94866011151225"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T10:00:00.000Z",
+      "currentBalanceUsd": "5222.910009864052",
+      "totalPnlUsd": "290.97970418019486"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T11:00:00.000Z",
+      "currentBalanceUsd": "5138.68443751042",
+      "totalPnlUsd": "206.75413182656303"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T12:00:00.000Z",
+      "currentBalanceUsd": "5092.527202243909",
+      "totalPnlUsd": "160.5968965600523"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T13:00:00.000Z",
+      "currentBalanceUsd": "5086.033484032609",
+      "totalPnlUsd": "154.1031783487515"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T14:00:00.000Z",
+      "currentBalanceUsd": "5085.200260494182",
+      "totalPnlUsd": "153.26995481032463"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T15:00:00.000Z",
+      "currentBalanceUsd": "5049.061963780082",
+      "totalPnlUsd": "117.13165809622478"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T16:00:00.000Z",
+      "currentBalanceUsd": "4985.539506069077",
+      "totalPnlUsd": "53.60920038521999"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T17:00:00.000Z",
+      "currentBalanceUsd": "4999.268772084851",
+      "totalPnlUsd": "67.33846640099364"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T18:00:00.000Z",
+      "currentBalanceUsd": "5061.980028121835",
+      "totalPnlUsd": "130.04972243797783"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T19:00:00.000Z",
+      "currentBalanceUsd": "5084.5890194115145",
+      "totalPnlUsd": "152.6587137276574"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T20:00:00.000Z",
+      "currentBalanceUsd": "5106.398931488132",
+      "totalPnlUsd": "174.46862580427478"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T21:00:00.000Z",
+      "currentBalanceUsd": "5064.684897492143",
+      "totalPnlUsd": "132.75459180828602"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T22:00:00.000Z",
+      "currentBalanceUsd": "5028.761059852598",
+      "totalPnlUsd": "96.8307541687409"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-26T23:00:00.000Z",
+      "currentBalanceUsd": "4996.024208169182",
+      "totalPnlUsd": "64.09390248532509"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T00:00:00.000Z",
+      "currentBalanceUsd": "5001.777389096315",
+      "totalPnlUsd": "69.84708341245823"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T01:00:00.000Z",
+      "currentBalanceUsd": "5197.123545691076",
+      "totalPnlUsd": "265.1932400072192"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T02:00:00.000Z",
+      "currentBalanceUsd": "5231.949574589087",
+      "totalPnlUsd": "300.0192689052301"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T03:00:00.000Z",
+      "currentBalanceUsd": "5250.429699957464",
+      "totalPnlUsd": "318.8582623629982"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T04:00:00.000Z",
+      "currentBalanceUsd": "5186.742610246068",
+      "totalPnlUsd": "255.23608508105735"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T05:00:00.000Z",
+      "currentBalanceUsd": "5119.311339265457",
+      "totalPnlUsd": "187.8048141004465"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T06:00:00.000Z",
+      "currentBalanceUsd": "5121.145142705661",
+      "totalPnlUsd": "189.63861754065056"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T07:00:00.000Z",
+      "currentBalanceUsd": "5120.038882073775",
+      "totalPnlUsd": "188.532356908765"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T08:00:00.000Z",
+      "currentBalanceUsd": "5135.655148792291",
+      "totalPnlUsd": "204.14862362728036"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T09:00:00.000Z",
+      "currentBalanceUsd": "5132.383173226034",
+      "totalPnlUsd": "200.87664806102384"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T10:00:00.000Z",
+      "currentBalanceUsd": "5143.227182906498",
+      "totalPnlUsd": "211.72065774148723"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T11:00:00.000Z",
+      "currentBalanceUsd": "5145.111551709618",
+      "totalPnlUsd": "213.60502654460743"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T12:00:00.000Z",
+      "currentBalanceUsd": "5116.740649478387",
+      "totalPnlUsd": "185.23412431337692"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T13:00:00.000Z",
+      "currentBalanceUsd": "5101.305641329132",
+      "totalPnlUsd": "169.7991161641221"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T14:00:00.000Z",
+      "currentBalanceUsd": "5100.199993603609",
+      "totalPnlUsd": "168.69346843859876"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T16:00:00.000Z",
+      "currentBalanceUsd": "4984.713526276701",
+      "totalPnlUsd": "53.20700111169026"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T17:00:00.000Z",
+      "currentBalanceUsd": "4928.104065255747",
+      "totalPnlUsd": "-3.402459909263598"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-27T18:00:00.000Z",
+      "currentBalanceUsd": "4906.1031984891115",
+      "totalPnlUsd": "-25.403326675898825"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T02:00:00.000Z",
+      "currentBalanceUsd": "5005.361027966563",
+      "totalPnlUsd": "73.85450280155237"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T03:00:00.000Z",
+      "currentBalanceUsd": "4953.0826987008695",
+      "totalPnlUsd": "21.576173535859198"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T04:00:00.000Z",
+      "currentBalanceUsd": "4984.27275241487",
+      "totalPnlUsd": "52.766227249860094"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T05:00:00.000Z",
+      "currentBalanceUsd": "4989.2845231107585",
+      "totalPnlUsd": "57.77799794574821"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T06:00:00.000Z",
+      "currentBalanceUsd": "4914.606951271349",
+      "totalPnlUsd": "-16.899573893661"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T07:00:00.000Z",
+      "currentBalanceUsd": "4892.597235714965",
+      "totalPnlUsd": "-38.909289450045435"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T08:00:00.000Z",
+      "currentBalanceUsd": "4834.890517828699",
+      "totalPnlUsd": "-96.61600733631167"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T09:00:00.000Z",
+      "currentBalanceUsd": "4759.395886797492",
+      "totalPnlUsd": "-172.11063836751873"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T10:00:00.000Z",
+      "currentBalanceUsd": "4703.59929546742",
+      "totalPnlUsd": "-227.90722969759008"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T11:00:00.000Z",
+      "currentBalanceUsd": "4702.1518789243855",
+      "totalPnlUsd": "-229.3546462406248"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T12:00:00.000Z",
+      "currentBalanceUsd": "4729.973216352445",
+      "totalPnlUsd": "-201.53330881256534"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T13:00:00.000Z",
+      "currentBalanceUsd": "4676.781254925172",
+      "totalPnlUsd": "-254.7252702398382"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T14:00:00.000Z",
+      "currentBalanceUsd": "4687.651245405983",
+      "totalPnlUsd": "-243.85527975902733"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T15:00:00.000Z",
+      "currentBalanceUsd": "4737.059235327219",
+      "totalPnlUsd": "-194.4472898377917"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T16:00:00.000Z",
+      "currentBalanceUsd": "4742.295014173995",
+      "totalPnlUsd": "-189.21151099101553"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T17:00:00.000Z",
+      "currentBalanceUsd": "4779.00515017298",
+      "totalPnlUsd": "-152.50137499202992"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T18:00:00.000Z",
+      "currentBalanceUsd": "4640.628541310156",
+      "totalPnlUsd": "-290.8779838548544"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T19:00:00.000Z",
+      "currentBalanceUsd": "4640.628541310156",
+      "totalPnlUsd": "-290.8779838548544"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T20:00:00.000Z",
+      "currentBalanceUsd": "4584.157471203703",
+      "totalPnlUsd": "-347.3490539613076"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T22:00:00.000Z",
+      "currentBalanceUsd": "4593.820822569352",
+      "totalPnlUsd": "-337.68570259565877"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-28T23:00:00.000Z",
+      "currentBalanceUsd": "4469.500069630052",
+      "totalPnlUsd": "-462.00645553495815"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T00:00:00.000Z",
+      "currentBalanceUsd": "4475.993165545446",
+      "totalPnlUsd": "-455.51335961956465"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T01:00:00.000Z",
+      "currentBalanceUsd": "4727.143525023973",
+      "totalPnlUsd": "-204.36300014103745"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T02:00:00.000Z",
+      "currentBalanceUsd": "4727.143525023973",
+      "totalPnlUsd": "-204.36300014103745"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T03:00:00.000Z",
+      "currentBalanceUsd": "4540.977023999435",
+      "totalPnlUsd": "-390.5295011655753"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T05:00:00.000Z",
+      "currentBalanceUsd": "4426.707574647523",
+      "totalPnlUsd": "-504.79895051748736"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T06:00:00.000Z",
+      "currentBalanceUsd": "4448.698460826306",
+      "totalPnlUsd": "-482.80806433870475"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T07:00:00.000Z",
+      "currentBalanceUsd": "4585.33737498448",
+      "totalPnlUsd": "-346.16915018052987"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T08:00:00.000Z",
+      "currentBalanceUsd": "4611.586875482395",
+      "totalPnlUsd": "-319.9196496826153"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T09:00:00.000Z",
+      "currentBalanceUsd": "4646.329279988357",
+      "totalPnlUsd": "-285.17724517665374"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T10:00:00.000Z",
+      "currentBalanceUsd": "4731.290054085972",
+      "totalPnlUsd": "-200.21647107903846"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T11:00:00.000Z",
+      "currentBalanceUsd": "4721.159319643063",
+      "totalPnlUsd": "-210.34720552194722"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T12:00:00.000Z",
+      "currentBalanceUsd": "4859.660847906976",
+      "totalPnlUsd": "-71.8456772580339"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T13:00:00.000Z",
+      "currentBalanceUsd": "4852.527698604071",
+      "totalPnlUsd": "-78.97882656093952"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T14:00:00.000Z",
+      "currentBalanceUsd": "4851.243092512863",
+      "totalPnlUsd": "-80.26343265214746"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T15:00:00.000Z",
+      "currentBalanceUsd": "4646.490857844251",
+      "totalPnlUsd": "-285.01566732075935"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T16:00:00.000Z",
+      "currentBalanceUsd": "4601.819362548669",
+      "totalPnlUsd": "-329.6871626163411"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T17:00:00.000Z",
+      "currentBalanceUsd": "4502.211910903663",
+      "totalPnlUsd": "-429.2946142613473"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T18:00:00.000Z",
+      "currentBalanceUsd": "4534.016617913001",
+      "totalPnlUsd": "-397.4899072520093"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T19:00:00.000Z",
+      "currentBalanceUsd": "4561.886582103917",
+      "totalPnlUsd": "-369.6199430610932"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T20:00:00.000Z",
+      "currentBalanceUsd": "4643.174560766975",
+      "totalPnlUsd": "-288.33196439803487"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T21:00:00.000Z",
+      "currentBalanceUsd": "4641.04559827256",
+      "totalPnlUsd": "-290.4609268924505"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T22:00:00.000Z",
+      "currentBalanceUsd": "4748.462598253229",
+      "totalPnlUsd": "-183.04392691178145"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-29T23:00:00.000Z",
+      "currentBalanceUsd": "4699.068864586606",
+      "totalPnlUsd": "-232.43766057840458"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-30T00:00:00.000Z",
+      "currentBalanceUsd": "4697.758430299447",
+      "totalPnlUsd": "-233.74809486556296"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-30T01:00:00.000Z",
+      "currentBalanceUsd": "4766.072058317733",
+      "totalPnlUsd": "-165.4344668472777"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-30T02:00:00.000Z",
+      "currentBalanceUsd": "4746.473521130647",
+      "totalPnlUsd": "-185.03300403436333"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-30T03:00:00.000Z",
+      "currentBalanceUsd": "4737.5805869083515",
+      "totalPnlUsd": "-193.9259382566588"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-30T04:00:00.000Z",
+      "currentBalanceUsd": "4662.398163746024",
+      "totalPnlUsd": "-269.10836141898653"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-30T15:00:00.000Z",
+      "currentBalanceUsd": "4641.511455250396",
+      "totalPnlUsd": "-289.99506991461476"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-30T16:00:00.000Z",
+      "currentBalanceUsd": "4631.280355006433",
+      "totalPnlUsd": "-300.2261701585776"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-30T17:00:00.000Z",
+      "currentBalanceUsd": "4658.816966101579",
+      "totalPnlUsd": "-272.68955906343126"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-30T19:00:00.000Z",
+      "currentBalanceUsd": "4673.079391097799",
+      "totalPnlUsd": "-258.4271340672112"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-30T20:00:00.000Z",
+      "currentBalanceUsd": "4699.189270901444",
+      "totalPnlUsd": "-232.3172542635666"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-30T21:00:00.000Z",
+      "currentBalanceUsd": "4733.204191304604",
+      "totalPnlUsd": "-198.30233386040618"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-30T22:00:00.000Z",
+      "currentBalanceUsd": "4666.505289272698",
+      "totalPnlUsd": "-265.00123589231225"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-09-30T23:00:00.000Z",
+      "currentBalanceUsd": "4667.821903436604",
+      "totalPnlUsd": "-263.68462172840646"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T00:00:00.000Z",
+      "currentBalanceUsd": "4678.414298007496",
+      "totalPnlUsd": "-253.09222715751457"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T01:00:00.000Z",
+      "currentBalanceUsd": "4996.884723597662",
+      "totalPnlUsd": "65.37819843265152"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T02:00:00.000Z",
+      "currentBalanceUsd": "5046.63342997748",
+      "totalPnlUsd": "115.12690481246955"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T03:00:00.000Z",
+      "currentBalanceUsd": "5002.560951663326",
+      "totalPnlUsd": "71.05442649831548"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T04:00:00.000Z",
+      "currentBalanceUsd": "4990.641299655663",
+      "totalPnlUsd": "59.13477449065249"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T05:00:00.000Z",
+      "currentBalanceUsd": "5069.351546005233",
+      "totalPnlUsd": "138.23667527538146"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T06:00:00.000Z",
+      "currentBalanceUsd": "5213.31902258044",
+      "totalPnlUsd": "282.29101791840094"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T07:00:00.000Z",
+      "currentBalanceUsd": "5238.995644869329",
+      "totalPnlUsd": "307.96764020729006"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T08:00:00.000Z",
+      "currentBalanceUsd": "5198.606615352533",
+      "totalPnlUsd": "267.5786106904934"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T09:00:00.000Z",
+      "currentBalanceUsd": "4998.446731585973",
+      "totalPnlUsd": "67.41872692393372"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T10:00:00.000Z",
+      "currentBalanceUsd": "5092.639700990434",
+      "totalPnlUsd": "161.61169632839483"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T11:00:00.000Z",
+      "currentBalanceUsd": "5133.588937144176",
+      "totalPnlUsd": "202.5609324821371"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T12:00:00.000Z",
+      "currentBalanceUsd": "5073.502575651673",
+      "totalPnlUsd": "142.47457098963423"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T13:00:00.000Z",
+      "currentBalanceUsd": "5079.262559016513",
+      "totalPnlUsd": "148.2345543544734"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T14:00:00.000Z",
+      "currentBalanceUsd": "4931.491377762175",
+      "totalPnlUsd": "0.4633731001358683"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T15:00:00.000Z",
+      "currentBalanceUsd": "4893.492293570126",
+      "totalPnlUsd": "-37.53571109191307"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T16:00:00.000Z",
+      "currentBalanceUsd": "4824.55168320685",
+      "totalPnlUsd": "-106.47632145518946"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T17:00:00.000Z",
+      "currentBalanceUsd": "4854.0851554402325",
+      "totalPnlUsd": "-76.94284922180668"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T18:00:00.000Z",
+      "currentBalanceUsd": "4860.346842457838",
+      "totalPnlUsd": "-70.68116220420143"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T19:00:00.000Z",
+      "currentBalanceUsd": "4860.237305411923",
+      "totalPnlUsd": "-70.79069925011572"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T20:00:00.000Z",
+      "currentBalanceUsd": "4827.065581581617",
+      "totalPnlUsd": "-103.96242308042201"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T21:00:00.000Z",
+      "currentBalanceUsd": "4845.329784874224",
+      "totalPnlUsd": "-85.6982197878151"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T22:00:00.000Z",
+      "currentBalanceUsd": "4814.489668604331",
+      "totalPnlUsd": "-116.53833605770797"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-01T23:00:00.000Z",
+      "currentBalanceUsd": "4852.078470558783",
+      "totalPnlUsd": "-78.94953410325616"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T00:00:00.000Z",
+      "currentBalanceUsd": "4932.025780074145",
+      "totalPnlUsd": "0.9977754121055114"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T01:00:00.000Z",
+      "currentBalanceUsd": "5147.688839136728",
+      "totalPnlUsd": "216.66083447468918"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T02:00:00.000Z",
+      "currentBalanceUsd": "5174.806328933904",
+      "totalPnlUsd": "243.77832427186513"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T03:00:00.000Z",
+      "currentBalanceUsd": "5170.616803025741",
+      "totalPnlUsd": "239.58879836370215"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T04:00:00.000Z",
+      "currentBalanceUsd": "5158.636538359159",
+      "totalPnlUsd": "227.60853369712004"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T05:00:00.000Z",
+      "currentBalanceUsd": "5169.20058268541",
+      "totalPnlUsd": "238.172578023371"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T06:00:00.000Z",
+      "currentBalanceUsd": "5167.049924643673",
+      "totalPnlUsd": "236.0219199816338"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T07:00:00.000Z",
+      "currentBalanceUsd": "5199.640731308041",
+      "totalPnlUsd": "268.61272664600165"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T08:00:00.000Z",
+      "currentBalanceUsd": "5191.725722466793",
+      "totalPnlUsd": "260.69771780475367"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T09:00:00.000Z",
+      "currentBalanceUsd": "5033.05614038873",
+      "totalPnlUsd": "102.02813572669038"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T10:00:00.000Z",
+      "currentBalanceUsd": "5115.022539681391",
+      "totalPnlUsd": "183.99453501935204"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T11:00:00.000Z",
+      "currentBalanceUsd": "5058.786406038755",
+      "totalPnlUsd": "127.75840137671548"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T12:00:00.000Z",
+      "currentBalanceUsd": "5085.3940125328045",
+      "totalPnlUsd": "154.36600787076532"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T13:00:00.000Z",
+      "currentBalanceUsd": "5109.29189679685",
+      "totalPnlUsd": "178.2638921348107"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T14:00:00.000Z",
+      "currentBalanceUsd": "5146.016076625607",
+      "totalPnlUsd": "214.98807196356756"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T15:00:00.000Z",
+      "currentBalanceUsd": "5082.772169500463",
+      "totalPnlUsd": "151.74416483842379"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T16:00:00.000Z",
+      "currentBalanceUsd": "5062.186071372322",
+      "totalPnlUsd": "131.15806671028258"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T17:00:00.000Z",
+      "currentBalanceUsd": "5151.115174294498",
+      "totalPnlUsd": "220.08716963245843"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T18:00:00.000Z",
+      "currentBalanceUsd": "5140.963489262758",
+      "totalPnlUsd": "209.93548460071906"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T19:00:00.000Z",
+      "currentBalanceUsd": "5058.281833838263",
+      "totalPnlUsd": "127.25382917622392"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T20:00:00.000Z",
+      "currentBalanceUsd": "4933.563428605256",
+      "totalPnlUsd": "2.5354239432172108"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T21:00:00.000Z",
+      "currentBalanceUsd": "4949.242714412776",
+      "totalPnlUsd": "18.2147097507368"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T22:00:00.000Z",
+      "currentBalanceUsd": "4949.825305740891",
+      "totalPnlUsd": "18.797301078851888"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-02T23:00:00.000Z",
+      "currentBalanceUsd": "4953.45591008077",
+      "totalPnlUsd": "22.427905418730916"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T00:00:00.000Z",
+      "currentBalanceUsd": "5009.721158838346",
+      "totalPnlUsd": "78.69315417630696"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T01:00:00.000Z",
+      "currentBalanceUsd": "4943.125196926114",
+      "totalPnlUsd": "12.097192264074693"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T02:00:00.000Z",
+      "currentBalanceUsd": "4811.083644251297",
+      "totalPnlUsd": "-119.94436041074187"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T03:00:00.000Z",
+      "currentBalanceUsd": "4814.179806209851",
+      "totalPnlUsd": "-116.84819845218772"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T04:00:00.000Z",
+      "currentBalanceUsd": "4820.628489596958",
+      "totalPnlUsd": "-110.39951506508078"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T05:00:00.000Z",
+      "currentBalanceUsd": "4847.861110574835",
+      "totalPnlUsd": "-83.16689408720413"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T06:00:00.000Z",
+      "currentBalanceUsd": "4804.410813332851",
+      "totalPnlUsd": "-126.61719132918824"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T07:00:00.000Z",
+      "currentBalanceUsd": "4807.888341397849",
+      "totalPnlUsd": "-123.13966326418995"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T08:00:00.000Z",
+      "currentBalanceUsd": "4781.312987223699",
+      "totalPnlUsd": "-149.7150174383405"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T09:00:00.000Z",
+      "currentBalanceUsd": "4788.6925963289095",
+      "totalPnlUsd": "-142.33540833312964"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T10:00:00.000Z",
+      "currentBalanceUsd": "4781.821301360839",
+      "totalPnlUsd": "-149.20670330119992"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T11:00:00.000Z",
+      "currentBalanceUsd": "4789.196420242756",
+      "totalPnlUsd": "-141.831584419283"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T12:00:00.000Z",
+      "currentBalanceUsd": "4756.960478629702",
+      "totalPnlUsd": "-174.0675260323369"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T13:00:00.000Z",
+      "currentBalanceUsd": "4758.828968780753",
+      "totalPnlUsd": "-172.19903588128636"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T14:00:00.000Z",
+      "currentBalanceUsd": "4728.244431570374",
+      "totalPnlUsd": "-202.78357309166495"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T15:00:00.000Z",
+      "currentBalanceUsd": "4821.67499103118",
+      "totalPnlUsd": "-99.31838257461732"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T16:00:00.000Z",
+      "currentBalanceUsd": "4839.709361198897",
+      "totalPnlUsd": "-81.28401240690073"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T17:00:00.000Z",
+      "currentBalanceUsd": "4831.801602155576",
+      "totalPnlUsd": "-89.1917714502215"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T18:00:00.000Z",
+      "currentBalanceUsd": "4899.292887066593",
+      "totalPnlUsd": "-21.700486539204576"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T19:00:00.000Z",
+      "currentBalanceUsd": "4908.686673519428",
+      "totalPnlUsd": "-12.306700086369347"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T20:00:00.000Z",
+      "currentBalanceUsd": "4924.173561650761",
+      "totalPnlUsd": "3.18018804496387"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T21:00:00.000Z",
+      "currentBalanceUsd": "4928.503523456745",
+      "totalPnlUsd": "7.510149850947528"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T22:00:00.000Z",
+      "currentBalanceUsd": "4922.467756203264",
+      "totalPnlUsd": "1.4743825974665015"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-03T23:00:00.000Z",
+      "currentBalanceUsd": "4926.085737524731",
+      "totalPnlUsd": "5.092363918933188"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T00:00:00.000Z",
+      "currentBalanceUsd": "4928.109235213853",
+      "totalPnlUsd": "7.1158616080556385"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T01:00:00.000Z",
+      "currentBalanceUsd": "5045.557309005341",
+      "totalPnlUsd": "124.56393539954388"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T02:00:00.000Z",
+      "currentBalanceUsd": "5058.237709419743",
+      "totalPnlUsd": "137.24433581394533"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T03:00:00.000Z",
+      "currentBalanceUsd": "5280.667795262893",
+      "totalPnlUsd": "359.674421657096"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T04:00:00.000Z",
+      "currentBalanceUsd": "5270.936976382391",
+      "totalPnlUsd": "349.94360277659325"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T05:00:00.000Z",
+      "currentBalanceUsd": "5207.916329943099",
+      "totalPnlUsd": "286.9229563373019"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T06:00:00.000Z",
+      "currentBalanceUsd": "5208.841493937495",
+      "totalPnlUsd": "287.8481203316978"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T07:00:00.000Z",
+      "currentBalanceUsd": "5222.781426896507",
+      "totalPnlUsd": "301.7880532907093"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T08:00:00.000Z",
+      "currentBalanceUsd": "5289.511330719736",
+      "totalPnlUsd": "368.5179571139388"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T09:00:00.000Z",
+      "currentBalanceUsd": "5294.757952989566",
+      "totalPnlUsd": "373.76457938376825"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T10:00:00.000Z",
+      "currentBalanceUsd": "5289.589837586987",
+      "totalPnlUsd": "368.59646398119"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T11:00:00.000Z",
+      "currentBalanceUsd": "5299.690748081051",
+      "totalPnlUsd": "378.69737447525404"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T12:00:00.000Z",
+      "currentBalanceUsd": "5299.687370614129",
+      "totalPnlUsd": "378.6939970083313"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T13:00:00.000Z",
+      "currentBalanceUsd": "5308.628915504561",
+      "totalPnlUsd": "387.6355418987632"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T14:00:00.000Z",
+      "currentBalanceUsd": "5307.4914885469225",
+      "totalPnlUsd": "386.4981149411251"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T15:00:00.000Z",
+      "currentBalanceUsd": "5305.313813915718",
+      "totalPnlUsd": "384.32044030992074"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T16:00:00.000Z",
+      "currentBalanceUsd": "5302.897249850394",
+      "totalPnlUsd": "381.9038762445962"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T17:00:00.000Z",
+      "currentBalanceUsd": "5308.957004346286",
+      "totalPnlUsd": "387.96363074048895"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T18:00:00.000Z",
+      "currentBalanceUsd": "5306.308253716267",
+      "totalPnlUsd": "385.31488011046986"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T19:00:00.000Z",
+      "currentBalanceUsd": "5309.140849797164",
+      "totalPnlUsd": "388.1474761913669"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T20:00:00.000Z",
+      "currentBalanceUsd": "5308.069887015723",
+      "totalPnlUsd": "387.0765134099256"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T21:00:00.000Z",
+      "currentBalanceUsd": "5212.357788282829",
+      "totalPnlUsd": "291.36441467703116"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T22:00:00.000Z",
+      "currentBalanceUsd": "5258.512202894114",
+      "totalPnlUsd": "337.51882928831674"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-04T23:00:00.000Z",
+      "currentBalanceUsd": "5354.482332329055",
+      "totalPnlUsd": "433.4889587232574"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T00:00:00.000Z",
+      "currentBalanceUsd": "5381.619444879389",
+      "totalPnlUsd": "460.62607127359206"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T01:00:00.000Z",
+      "currentBalanceUsd": "5354.827979814351",
+      "totalPnlUsd": "433.83460620855385"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T02:00:00.000Z",
+      "currentBalanceUsd": "5325.568728160736",
+      "totalPnlUsd": "404.5753545549387"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T03:00:00.000Z",
+      "currentBalanceUsd": "5317.3004346451435",
+      "totalPnlUsd": "396.3070610393461"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T04:00:00.000Z",
+      "currentBalanceUsd": "5272.152582582003",
+      "totalPnlUsd": "351.15920897620526"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T05:00:00.000Z",
+      "currentBalanceUsd": "5241.340944245157",
+      "totalPnlUsd": "320.3475706393592"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T06:00:00.000Z",
+      "currentBalanceUsd": "5216.463861915497",
+      "totalPnlUsd": "295.47048830969925"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T07:00:00.000Z",
+      "currentBalanceUsd": "5243.25111133769",
+      "totalPnlUsd": "322.25773773189303"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T08:00:00.000Z",
+      "currentBalanceUsd": "5249.5963630692195",
+      "totalPnlUsd": "328.6029894634221"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T09:00:00.000Z",
+      "currentBalanceUsd": "5243.553049515023",
+      "totalPnlUsd": "322.5596759092259"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T10:00:00.000Z",
+      "currentBalanceUsd": "5239.773119585856",
+      "totalPnlUsd": "318.7797459800586"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T11:00:00.000Z",
+      "currentBalanceUsd": "5241.8989387097545",
+      "totalPnlUsd": "320.9055651039571"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T12:00:00.000Z",
+      "currentBalanceUsd": "5239.636574569987",
+      "totalPnlUsd": "318.6432009641894"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T13:00:00.000Z",
+      "currentBalanceUsd": "5239.688343070468",
+      "totalPnlUsd": "318.694969464671"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T14:00:00.000Z",
+      "currentBalanceUsd": "5218.504800449129",
+      "totalPnlUsd": "297.5114268433317"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T15:00:00.000Z",
+      "currentBalanceUsd": "5218.506653396431",
+      "totalPnlUsd": "297.51327979063353"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T16:00:00.000Z",
+      "currentBalanceUsd": "5217.8626371207165",
+      "totalPnlUsd": "296.8692635149191"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T17:00:00.000Z",
+      "currentBalanceUsd": "5008.23194681427",
+      "totalPnlUsd": "87.23857320847219"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T18:00:00.000Z",
+      "currentBalanceUsd": "5047.207581381222",
+      "totalPnlUsd": "126.21420777542426"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T19:00:00.000Z",
+      "currentBalanceUsd": "5066.13804837355",
+      "totalPnlUsd": "145.1446747677528"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T20:00:00.000Z",
+      "currentBalanceUsd": "5087.119184083922",
+      "totalPnlUsd": "166.12581047812455"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T21:00:00.000Z",
+      "currentBalanceUsd": "5183.212453368681",
+      "totalPnlUsd": "262.21907976288367"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T22:00:00.000Z",
+      "currentBalanceUsd": "5218.48297022626",
+      "totalPnlUsd": "297.4895966204622"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-05T23:00:00.000Z",
+      "currentBalanceUsd": "5245.486755210279",
+      "totalPnlUsd": "324.4933816044813"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T00:00:00.000Z",
+      "currentBalanceUsd": "5291.916366010435",
+      "totalPnlUsd": "370.9229924046376"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T01:00:00.000Z",
+      "currentBalanceUsd": "5299.122893375097",
+      "totalPnlUsd": "378.1295197692998"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T02:00:00.000Z",
+      "currentBalanceUsd": "5302.2971922283305",
+      "totalPnlUsd": "381.3038186225331"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T03:00:00.000Z",
+      "currentBalanceUsd": "5305.642064497754",
+      "totalPnlUsd": "384.6486908919569"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T04:00:00.000Z",
+      "currentBalanceUsd": "5307.282883433707",
+      "totalPnlUsd": "386.28950982790957"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T05:00:00.000Z",
+      "currentBalanceUsd": "5368.383401553653",
+      "totalPnlUsd": "447.39002794785574"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T06:00:00.000Z",
+      "currentBalanceUsd": "5444.904706868393",
+      "totalPnlUsd": "524.3308250825166"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T07:00:00.000Z",
+      "currentBalanceUsd": "5406.162259124866",
+      "totalPnlUsd": "485.58837733898963"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T08:00:00.000Z",
+      "currentBalanceUsd": "5416.009574392533",
+      "totalPnlUsd": "495.43569260665663"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T09:00:00.000Z",
+      "currentBalanceUsd": "5442.043720341675",
+      "totalPnlUsd": "521.4698385557986"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T10:00:00.000Z",
+      "currentBalanceUsd": "5442.241075096408",
+      "totalPnlUsd": "521.6671933105317"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T11:00:00.000Z",
+      "currentBalanceUsd": "5473.60101130503",
+      "totalPnlUsd": "553.0271295191533"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T12:00:00.000Z",
+      "currentBalanceUsd": "5478.051065760124",
+      "totalPnlUsd": "557.477183974248"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T13:00:00.000Z",
+      "currentBalanceUsd": "5485.244912373935",
+      "totalPnlUsd": "564.6710305880588"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T14:00:00.000Z",
+      "currentBalanceUsd": "5457.877527251593",
+      "totalPnlUsd": "537.3036454657167"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T15:00:00.000Z",
+      "currentBalanceUsd": "5454.9031408108785",
+      "totalPnlUsd": "534.3292590250021"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T16:00:00.000Z",
+      "currentBalanceUsd": "5452.039810825675",
+      "totalPnlUsd": "531.4659290397985"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T17:00:00.000Z",
+      "currentBalanceUsd": "5410.602461667824",
+      "totalPnlUsd": "490.02857988194773"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T18:00:00.000Z",
+      "currentBalanceUsd": "5411.6588550788765",
+      "totalPnlUsd": "491.0849732930001"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T19:00:00.000Z",
+      "currentBalanceUsd": "5400.746775772381",
+      "totalPnlUsd": "480.1728939865043"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T20:00:00.000Z",
+      "currentBalanceUsd": "5395.312796763147",
+      "totalPnlUsd": "474.7389149772707"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T21:00:00.000Z",
+      "currentBalanceUsd": "5303.823278841037",
+      "totalPnlUsd": "383.24939705516044"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T22:00:00.000Z",
+      "currentBalanceUsd": "5349.512444714135",
+      "totalPnlUsd": "428.93856292825876"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-06T23:00:00.000Z",
+      "currentBalanceUsd": "5363.242938520758",
+      "totalPnlUsd": "442.66905673488145"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-07T00:00:00.000Z",
+      "currentBalanceUsd": "5396.873079652672",
+      "totalPnlUsd": "476.2991978667951"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-07T01:00:00.000Z",
+      "currentBalanceUsd": "5380.485626835433",
+      "totalPnlUsd": "459.9117450495569"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-07T02:00:00.000Z",
+      "currentBalanceUsd": "5220.124958555614",
+      "totalPnlUsd": "299.55107676973785"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-07T03:00:00.000Z",
+      "currentBalanceUsd": "5240.595170038947",
+      "totalPnlUsd": "320.02128825307045"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-07T04:00:00.000Z",
+      "currentBalanceUsd": "5214.687420680828",
+      "totalPnlUsd": "294.1135388949515"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-07T05:00:00.000Z",
+      "currentBalanceUsd": "5224.9724911861995",
+      "totalPnlUsd": "304.39860940032304"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-07T06:00:00.000Z",
+      "currentBalanceUsd": "5224.773405386956",
+      "totalPnlUsd": "304.1995236010798"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-07T07:00:00.000Z",
+      "currentBalanceUsd": "5215.156898496968",
+      "totalPnlUsd": "294.58301671109166"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-07T08:00:00.000Z",
+      "currentBalanceUsd": "5225.672410236322",
+      "totalPnlUsd": "305.0985284504459"
+    },
+    {
+      "positionId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+      "timestamp": "2026-10-07T09:00:00.000Z",
+      "currentBalanceUsd": "5228.742011350896",
+      "totalPnlUsd": "308.1681295650196"
+    }
+  ],
+  "source": {
+    "historyMcpRequestId": "4ab6de77-5a8e-4a8e-9264-0a175c0c6c43",
+    "historyFetchedAt": "2026-10-07T09:25:29.753Z",
+    "activityMcpRequestId": "151ff29f-6bb6-4af8-989a-990c456a2f6a",
+    "activityFetchedAt": "2026-10-07T09:25:55.288Z",
+    "historyPointCount": 264,
+    "historyTruncated": false,
+    "historyDownsampled": false,
+    "dataThrough": "2026-10-07T09:00:00.000Z",
+    "activityEvidenceFile": "activity-lineage-evidence.json",
+    "receipts": {
+      "0xf9e112e3caded219b25086bf594d9855608c37fb11119fb18a16c441d63d0a7d": "compound-2026-09-25-receipt.json",
+      "0x1fa733ca5903ba28e47e75a08d26d7459c36e714c539c8afad1cae6501bc70c4": "compound-2026-09-26-receipt.json",
+      "0xdfd515ade1ec240ad05446026394f56b8f9c6981d157d634b6fa9b73b11cb380": "compound-2026-09-27-receipt.json",
+      "0x7c59b5cbefc1c36e0eafba353fbe3c7f468611033b7d51a5e94334e49251c613": "compound-2026-10-01-receipt.json",
+      "0x690317839c703298fc9446a962fa7107c86152b5738ad268bde7b13f2a2286e7": "automated-compound-receipt.json",
+      "0xfccfa853b8926f05f39ee54e857bf2623b6b5fe04437bfb8e794773edc196780": "manual-compound-receipt.json"
+    },
+    "notes": [
+      "History preserves a 29-hour gap after the opening point; runner uses existing last-observation carry-forward semantics.",
+      "Only the six in-window activities enter accounting; the September 23 rebalance is pre-window lineage evidence.",
+      "Native claim and native fee remain unavailable because public RPC tracing was unavailable."
+    ]
+  }
+}
