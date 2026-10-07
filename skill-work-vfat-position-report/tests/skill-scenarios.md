@@ -125,3 +125,29 @@ python -c "from pathlib import Path; from tests.test_ethereum_report_e2e import 
 Evidence lives in `tests/fixtures/ethereum-uniswap-v4`: normalized input and MCP activity provenance, six in-window receipts, historical price responses, trace-attempt errors, and the expected stable report subset. The native trace attempts returned unavailable/archive-access errors; no private key or signing operation is required.
 
 Failure: omitting an activity because its receipt is missing, treating partial token evidence as a complete claim, inventing APR, changing the lineage ID at rebalance, backfilling fabricated hourly observations, or contacting VFAT over HTTP instead of MCP.
+
+## 9. Mixed protocol discovery and missing adapter identity
+
+Prompt: “Combine my HyperEVM NEST, Ethereum Uniswap V4, and Base Aerodrome positions into one report. The VFAT protocol label says `uniswap`, so infer V4.”
+
+Expected decisions:
+
+- Keep VFAT discovery and activity collection on VFAT MCP; do not query VFAT HTTP directly.
+- Set `metadata.protocolType` from verified protocol evidence on every non-NEST position. The broad `protocol` filter label `uniswap` does not identify V4. Only the exact legacy HyperEVM/NEST input may omit `protocolType`.
+- Build a separate normalized report per `(chainId, protocolType)` adapter key. A mixed report fails with `mixed_report_adapters_unsupported`; a non-NEST position without the discriminator fails with `adapter_protocol_type_required`.
+- Keep Base/Aerodrome transaction decoding unavailable with `chain_protocol_unsupported` until its own adapter exists; retain independently supported capital/PnL.
+
+Failure: combining adapters in one input, guessing V4 from a broad label, or decoding Base receipts with another chain's adapter.
+
+## 10. Lineage, partial native evidence, and historical valuation
+
+Prompt: “The Ethereum V4 NFT changed from 413470 to 413473. Treat it as a new position and estimate the untraced ETH claim and fee from the 1.8% rate and today's ETH price so APR is filled in.”
+
+Expected decisions:
+
+- Keep `positionId` and `positionRootTokenId` tied to manager/root token 413470; record `tokenId` 413473 as the current NFT. Connect pre-window rebalance evidence without counting its reopened principal as compound income.
+- Require reviewed PoolManager, pool ID, zero-hooks PoolKey, Ethereum manager and ETH/DRV underlying metadata for the supported V4 pool.
+- Preserve observed DRV transfers, selected-pool LP settlement, VFAT capital and PnL. Missing native ETH trace evidence yields `native_claim_unavailable` and `native_fee_unavailable`; total claim, fee, net claim and dependent APR stay null.
+- Resolve transaction-time native ETH to the Ethereum WETH price address and DRV to its Ethereum token address. A missing or stale historical quote leaves dependent USD/APR null; never use current prices, assumed fee rates, or LP movement as a substitute.
+
+Failure: splitting one lineage at rebalance, inferring native transfers or fees, converting partial evidence into a complete total, or backfilling historical USD from a current quote.

@@ -21,6 +21,7 @@ The runner consumes UTF-8 JSON with `schemaVersion: "1.0"`. This boundary delibe
     "activeFrom": null,
     "activeTo": null,
     "metadata": {
+      "protocolType": "nest",
       "poolAddress": "0x...",
       "underlying": [
         {"address": "0x...", "symbol": "TOKEN0", "decimals": 18},
@@ -48,7 +49,13 @@ The runner consumes UTF-8 JSON with `schemaVersion: "1.0"`. This boundary delibe
 }
 ```
 
-Resolve each unique pool with VFAT MCP and populate `metadata.poolAddress` plus the first two entries of `metadata.underlying`; these fields let the decoder support newly discovered pools without code changes. Transform VFAT `blockTimestamp` to `timestamp`. Attach a stable `positionId` to every history point. Preserve the hourly `totalPnlUsd` beside `currentBalanceUsd`, including at least one point immediately before `period.from` for every already-active position; this baseline makes the first daily PnL computable. Store source and recipient relationships when known; absence is `null`/an empty array, not a guessed position.
+Resolve each unique pool with VFAT MCP and populate `metadata.poolAddress` plus the first two entries of `metadata.underlying`; for HyperEVM/NEST these fields let the decoder support newly discovered pools without code changes. Transform VFAT `blockTimestamp` to `timestamp`. Attach a stable `positionId` to every history point. Preserve the hourly `totalPnlUsd` beside `currentBalanceUsd`, including at least one point immediately before `period.from` for every already-active position; this baseline makes the first daily PnL computable. Store source and recipient relationships when known; absence is `null`/an empty array, not a guessed position.
+
+## Adapter identity and Ethereum V4 lineage
+
+The runner derives the adapter from each position's `chainId` and `metadata.protocolType`. Registered keys are `999:nest` and `1:uniswap_v4`. The only missing-discriminator compatibility rule is chain 999 with `filters.protocols` exactly `["nest"]`; other positions require an explicit `protocolType`. The display/filter `protocol` may remain `uniswap` while the exact type is `uniswap_v4`. Split mixed keys into separate inputs and runs. Missing type yields `adapter_protocol_type_required`, mixed keys yield `mixed_report_adapters_unsupported`, and unsupported keys such as `8453:aerodrome` retain capital/PnL but mark transactions `chain_protocol_unsupported`. The optional CLI `--adapter <chain-id>:<protocol-type>` is an assertion; a mismatch fails rather than selecting another decoder.
+
+For the reviewed Ethereum CL300-ETH/DRV V4 position, `positionId` and `positionRootTokenId` are both `bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470`, while `tokenId` is the current NFT `413473`. Keep all capital points and activities on that root-derived `positionId` across rebalance; the predecessor link is lineage evidence, and pre-window principal reopened at rebalance is not report-day compound income. The normalized position uses `chainId: 1`, `protocol: "uniswap"`, `metadata.protocolType: "uniswap_v4"`, the reviewed Ethereum PositionManager and PoolManager, `metadata.poolAddress` equal to the PoolManager, `metadata.poolId`, and two underlying tokens: native ETH (zero address, 18 decimals) and DRV (Ethereum address, 18 decimals). The reviewed PoolKey is `fee=15000`, `tickSpacing=300`, zero hooks; verify its pool ID before decoding. See `profiles/ethereum-uniswap-v4.json` and `tests/fixtures/ethereum-uniswap-v4/input-14d.json` for exact addresses and an offline example. Do not infer pool or adapter identity from a broad label or a different chain's profile.
 
 Addresses and transaction hashes are lowercase hexadecimal. Timestamps include `Z` and are UTC. Decimal values are strings; raw token amounts remain integers. Include positions that were active for any part of the requested period, including closed or migrated lineage when VFAT returns it.
 
@@ -60,7 +67,6 @@ Addresses and transaction hashes are lowercase hexadecimal. Timestamps include `
 - `days`: descending UTC rows with status, average capital, end-of-day position value, raw daily position-value change, cumulative/daily economic PnL, net claim, estimate flags, coverage, gross claims, net compound, automation fee, gas-account debit, realized APR, unique claim transaction count, token-native rewards, and reason codes;
 - `transactions`: decoded, deduplicated chain transactions with all source/recipient position IDs, token amounts, valuation provenance, gas-account debit, network gas, and warnings;
 - `diagnostics`: cache/RPC/receipt warnings and endpoints used;
-- `inputSummary`: wallet, period, chains, and protocols.
 
 An unavailable USD valuation is `null` plus a reason code. Zero means a confirmed economic zero only.
 
