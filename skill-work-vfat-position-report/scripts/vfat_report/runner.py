@@ -134,18 +134,17 @@ def _annotate_unavailable(report: Report, unsupported: bool) -> Report:
         "unknown_token_decimals",
     }
     reasons_by_day: dict[date, set[str]] = {}
+    non_claim_blocked_days: set[date] = set()
     for transaction in report.transactions:
         action = transaction.action_type.strip().lower().replace("-", "_")
-        if action not in CLAIM_ACTIONS:
-            continue
-        reasons = reasons_by_day.setdefault(transaction.timestamp.date(), set())
+        transaction_reasons: set[str] = set()
         for valuation in (
             transaction.gross_claim_usd, transaction.automation_fee_usd,
             transaction.net_compound_usd, transaction.gas_account_debit_usd,
         ):
             if valuation.reason in explicit_reasons:
-                reasons.add(valuation.reason)
-        reasons.update(
+                transaction_reasons.add(valuation.reason)
+        transaction_reasons.update(
             warning for warning in transaction.warnings
             if warning in explicit_reasons
         )
@@ -153,7 +152,14 @@ def _annotate_unavailable(report: Report, unsupported: bool) -> Report:
             warning.startswith("unknown_token_decimals:")
             for warning in transaction.warnings
         ):
-            reasons.add("unknown_token_decimals")
+            transaction_reasons.add("unknown_token_decimals")
+        if not transaction_reasons:
+            continue
+        reasons_by_day.setdefault(transaction.timestamp.date(), set()).update(
+            transaction_reasons
+        )
+        if action not in CLAIM_ACTIONS:
+            non_claim_blocked_days.add(transaction.timestamp.date())
     days = []
     for day in report.days:
         reasons = set(reasons_by_day.get(day.day, ()))
@@ -165,6 +171,11 @@ def _annotate_unavailable(report: Report, unsupported: bool) -> Report:
         changes = {"reasons": tuple(dict.fromkeys((*day.reasons, *sorted(reasons))))}
         if reasons & explicit_reasons:
             changes["realized_apr_percent"] = None
+        if day.day in non_claim_blocked_days:
+            changes.update(
+                gross_claim_usd=None, net_compound_usd=None,
+                automation_fee_usd=None, net_claim_usd=None,
+            )
         if unsupported:
             changes.update(
                 gross_claim_usd=None, net_compound_usd=None,

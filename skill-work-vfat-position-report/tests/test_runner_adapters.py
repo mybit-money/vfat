@@ -53,14 +53,17 @@ def ethereum_position() -> PositionInput:
     )
 
 
-def report_input(position: PositionInput, receipt_name: str | None = None) -> ReportInput:
+def report_input(
+    position: PositionInput, receipt_name: str | None = None,
+    action_type: str = "compound",
+) -> ReportInput:
     if receipt_name:
         receipt = json.loads((FIXTURES / f"{receipt_name}-receipt.json").read_text())
         tx_hash = receipt["transactionHash"]
     else:
         tx_hash = "0x" + "12" * 32
     activity = ActivityInput(
-        position.chain_id, tx_hash, START.replace(hour=12), "compound",
+        position.chain_id, tx_hash, START.replace(hour=12), action_type,
         (position.position_id,), position.position_id,
     )
     return ReportInput(
@@ -301,6 +304,35 @@ class RunnerAdapterTests(unittest.TestCase):
             tx["net_compound_usd"]["reason"], "claim_principal_separation_unavailable"
         )
         self.assertIsNone(output["days"][0]["realized_apr_percent"])
+
+    def test_rebalanced_activity_keeps_daily_accounting_unavailable(self) -> None:
+        data = report_input(
+            ethereum_position(), "rebalance-413470-413473",
+            action_type="rebalanced",
+        )
+        receipt = json.loads(
+            (FIXTURES / "rebalance-413470-413473-receipt.json").read_text()
+        )
+
+        output, _ = self.run_input(data, receipt=receipt)
+
+        transaction = output["transactions"][0]
+        day = output["days"][0]
+        self.assertEqual(transaction["action_type"], "rebalanced")
+        self.assertEqual(
+            transaction["net_compound_usd"]["reason"],
+            "claim_principal_separation_unavailable",
+        )
+        self.assertTrue(transaction["lp_additions"])
+        self.assertEqual(day["claim_transaction_count"], 0)
+        for metric in (
+            "gross_claim_usd", "net_compound_usd", "automation_fee_usd",
+            "realized_apr_percent",
+        ):
+            self.assertIsNone(day[metric], metric)
+        self.assertIn("claim_principal_separation_unavailable", day["reasons"])
+        self.assertIsNotNone(day["average_capital_usd"])
+        self.assertIsNotNone(day["cumulative_pnl_usd"])
 
     def test_ambiguous_fee_receipt_becomes_unavailable_transaction(self) -> None:
         data = report_input(ethereum_position(), "manual-compound")
