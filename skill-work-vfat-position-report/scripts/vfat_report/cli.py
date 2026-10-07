@@ -20,6 +20,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--cache-dir", default=".cache/vfat-position-report")
     parser.add_argument("--refresh", action="store_true")
     parser.add_argument("--rpc", action="append", default=[])
+    parser.add_argument("--adapter", help="Expected adapter as <chain-id>:<protocol-type>")
     parser.add_argument("--price-api-base", default=DEFAULT_BASE_URL)
     parser.add_argument("--no-prices", action="store_true")
     parser.add_argument("--now", help="UTC ISO timestamp for reproducible runs")

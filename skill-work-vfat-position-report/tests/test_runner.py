@@ -6,13 +6,17 @@ from pathlib import Path
 
 from vfat_report.adapters.base import AdapterKey, ReportAdapter
 from vfat_report.adapters.hyperevm_nest import HyperEvmNestAdapter
-from vfat_report.adapters.registry import get_adapter
+from vfat_report.adapters.registry import get_adapter, get_report_adapter
 from vfat_report.contracts import PositionInput
 from vfat_report.events import load_chain_profile
 from vfat_report.runner import profile_for_positions
 
 
 class RunnerProfileTests(unittest.TestCase):
+    def test_report_adapter_lookup_uses_registered_key(self) -> None:
+        self.assertIsInstance(get_report_adapter(AdapterKey(999, "nest")), HyperEvmNestAdapter)
+        self.assertIsNone(get_report_adapter(AdapterKey(8453, "aerodrome")))
+
     def test_hyperevm_nest_adapter_is_registered_with_existing_defaults(self) -> None:
         adapter = get_adapter(AdapterKey(999, "nest"))
 

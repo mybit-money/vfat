@@ -18,6 +18,10 @@ def get_adapter(key: AdapterKey) -> ReportAdapter | None:
     return _ADAPTERS.get(key)
 
 
+def get_report_adapter(key: AdapterKey) -> ReportAdapter | None:
+    return get_adapter(key)
+
+
 def derive_adapter_key(
     position: PositionInput, report_protocols: tuple[str, ...]
 ) -> AdapterKey:

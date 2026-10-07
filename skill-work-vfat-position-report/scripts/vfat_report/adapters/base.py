@@ -4,7 +4,7 @@ import re
 from dataclasses import dataclass
 from typing import Any, Mapping, Protocol, runtime_checkable
 
-from ..contracts import PositionInput
+from ..contracts import PositionInput, Valuation
 from ..events import ChainProfile, DecodedTransaction, MergedActivity
 
 
@@ -34,6 +34,26 @@ class AdapterResolutionError(ValueError):
     def __init__(self, code: str) -> None:
         self.code = code
         super().__init__(code)
+
+
+def unavailable_transaction(
+    activity: MergedActivity, reason: str
+) -> DecodedTransaction:
+    unavailable = Valuation(None, reason=reason)
+    return DecodedTransaction(
+        chain_id=activity.chain_id,
+        transaction_hash=activity.transaction_hash,
+        timestamp=activity.timestamp,
+        action_type=activity.action_type,
+        source_position_ids=activity.source_position_ids,
+        recipient_position_ids=activity.recipient_position_ids,
+        automation_payment_method=activity.automation_payment_method,
+        gross_claim_usd=unavailable,
+        automation_fee_usd=unavailable,
+        net_compound_usd=unavailable,
+        gas_account_debit_usd=unavailable,
+        warnings=(reason,),
+    )
 
 
 @runtime_checkable

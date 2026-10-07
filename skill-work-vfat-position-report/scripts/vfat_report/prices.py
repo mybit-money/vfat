@@ -160,12 +160,18 @@ def collect_price_requests(
 ) -> tuple[tuple[str, datetime], ...]:
     requests: set[tuple[str, datetime]] = set()
     for transaction in transactions:
+        unknown_tokens = {
+            warning.removeprefix("unknown_token_decimals:")
+            for warning in transaction.warnings
+            if warning.startswith("unknown_token_decimals:")
+        }
         for amount in (
             *transaction.gross_claims,
             *transaction.automation_fees,
             *transaction.lp_additions,
         ):
-            requests.add((price_token_resolver(amount.token_address).lower(), transaction.timestamp))
+            if amount.token_address.lower() not in unknown_tokens:
+                requests.add((price_token_resolver(amount.token_address).lower(), transaction.timestamp))
         if getattr(transaction, "gas_account_debit_native", None) is not None and native_price_token:
             requests.add((price_token_resolver(native_price_token).lower(), transaction.timestamp))
     return tuple(sorted(requests, key=lambda item: (item[1], item[0])))
@@ -195,10 +201,28 @@ def value_transaction(
         transaction.lp_additions, quotes, timestamp, "historical_lp_usd_unavailable",
         price_token_resolver=price_token_resolver,
     )
-    # A priced balance is not income when principal and rewards are inseparable.
-    # Keep the adapter's explicit accounting block while retaining raw LP evidence.
-    if transaction.net_compound_usd.reason == "claim_principal_separation_unavailable":
-        net = Valuation(None, reason="claim_principal_separation_unavailable")
+    unknown_tokens = {
+        warning.removeprefix("unknown_token_decimals:")
+        for warning in transaction.warnings
+        if warning.startswith("unknown_token_decimals:")
+    }
+    if any(amount.token_address.lower() in unknown_tokens for amount in transaction.gross_claims):
+        gross = Valuation(None, reason="unknown_token_decimals")
+    if any(amount.token_address.lower() in unknown_tokens for amount in transaction.automation_fees):
+        fee = Valuation(None, reason="unknown_token_decimals")
+    if any(amount.token_address.lower() in unknown_tokens for amount in transaction.lp_additions):
+        net = Valuation(None, reason="unknown_token_decimals")
+    blocking_reasons = {
+        "native_claim_unavailable", "claim_principal_separation_unavailable",
+        "native_fee_unavailable", "lp_settlement_unavailable",
+        "fee_attribution_ambiguous", "pool_identity_mismatch",
+    }
+    if transaction.gross_claim_usd.reason in blocking_reasons:
+        gross = transaction.gross_claim_usd
+    if transaction.automation_fee_usd.reason in blocking_reasons:
+        fee = transaction.automation_fee_usd
+    if transaction.net_compound_usd.reason in blocking_reasons:
+        net = transaction.net_compound_usd
     gas_native = getattr(transaction, "gas_account_debit_native", None)
     if gas_native is None:
         gas = transaction.gas_account_debit_usd

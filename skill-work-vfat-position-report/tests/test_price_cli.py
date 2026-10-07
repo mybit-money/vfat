@@ -7,6 +7,13 @@ from vfat_report.prices import DEFAULT_BASE_URL
 
 
 class PriceCliTests(unittest.TestCase):
+    def test_adapter_override_is_optional_and_keeps_verbatim_value(self) -> None:
+        defaults = parse_args(["--input", "input.json"])
+        custom = parse_args(["--input", "input.json", "--adapter", "1:Uniswap_V4"])
+
+        self.assertIsNone(defaults.adapter)
+        self.assertEqual(custom.adapter, "1:Uniswap_V4")
+
     def test_price_provider_is_enabled_by_default_and_configurable(self) -> None:
         defaults = parse_args(["--input", "input.json"])
         disabled = parse_args(["--input", "input.json", "--no-prices"])
