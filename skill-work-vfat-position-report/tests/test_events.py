@@ -7,7 +7,9 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from pathlib import Path
 
-from vfat_report.contracts import ActivityInput
+from vfat_report.adapters.base import AdapterKey
+from vfat_report.adapters.registry import get_adapter
+from vfat_report.contracts import ActivityInput, PositionInput
 from vfat_report.events import decode_receipt, load_chain_profile, merge_position_activity
 
 
@@ -61,6 +63,15 @@ class EventTests(unittest.TestCase):
         self.assertEqual(decoded.lp_additions[0].raw_amount, 86938162529835173)
         self.assertEqual(decoded.lp_additions[1].raw_amount, 38137843806486896444)
         self.assertNotIn("automation_fee_rate_differs_from_expected", decoded.warnings)
+
+    def test_adapter_receipt_matches_legacy_decoder(self) -> None:
+        receipt = json.loads((FIXTURES / "fee-compound-receipt.json").read_text(encoding="utf-8"))
+        activity = merge_position_activity(self.activities)[0]
+        position = PositionInput("nft:1", 999, "nest", "nft", "0x05a34ca31a38c136b8489d4147112cfc4a92a155")
+        adapter = get_adapter(AdapterKey(999, "nest"))
+
+        self.assertIsNotNone(adapter)
+        self.assertEqual(adapter.decode_receipt(activity, receipt, (position,)), decode_receipt(activity, receipt, self.profile))
 
     def test_gas_account_debit_is_separate_from_keeper_network_gas(self) -> None:
         receipt = json.loads((FIXTURES / "gas-account-compound-receipt.json").read_text(encoding="utf-8"))

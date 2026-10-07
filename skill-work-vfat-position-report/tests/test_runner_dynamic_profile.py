@@ -3,6 +3,8 @@ from __future__ import annotations
 import unittest
 from pathlib import Path
 
+from vfat_report.adapters.base import AdapterKey
+from vfat_report.adapters.registry import get_adapter
 from vfat_report.contracts import PositionInput
 from vfat_report.events import load_chain_profile
 from vfat_report.runner import profile_for_positions
@@ -31,8 +33,11 @@ class DynamicProfileTests(unittest.TestCase):
             },
         )
 
-        actual = profile_for_positions(profile, (position,))
+        adapter = get_adapter(AdapterKey(999, "nest"))
+        self.assertIsNotNone(adapter)
+        actual = adapter.profile_for_positions((position,))
 
+        self.assertEqual(profile_for_positions(profile, (position,)), actual)
         self.assertEqual(actual.pools[pool], (token0, token1))
         self.assertEqual(actual.tokens[token0].symbol, "AAA")
         self.assertEqual(actual.tokens[token0].decimals, 6)

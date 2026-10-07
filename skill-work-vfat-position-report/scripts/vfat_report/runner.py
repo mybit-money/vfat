@@ -1,20 +1,18 @@
 from __future__ import annotations
 
 from argparse import Namespace
-from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable
 
+from .adapters.base import AdapterKey
+from .adapters.registry import get_adapter
 from .aggregate import build_report
 from .cache import ReportCache
 from .capital import aggregate_daily_capital
 from .contracts import Diagnostics, PositionInput, load_report_input, write_report_json
 from .events import (
     ChainProfile,
-    TokenMetadata,
-    decode_receipt,
-    load_chain_profile,
     merge_position_activity,
 )
 from .html_report import render_html
@@ -32,14 +30,15 @@ def run(arguments: Namespace) -> int:
         now=explicit_now,
         history_root=arguments.history_root,
     )
-    skill_root = Path(__file__).resolve().parents[2]
-    profile = load_chain_profile(skill_root / "profiles" / "hyperevm-nest.json")
-    profile = profile_for_positions(profile, report_input.positions)
+    adapter = get_adapter(AdapterKey(999, "nest"))
+    if adapter is None:
+        raise RuntimeError("HyperEVM NEST adapter is not registered")
+    profile = adapter.profile_for_positions(report_input.positions)
     cache = ReportCache(Path(arguments.cache_dir), profile.chain_id, report_input.wallet)
     activities = merge_position_activity(report_input.activities)
     transactions = []
     warnings: list[str] = []
-    rpc_endpoints = tuple(arguments.rpc) or DEFAULT_RPCS
+    rpc_endpoints = tuple(arguments.rpc) or adapter.default_rpc_endpoints
     client = JsonRpcClient(rpc_endpoints) if activities else None
     for activity in activities:
         if arguments.refresh or cache.receipt_needs_fetch(activity.transaction_hash):
@@ -49,7 +48,7 @@ def run(arguments: Namespace) -> int:
         if receipt is None:
             warnings.append(f"receipt_unavailable:{activity.transaction_hash}")
             continue
-        transactions.append(decode_receipt(activity, receipt, profile))
+        transactions.append(adapter.decode_receipt(activity, receipt, report_input.positions))
 
     if transactions and not arguments.no_prices:
         price_client = DefiLlamaPriceClient(
@@ -93,44 +92,10 @@ def run(arguments: Namespace) -> int:
 def profile_for_positions(
     profile: ChainProfile, positions: Iterable[PositionInput]
 ) -> ChainProfile:
-    matching_positions = tuple(
-        position for position in positions if position.chain_id == profile.chain_id
-    )
-    tracked = frozenset(
-        position.sickle_address.lower() for position in matching_positions
-    )
-    tokens = dict(profile.tokens)
-    pools = dict(profile.pools)
-    for position in matching_positions:
-        metadata = position.metadata
-        if not isinstance(metadata, dict):
-            continue
-        pool = metadata.get("poolAddress")
-        underlying = metadata.get("underlying")
-        if not isinstance(pool, str) or not isinstance(underlying, list):
-            continue
-        if len(underlying) < 2 or not all(
-            isinstance(item, dict) for item in underlying[:2]
-        ):
-            continue
-        token_addresses: list[str] = []
-        for item in underlying[:2]:
-            address = item.get("address")
-            decimals = item.get("decimals")
-            if not isinstance(address, str) or not isinstance(decimals, int):
-                token_addresses = []
-                break
-            normalized = address.lower()
-            tokens[normalized] = TokenMetadata(item.get("symbol"), decimals)
-            token_addresses.append(normalized)
-        if len(token_addresses) == 2:
-            pools[pool.lower()] = (token_addresses[0], token_addresses[1])
-    return replace(
-        profile,
-        tracked_sickle_addresses=tracked,
-        tokens=tokens,
-        pools=pools,
-    )
+    """Compatibility entry point for callers passing an explicit HyperEVM profile."""
+    from .adapters.hyperevm_nest import profile_for_positions as enrich_profile
+
+    return enrich_profile(profile, positions)
 
 
 def _parse_now(value: str) -> datetime:

@@ -2,6 +2,10 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
+from typing import Any, Mapping, Protocol, runtime_checkable
+
+from ..contracts import PositionInput
+from ..events import ChainProfile, DecodedTransaction, MergedActivity
 
 
 _ADAPTER_KEY = re.compile(r"^([1-9][0-9]*):([A-Za-z][A-Za-z0-9_]*)$")
@@ -30,3 +34,31 @@ class AdapterResolutionError(ValueError):
     def __init__(self, code: str) -> None:
         self.code = code
         super().__init__(code)
+
+
+@runtime_checkable
+class ReportAdapter(Protocol):
+    @property
+    def key(self) -> AdapterKey: ...
+
+    @property
+    def chain_profile(self) -> ChainProfile: ...
+
+    @property
+    def default_rpc_endpoints(self) -> tuple[str, ...]: ...
+
+    @property
+    def price_chain_slug(self) -> str: ...
+
+    def normalize_price_token(self, address: str) -> str: ...
+
+    def supports_position(self, position: PositionInput) -> bool: ...
+
+    def profile_for_positions(self, positions: tuple[PositionInput, ...]) -> ChainProfile: ...
+
+    def decode_receipt(
+        self,
+        activity: MergedActivity,
+        receipt: Mapping[str, Any],
+        positions: tuple[PositionInput, ...],
+    ) -> DecodedTransaction: ...

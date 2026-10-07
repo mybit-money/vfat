@@ -2,8 +2,18 @@ from __future__ import annotations
 
 from typing import Mapping
 
-from .base import AdapterKey, AdapterResolutionError
+from .base import AdapterKey, AdapterResolutionError, ReportAdapter
+from .hyperevm_nest import HyperEvmNestAdapter
 from ..contracts import PositionInput
+
+
+_ADAPTERS: Mapping[AdapterKey, ReportAdapter] = {
+    AdapterKey(999, "nest"): HyperEvmNestAdapter(),
+}
+
+
+def get_adapter(key: AdapterKey) -> ReportAdapter | None:
+    return _ADAPTERS.get(key)
 
 
 def derive_adapter_key(
