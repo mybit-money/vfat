@@ -4,11 +4,13 @@ from typing import Mapping
 
 from .base import AdapterKey, AdapterResolutionError, ReportAdapter
 from .hyperevm_nest import HyperEvmNestAdapter
+from .ethereum_uniswap_v4 import EthereumUniswapV4Adapter
 from ..contracts import PositionInput
 
 
 _ADAPTERS: Mapping[AdapterKey, ReportAdapter] = {
     AdapterKey(999, "nest"): HyperEvmNestAdapter(),
+    AdapterKey(1, "uniswap_v4"): EthereumUniswapV4Adapter(),
 }
 
 

@@ -7,6 +7,15 @@ from vfat_report.events import load_chain_profile
 
 
 class ProfileCoverageTests(unittest.TestCase):
+    def test_ethereum_pool_has_known_underlying_assets(self) -> None:
+        path = Path(__file__).parents[1] / 'profiles' / 'ethereum-uniswap-v4.json'
+        self.assertTrue(path.exists(), 'Ethereum profile must exist')
+        profile = load_chain_profile(path)
+        self.assertEqual(profile.chain_id, 1)
+        for pair in profile.pools.values():
+            for token in pair:
+                self.assertEqual(profile.tokens[token].decimals, 18)
+
     def test_default_wallet_pool_tokens_are_available_for_mint_decoding(self) -> None:
         profile = load_chain_profile(
             Path(__file__).parents[1] / "profiles" / "hyperevm-nest.json"

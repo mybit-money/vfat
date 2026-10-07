@@ -1,0 +1,9 @@
+{
+  "source": "VFAT MCP activity hashes and action labels; timestamps verified against Ethereum receipt blocks via publicnode",
+  "positionRootTokenId": "bd216513d74c8cf14cf4747e6aaa6420ff64ee9e:413470",
+  "activities": [
+    {"fixture": "manual-compound", "transactionHash": "0xfccfa853b8926f05f39ee54e857bf2623b6b5fe04437bfb8e794773edc196780", "timestamp": "2026-10-06T05:47:47Z", "actionType": "compound", "isAutomation": false},
+    {"fixture": "automated-compound", "transactionHash": "0x690317839c703298fc9446a962fa7107c86152b5738ad268bde7b13f2a2286e7", "timestamp": "2026-10-03T14:11:11Z", "actionType": "compound", "isAutomation": true, "automationPaymentMethod": "fee"},
+    {"fixture": "rebalance-413470-413473", "transactionHash": "0x368c81bf8fc80dd83816d77db18a53813ace10a6f9a6a85efbfe6f22f746fe75", "timestamp": "2026-09-23T07:39:11Z", "actionType": "rebalance", "isAutomation": true, "oldTokenId": "413470", "newTokenId": "413473"}
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "chainId": 1,
+  "nativeToken": {"symbol": "ETH", "decimals": 18, "priceTokenAddress": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"},
+  "trackedSickleAddresses": ["0xfb12aa1f51ba66ef761def09233946a4369b0de6"],
+  "claimSourceAddresses": ["0x000000000004444c5dc75cb358380d2e3de08a90"],
+  "automationFeeRecipients": ["0xd4627ecb405b64448ee6b07dcf860bf55590c83d"],
+  "expectedAutomationFeeRate": "0.018",
+  "tokens": {
+    "0x0000000000000000000000000000000000000000": {"symbol": "ETH", "decimals": 18},
+    "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee": {"symbol": "ETH", "decimals": 18},
+    "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2": {"symbol": "WETH", "decimals": 18},
+    "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be": {"symbol": "DRV", "decimals": 18}
+  },
+  "pools": {
+    "0x20ae5557f7d6ce39a6e5370c331106a87a80ea5c1bec686361bde2d9f5e82631": {"token0": "0x0000000000000000000000000000000000000000", "token1": "0xb1d1eae60eea9525032a6dcb4c1ce336a1de71be"}
+  },
+  "positionManager": "0xbd216513d74c8cf14cf4747e6aaa6420ff64ee9e",
+  "poolManager": "0x000000000004444c5dc75cb358380d2e3de08a90",
+  "poolId": "0x20ae5557f7d6ce39a6e5370c331106a87a80ea5c1bec686361bde2d9f5e82631",
+  "poolKey": {"fee": 15000, "tickSpacing": 300, "hooks": "0x0000000000000000000000000000000000000000"}
+}
